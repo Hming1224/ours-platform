@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="黃宣銘">
+<meta name="copyright" content="© 2026 黃宣銘">
+<title>Ours — AI 應用策略簡報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F1EA; --card:#FCFAF5; --ink:#16233B; --ink-soft:#4A576E;
+    --teal:#0F6E64; --teal-soft:#E7F1EF; --coral:#D9542B; --coral-soft:#FBEAE2;
+    --line:#DCD5C6; --line-soft:#EBE6DA; --chosen:#0F6E64; --chosen-bg:#E7F1EF;
+    --good:#1E7A52; --bad:#B5462A; --gold:#B98900;
+    --shadow:0 18px 50px -24px rgba(22,35,59,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:#2a2f3a; font-family:'Noto Sans TC',system-ui,sans-serif;
+    color:var(--ink); overflow:hidden;
+  }
+  #deck{
+    position:fixed; inset:0; display:grid; grid-template-columns:minmax(0,1fr);
+    align-items:center; justify-items:center; gap:24px;
+    padding:clamp(20px,3.2vh,36px) clamp(28px,4vw,64px);
+  }
+  body.show-notes #deck{
+    grid-template-columns:minmax(0,1fr) minmax(300px,360px);
+    justify-items:center; padding-right:24px;
+  }
+  #stage{ position:relative; width:1280px; height:720px; transform-origin:center center; }
+  .slide{
+    position:absolute; inset:0; background:var(--paper);
+    padding:58px 86px 68px; opacity:0; pointer-events:none;
+    display:flex; flex-direction:column; overflow:hidden; transition:opacity .35s ease;
+  }
+  .slide.active{opacity:1; pointer-events:auto}
+  .slide::before{content:""; position:absolute; left:0; top:0; bottom:0; width:8px; background:var(--teal)}
+  .slide-body{
+    flex:1; min-height:0; width:100%; padding-bottom:34px;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .slide-head{flex:none}
+  .slide-main{
+    flex:1; min-height:0; display:flex; flex-direction:column;
+    justify-content:space-evenly; gap:16px;
+  }
+  .tag{ display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:700;
+        letter-spacing:.14em; color:var(--teal); text-transform:uppercase; margin-bottom:12px}
+  .tag .num{ background:var(--teal); color:#fff; border-radius:6px; padding:2px 8px; font-size:13px}
+  h1{ font-family:'Noto Serif TC',serif; font-weight:900; font-size:54px; line-height:1.12; letter-spacing:-.5px}
+  h2{ font-family:'Noto Serif TC',serif; font-weight:900; font-size:36px; line-height:1.22; letter-spacing:-.3px; margin-bottom:4px}
+  .lead{ font-size:19px; color:var(--ink-soft); line-height:1.55; max-width:64ch}
+  .foot{ position:absolute; left:86px; right:86px; bottom:26px; display:flex;
+         justify-content:space-between; align-items:center; font-size:13px; color:var(--ink-soft)}
+  .foot .brand{font-weight:900; letter-spacing:.16em; color:var(--ink)}
+  .foot .author{font-weight:700; color:var(--ink-soft); letter-spacing:.06em}
+  .pageno{font-variant-numeric:tabular-nums}
+  .progress{position:absolute; left:0; bottom:0; height:4px; background:var(--coral); transition:width .35s ease}
+  /* divergent option cards */
+  .opts{ display:grid; gap:18px; margin-top:6px }
+  .opts.c3{grid-template-columns:1fr 1fr 1fr}
+  .opts.c2{grid-template-columns:1fr 1fr}
+  .opts.c4{grid-template-columns:repeat(4,1fr)}
+  .opt{ background:var(--card); border:1.5px solid var(--line); border-radius:13px; padding:15px 17px;
+        display:flex; flex-direction:column; position:relative}
+  .opt.chosen{ border-color:var(--chosen); border-width:2.5px; background:var(--chosen-bg); box-shadow:var(--shadow)}
+  .opt .oname{ font-weight:900; font-size:16.5px; margin-bottom:3px}
+  .opt .oview{ font-size:12.5px; font-weight:700; color:var(--coral); margin-bottom:9px; letter-spacing:.02em}
+  .opt.chosen .oview{color:var(--teal)}
+  .opt .badge{ position:absolute; top:-12px; right:12px; background:var(--chosen); color:#fff;
+               font-size:12.5px; font-weight:700; padding:3px 11px; border-radius:20px}
+  .opt ul{list-style:none; display:flex; flex-direction:column; gap:7px}
+  .opt li{font-size:14px; line-height:1.48; display:flex; gap:6px; align-items:flex-start; color:var(--ink-soft)}
+  .opt li.g::before{content:"✓"; color:var(--good); font-weight:900; flex:none}
+  .opt li.b::before{content:"✗"; color:var(--bad); font-weight:900; flex:none}
+  .opt li.r::before{content:"▸"; color:var(--ink-soft); font-weight:900; flex:none}
+  .opt-media{height:158px; margin-top:12px; border:1px solid var(--line-soft); border-radius:9px; overflow:hidden; background:#fff}
+  .opt-media img{width:100%; height:100%; object-fit:cover; object-position:top; display:block; cursor:zoom-in; transition:transform .2s ease}
+  .opt-media:hover img{transform:scale(1.03)}
+  #lightbox{position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+    background:rgba(16,23,33,.9); padding:40px; cursor:zoom-out}
+  #lightbox.on{display:flex}
+  #lightbox img{max-width:92vw; max-height:92vh; object-fit:contain; border-radius:10px; box-shadow:0 30px 80px -20px rgba(0,0,0,.7)}
+  #lightbox .lb-cap{position:absolute; bottom:22px; left:0; right:0; text-align:center; color:#F4F1EA; font-size:14px; letter-spacing:.05em}
+  .decision-slide:not(.revealed) .why{display:none}
+  .decision-slide:not(.revealed) .opt.chosen{border-color:var(--line); border-width:1.5px; background:var(--card); box-shadow:none}
+  .decision-slide:not(.revealed) .opt .badge{display:none}
+  .why{ margin-top:13px; background:var(--coral-soft); border-left:5px solid var(--coral);
+        border-radius:0 12px 12px 0; padding:12px 18px; font-size:16.5px; line-height:1.6}
+  .why b{color:var(--coral)} .why .wt{font-weight:900; color:var(--coral); margin-right:8px}
+  .why.teal{background:var(--teal-soft); border-color:var(--teal)} .why.teal .wt{color:var(--teal)} .why.teal b{color:var(--teal)}
+  /* principle / pillar grids */
+  .grid5{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:6px}
+  .pcard{background:var(--card); border:1.5px solid var(--line); border-radius:13px; padding:15px 17px}
+  .pcard.hl{border-color:var(--coral); border-width:2px; background:var(--coral-soft)}
+  .pcard .pn{font-family:'Noto Serif TC',serif; font-weight:900; font-size:24px; color:var(--teal); line-height:1}
+  .pcard.hl .pn{color:var(--coral)}
+  .pcard h3{font-size:18px; margin:5px 0 5px} .pcard p{font-size:14px; color:var(--ink-soft); line-height:1.55}
+  table.tbl{width:100%; border-collapse:collapse; margin-top:7px; font-size:13.5px}
+  table.tbl th,table.tbl td{text-align:left; padding:6.5px 11px; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.48}
+  table.tbl th{color:var(--teal); font-size:13px; letter-spacing:.05em}
+  table.tbl td:first-child{font-weight:700; white-space:nowrap} table.tbl .ok{color:var(--good); font-weight:900}
+  .shots{display:grid; grid-template-columns:repeat(5,1fr); gap:9px; margin-top:9px}
+  .shot{border:1.5px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; box-shadow:var(--shadow)}
+  .shot .imgbox{height:66px; overflow:hidden; background:#eee} .shot img{width:100%; display:block}
+  .shot .cap{font-size:12px; font-weight:700; padding:6px 8px; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .shot .cap span{display:block; font-weight:400; color:var(--ink-soft); font-size:11px; white-space:normal}
+  .two{display:grid; grid-template-columns:1.05fr 1fr; gap:30px; margin-top:6px}
+  ul.clean{list-style:none; display:flex; flex-direction:column; gap:12px; margin-top:4px}
+  ul.clean li{font-size:16px; line-height:1.58; padding-left:24px; position:relative; color:var(--ink-soft)}
+  ul.clean li::before{content:"—"; position:absolute; left:0; color:var(--teal); font-weight:900}
+  ul.clean li b{color:var(--ink)}
+  .chip{display:inline-block; background:var(--teal-soft); color:var(--teal); font-weight:700; font-size:13.5px; padding:4px 11px; border-radius:20px; margin:0 6px 6px 0}
+  .chip.warn{background:var(--coral-soft); color:var(--coral)}
+  .rows{display:flex; flex-direction:column; gap:14px; margin-top:4px}
+  .row{display:flex; gap:12px; align-items:flex-start; font-size:16px; line-height:1.58}
+  .row .k{font-weight:900; color:var(--teal); flex:none; min-width:84px}
+  .cover{justify-content:center}
+  .cover .slide-body{justify-content:center; align-items:center; text-align:center; padding-bottom:0; gap:0}
+  .cover .sub{margin-left:auto; margin-right:auto}
+  .cover .wm{font-family:'Noto Serif TC',serif; font-weight:900; font-size:112px; letter-spacing:-2px; line-height:1; color:var(--ink)}
+  .cover .wm em{color:var(--teal); font-style:normal}
+  .cover h1{font-size:38px; margin:16px 0 12px} .cover .sub{font-size:19px; color:var(--ink-soft); max-width:56ch; line-height:1.6}
+  .cover .meta{margin-top:26px; font-size:14px; color:var(--ink-soft); letter-spacing:.04em}
+  .agenda{display:grid; grid-template-columns:1fr 1fr; gap:11px 44px; margin-top:10px}
+  .ai{display:flex; gap:13px; align-items:baseline; font-size:16.5px; padding:8px 0; border-bottom:1px solid var(--line-soft)}
+  .ai .an{font-family:'Noto Serif TC',serif; font-weight:900; color:var(--teal); font-size:18px; min-width:28px}
+  .notes{ display:none; }
+  #speaker-panel{
+    display:none; align-self:center; width:100%; max-height:calc(100vh - 72px);
+    background:#101721; color:#F4F1EA; border-left:5px solid var(--teal);
+    border-radius:8px; padding:24px 24px 28px; overflow:auto;
+    box-shadow:0 22px 70px -30px rgba(0,0,0,.65);
+  }
+  body.show-notes #speaker-panel{display:block}
+  #speaker-panel h4{color:#FFD9A8; font-size:13px; letter-spacing:.12em; text-transform:uppercase; margin-bottom:14px}
+  #speaker-panel p{margin-bottom:12px; font-size:15px; line-height:1.75}
+  #speaker-panel b{color:#7FD8CC}
+  #presenter-panel{display:none}
+  body.presenter{
+    overflow:hidden;
+  }
+  body.presenter #deck{
+    grid-template-columns:minmax(0,1fr) 390px;
+    padding:24px;
+    gap:24px;
+  }
+  body.presenter #speaker-panel{
+    display:block; align-self:stretch; max-height:none; height:calc(100vh - 48px);
+  }
+  body.presenter #presenter-panel{
+    display:flex; position:fixed; right:24px; bottom:24px; width:390px;
+    gap:10px; align-items:center; justify-content:space-between;
+    background:#0b111b; color:#F4F1EA; border-top:1px solid rgba(255,255,255,.12);
+    padding:12px 16px; border-radius:0 0 8px 8px; z-index:30;
+  }
+  body.presenter #presenter-panel button{
+    border:1px solid rgba(255,255,255,.18); background:#172131; color:#fff;
+    border-radius:6px; padding:8px 10px; font-weight:700; cursor:pointer;
+  }
+  body.presenter #presenter-panel .presenter-page{font-size:13px; color:#cfd3da}
+  body.presenter #hint{display:none}
+  body.audience #speaker-panel,
+  body.audience #presenter-panel,
+  body.audience #audienceBtn,
+  body.audience #presenterPrev,
+  body.audience #presenterNext,
+  body.audience #hint{display:none!important}
+  #startPresenter{
+    position:fixed; right:18px; top:18px; z-index:35;
+    border:none; border-radius:999px; background:var(--teal); color:#fff;
+    padding:10px 16px; font-size:13px; font-weight:900; cursor:pointer;
+    box-shadow:0 16px 36px -22px rgba(0,0,0,.65);
+  }
+  body.presenter #startPresenter,
+  body.audience #startPresenter{display:none}
+  #hint{position:fixed; bottom:14px; left:50%; transform:translateX(-50%); color:#cfd3da; font-size:12.5px; background:rgba(0,0,0,.4); padding:6px 14px; border-radius:20px; z-index:20}
+  .navbtn{position:fixed; top:50%; transform:translateY(-50%); z-index:20; background:rgba(0,0,0,.35); color:#fff; border:none; width:46px; height:46px; border-radius:50%; font-size:22px; cursor:pointer}
+  #prev{left:18px} #next{right:18px}
+  @media (max-width: 900px){
+    #deck{padding:18px}
+    body.show-notes #deck{
+      grid-template-columns:minmax(0,1fr);
+      grid-template-rows:minmax(0,1fr) minmax(180px,30vh);
+      padding:18px;
+    }
+    #speaker-panel{max-height:30vh; width:100%; padding:16px 18px}
+    #speaker-panel p{font-size:13.5px; line-height:1.65}
+    .navbtn{width:38px; height:38px; font-size:20px}
+    #prev{left:8px} #next{right:8px}
+    #hint{font-size:11px; bottom:8px; max-width:calc(100vw - 24px); text-align:center}
+  }
+  @media print{
+    @page{size:1280px 720px; margin:0}
+    body{background:#fff; display:block; overflow:visible}
+    #deck{position:static; display:block; padding:0}
+    #stage{transform:none!important; width:1280px; height:auto}
+    #speaker-panel,.navbtn,#hint{display:none!important}
+    .slide{position:relative; opacity:1; pointer-events:auto; page-break-after:always; height:720px}
+    .notes{display:block!important; position:relative; max-height:none; background:#fff; color:#1a1a1a; border-top:2px solid var(--teal); page-break-before:always; height:auto; padding:40px 60px}
+    .notes h4{color:var(--teal)} .notes b{color:var(--coral)}
+  }
+</style>
+</head>
+<body>
+<div id="deck">
+<div id="stage">
+
+  <!-- 1 COVER -->
+  <section class="slide cover active">
+    <div class="slide-body">
+    <div class="wm">O<em>u</em>rs</div>
+    <h1>用 AI 修復台灣的公共討論</h1>
+    <p class="sub">一個以「人」為主角的台灣公共社群平台——人分享、人討論、人投票，AI 在旁邊幫忙，不取代、不搶主角。</p>
+    <p class="meta">AI 應用策略簡報 ・ 社群骨架 × 六大 AI 應用 ・ 2026.06<br>作者：黃宣銘</p>
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>大家好。今天要分享 Ours 的 AI 規劃，但我想先講一個最重要的前提——<b>Ours 首先是一個社群平台，主角是人</b>，不是 AI。所以今天我會先講「人與人在這裡怎麼交流」，再講 AI 怎麼在旁邊幫忙。</p>
+      <p>每個功能我都會攤開「三種完全不同的做法」，各自的優缺點，最後說我們怎麼選或怎麼融合——這次的三個選項是三種世界觀，不是同一個東西的微調。</p>
+    </aside>
+  </section>
+
+  <!-- 2 AGENDA -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">01</span> 這份簡報怎麼走</span>
+    <h2>先講社群，再講 AI，最後談落地</h2></div>
+    <div class="slide-main">
+    <div class="agenda">
+      <div class="ai"><span class="an">01</span><div><b>社群平台骨架</b>　Ours 是社群，AI 是配角</div></div>
+      <div class="ai"><span class="an">02</span><div><b>五條 AI 使用原則</b>　AI 潛入資訊卡與討論串，必要時被 tag 進來</div></div>
+      <div class="ai"><span class="an">03</span><div><b>競品定位</b>　含團隊借鏡的在地競品</div></div>
+      <div class="ai"><span class="an">04</span><div><b>功能 1</b>　新聞整理＋搜尋發現</div></div>
+      <div class="ai"><span class="an">05</span><div><b>功能 2</b>　立場光譜</div></div>
+      <div class="ai"><span class="an">06</span><div><b>功能 3</b>　討論整理</div></div>
+      <div class="ai"><span class="an">07</span><div><b>功能 4</b>　事實查核</div></div>
+      <div class="ai"><span class="an">08</span><div><b>功能 5</b>　潛入式 AI 與 @Ours</div></div>
+      <div class="ai"><span class="an">09</span><div><b>功能 6</b>　促進找共識</div></div>
+      <div class="ai"><span class="an">10</span><div><b>可行性 × 付費 × 落地</b></div></div>
+    </div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>這份簡報分三段。第一段先講 <b>Ours 作為社群平台</b>，人怎麼分享、投票、累積聲望、交換觀點。第二段講六個 AI 功能，每個功能都會看三種做法，再說我們怎麼選。第三段回答比較現實的問題：雲端 AI 要怎麼接、付費內容怎麼處理、下一步要怎麼落地。</p>
+    </aside>
+  </section>
+
+  <!-- 3 SOCIAL SKELETON -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">01</span> 社群平台骨架</span>
+    <h2>Ours 是社群平台，AI 是配角</h2></div>
+    <div class="slide-main">
+    <p class="lead" style="margin-bottom:2px">底層是「人」——人分享、討論、投票、累積聲望。四根柱子借自團隊研究的在地競品，AI 只是增強它們。</p>
+    <div class="opts c2" style="margin-top:9px">
+      <div class="opt"><div class="oname">分享與發現</div><div class="oview">Vibe Reader ・ Google 新聞</div>
+        <ul><li class="r">可建、可分享的閱讀清單</li><li class="r">追蹤議題、探索（推薦 vs 追蹤）</li></ul></div>
+      <div class="opt"><div class="oname">投票與被看見</div><div class="oview">PTT ・ Reddit</div>
+        <ul><li class="r">推/噓、跨社群曝光</li><li class="r">排序看跨立場認同，不只看讚數</li></ul></div>
+      <div class="opt"><div class="oname">聲望就是信任感</div><div class="oview">像 Reddit 那樣累積可信度</div>
+        <ul><li class="r">公開聲望分＝真人訊號</li><li class="r">連動認證、墊高網軍成本</li></ul></div>
+      <div class="opt"><div class="oname">觀點交換文化</div><div class="oview">讓人願意好好說服彼此</div>
+        <ul><li class="r">用版規與文化促成對話</li><li class="r">不只靠 AI 撮合</li></ul></div>
+    </div>
+    <div class="why"><span class="wt">一開始怎麼做</span><b>先讓大家覺得這裡跟自己有關，再慢慢帶去看不同觀點。</b>先讓各族群「找到家」，有信任後，再用共識區和討論設計創造跨立場對話。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>這頁是整份規劃的地基。Ours 的底層是<b>人</b>，不是 AI。我們研究了一輪在地競品，整理出社群的四根柱子。</p>
+      <p><b>分享與發現</b>——使用者可以建自己的閱讀清單、分享出去，也能追蹤自己在意的議題。<b>投票與被看見</b>——有點像 PTT 的推噓，但我們不只看讚數，而是看不同立場的人能不能一起認同，避免同溫層爆文直接衝上去。<b>聲望就是信任感</b>——公開聲望分可以變成「這是真人、老手」的訊號，也能連到認證，提高網軍亂洗的成本。<b>觀點交換文化</b>——用版規跟文化讓人願意好好對話，不是只靠 AI 撮合。</p>
+      <p>還有一個冷啟動的心法很關鍵：Reddit 的教訓是<b>「先給歸屬感，再談打破同溫層」</b>。我們不會一開始就貼「來打臉同溫層」的標籤，而是先讓大家在這裡找到歸屬，等信任建立了，再引導跨立場對話。AI 的六個功能，都是長在這個骨架上的。</p>
+    </aside>
+  </section>
+
+  <!-- 4 PRINCIPLES -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">02</span> 五條 AI 使用原則</span>
+    <h2>AI 潛入資訊卡與討論串，必要時被 tag 進來輔助討論</h2></div>
+    <div class="slide-main">
+    <div class="grid5">
+      <div class="pcard"><div class="pn">01</div><h3>助手，不是裁判</h3><p>只整理、補充、提問、比對，不表態。</p></div>
+      <div class="pcard"><div class="pn">02</div><h3>先找共同點</h3><p>先看大家同意什麼，再談哪裡不同。</p></div>
+      <div class="pcard"><div class="pn">03</div><h3>讓好溝通先被看見</h3><p>協助溝通、串接觀點、整理共識與差異，讓不同立場都比較能接受的內容先出現。</p></div>
+      <div class="pcard"><div class="pn">04</div><h3>誠實但不審查</h3><p>標示可點開、可關、不擋內容。</p></div>
+      <div class="pcard hl"><div class="pn">05</div><h3>★ 潛入式 AI</h3><p>AI 輕量藏在資訊卡與討論串裡；需要時，使用者再 tag 它進來。</p></div>
+    </div>
+    <div class="why teal"><span class="wt">第 5 條 ・ 最關鍵</span>這條把產品型態講清楚——Ours 不是 AI 聊天室，也不是 AI 主持的論壇；<b>AI 會輕量潛入資訊卡與討論串</b>，必要時才被使用者 tag 進來補脈絡、整理分歧、把討論拉回事實。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>前四條原則不變：AI 是助手不是裁判、先找共同點、讓跨立場都能接受的內容先被看見、誠實標示但不審查。</p>
+      <p>其中<b>第五條，也是最能定義 Ours 性格的一條：AI 是潛入式的。</b>它不是跳出來當主角，也不是把整個產品變成 AI 聊天室，而是輕量藏在資訊卡和討論串裡，比如摘要、脈絡提醒、查核提示。當使用者真的需要它公開參與討論時，再 tag 它進來補脈絡、整理分歧、把討論拉回事實。這條直接呼應前面講的「人為主」，也讓 AI 互動設計有清楚底線。</p>
+    </aside>
+  </section>
+
+  <!-- 5 COMPETITIVE -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">03</span> 競品定位</span>
+    <h2>不是無中生有，是把對的東西縫起來</h2></div>
+    <div class="slide-main">
+    <p class="lead" style="font-size:17px; margin-bottom:2px">機制都有人做過，Ours 的賭注是 <b style="color:var(--teal)">整合＋在地化＋公共性＋合法導流＋社群骨架</b>。團隊借鏡的在地競品：</p>
+    <table class="tbl">
+      <tr><th>競品</th><th>借鏡</th><th>對 Ours 的啟示</th></tr>
+      <tr><td><a href="https://redditinc.com/" target="_blank" rel="noopener">Reddit</a></td><td>投票排名、聲望分、問答與討論文化</td><td>「先有歸屬感，再慢慢看不同觀點」；分眾經營＋良性投票</td></tr>
+      <tr><td><a href="https://www.particle.news/" target="_blank" rel="noopener">Particle / Vibe 類閱讀器</a></td><td>探索（推薦/追蹤）、閱讀清單可分享、AI 摘要</td><td>個人化發現＋社群分享</td></tr>
+      <tr><td><a href="https://news.google.com/" target="_blank" rel="noopener">Google 新聞</a></td><td>同議題多來源、追蹤議題、地方偏好</td><td>事件整理與訂閱的成熟做法</td></tr>
+      <tr><td><a href="https://www.ptt.cc/bbs/Gossiping/index.html" target="_blank" rel="noopener">PTT</a></td><td>推/噓、P 幣、鄉民文化</td><td>在地投票與社群文化原型</td></tr>
+      <tr><td><a href="https://www.allsides.com/media-bias/media-bias-chart/" target="_blank" rel="noopener">AllSides / 立場圖表</a></td><td>專題式立場分辨、分層呈現</td><td>不貼粗暴標籤，改用可比較的呈現方式</td></tr>
+      <tr><td><a href="https://www.mirrormedia.mg/story/20250514edi045" target="_blank" rel="noopener">迷音 Miin</a></td><td>（反面）Feed UI 混亂＋新聞授權爭議</td><td>三塊式卡片；合法串接、導流分潤</td></tr>
+    </table>
+    <div class="shots">
+      <div class="shot"><div class="imgbox"><img src="../競品截圖/ground-news-home.png" alt="Ground News"></div><div class="cap">Ground News<span>盲點＋比較</span></div></div>
+      <div class="shot"><div class="imgbox"><img src="../競品截圖/allsides-bias-chart.png" alt="AllSides"></div><div class="cap">AllSides<span>立場分佈</span></div></div>
+      <div class="shot"><div class="imgbox"><img src="../競品截圖/particle-home.png" alt="Particle"></div><div class="cap">Particle<span>多來源聚合</span></div></div>
+      <div class="shot"><div class="imgbox"><img src="../競品截圖/cofacts-home.png" alt="Cofacts"></div><div class="cap">Cofacts<span>協作查核</span></div></div>
+      <div class="shot"><div class="imgbox"><img src="../競品截圖/polis-home.png" alt="Polis"></div><div class="cap">Polis<span>協助找共識</span></div></div>
+    </div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>金主一定會問「這些不是有人做了嗎」。對，所以我們很誠實：機制都有人做過，<b>Ours 的價值在整合與在地化</b>。這張表是我們團隊實際研究的在地競品——Reddit 的投票與聲望、Vibe Reader 的個人化閱讀、Google 新聞的議題聚合、PTT 的推噓文化、朝日跟天下的專題式立場呈現。下面五張是我實際去國外網站截的圖。</p>
+      <p>另外有個現成反面教材——<b>迷音</b>，杜奕瑾做的同類平台。它 Feed UI 混亂，又因為爬蟲盜新聞被壹蘋告。我們兩點都反過來：三塊式清楚卡片、合法串接導流。</p>
+    </aside>
+  </section>
+
+  <!-- 6 FUNCTION 1 -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">功能 1</span> 新聞整理 ＋ 搜尋發現</span>
+    <h2>誰決定你在首頁看到什麼新聞？</h2></div>
+    <div class="slide-main">
+    <div class="opts c3">
+      <div class="opt chosen"><span class="badge">✓ 骨幹</span><div class="oname">A 事件聚合流</div><div class="oview">編輯／AI 決定 ・ Ground News</div>
+        <ul><li class="g">看見全貌、最有記憶點</li><li class="g">搜尋＝用意思找議題，不只找關鍵字</li><li class="b">AI 佔比較重，使用者比較被動</li></ul></div>
+      <div class="opt"><div class="oname">B 個人化閱讀器</div><div class="oview">你自己決定 ・ Vibe Reader</div>
+        <ul><li class="g">個人掌控、黏著高</li><li class="g">搜尋＝訂閱＋追蹤、探索</li><li class="b">易同溫層、社群感弱</li></ul></div>
+      <div class="opt"><div class="oname">C 社群投票流</div><div class="oview">群眾決定 ・ Reddit／PTT</div>
+        <ul><li class="g">社群活力、冷啟動有路徑</li><li class="g">搜尋＝分眾瀏覽、熱門榜</li><li class="b">易被洗版、品質不一</li></ul></div>
+    </div>
+    <div class="why"><span class="wt">手機初版</span>以 <b>A 事件卡片 Feed</b> 為主軸；B 先收斂成「追蹤議題、收藏清單」，不要做成完整閱讀器；C 只當排序訊號，不做成 Reddit 式首頁。新聞卡用迷音啟發的<b>三塊式</b>：AI 摘要／標題／供應商。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>第一個功能：新聞怎麼整理，誰決定你首頁看到什麼。我給三種完全不同的世界觀。</p>
+      <p><b>A 事件整理流</b>，是編輯或 AI 先幫你把同一件事的不同報導放在一起，像 Ground News。優點是容易看見全貌、最有記憶點；缺點是 AI 佔比較重，使用者比較被動。<b>B 個人化閱讀器</b>，是你自己決定——像 Vibe Reader，以你訂閱追蹤的為主，有探索、也有可分享的閱讀清單。優點是個人掌控感高、比較黏；缺點是容易待在同溫層，社群感比較弱。<b>C 社群投票流</b>，是群眾決定——像 Reddit 跟 PTT，新聞靠推噓被看見、跨社群曝光。優點是有社群活力、冷啟動比較有路；缺點是容易被洗版、品質不一。</p>
+      <p>手機 App 的第一版，我會收斂成 <b>A 事件卡片 Feed</b>。因為手機上最直覺的就是一張一張滑，看完摘要再點進去。B 不先做成完整閱讀器，只保留「追蹤議題、收藏清單」，讓使用者有自己的入口；C 也不做成 Reddit 那種大首頁，只把投票當排序參考。這樣比較符合手機使用情境，也比較不會一開始就做太散。</p>
+    </aside>
+  </section>
+
+  <!-- 7 FUNCTION 2 -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">功能 2</span> 立場光譜</span>
+    <h2>立場資訊「由誰、用什麼形式」給出？</h2></div>
+    <div class="slide-main">
+    <div class="opts c3">
+      <div class="opt chosen"><span class="badge">✓ 主</span><div class="oname">A AI 自動光譜</div><div class="oview">機器判定 ・ Ground News</div>
+        <ul><li class="g">自動化、人覺得 AI 客觀</li><li class="b">標籤中立性風險（藍綠白不行）</li></ul></div>
+      <div class="opt"><div class="oname">B 專題式並陳</div><div class="oview">編輯形式 ・ 報導者／天下</div>
+        <ul><li class="g">不貼標籤、最不易被罵帶風向</li><li class="b">製作重、靠編輯人力</li></ul></div>
+      <div class="opt"><div class="oname">C 大家一起補標註</div><div class="oview">由社群一起整理</div>
+        <ul><li class="g">不是平台單方面說了算</li><li class="b">一開始沒人標，也可能被灌票</li></ul></div>
+    </div>
+    <div class="why"><span class="wt">手機初版</span>以 <b>A 事件層提示</b> 為主，但在手機上不做複雜大圖表，只用短標籤、分布條、盲點提醒。B 變成點進事件後的「各方說法」分頁；C 等社群成熟再開。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>第二個功能，讓人知道「我在讀哪一類觀點」。一樣三種形式。</p>
+      <p><b>A AI 自動整理立場</b>——讓 AI 先判斷報導角度。好處是快，而且很多人會覺得 AI 比較客觀；但「左中右」在台灣不適用，硬分「藍綠白」也不行，標籤怎麼寫會是最大風險。<b>B 專題式並排</b>——把同一件事的各方說法放在一起，讓讀者自己判斷，最不容易被罵帶風向，但比較吃人力。<b>C 大家一起補標註</b>——由社群一起補充，但一開始沒人標，也怕被組織灌票。</p>
+      <p>手機 App 第一版會以 <b>A 為主</b>，但呈現方式要很克制：不要在小螢幕塞很複雜的光譜圖，而是用短標籤、分布條、盲點提醒，讓使用者一眼知道「我現在看到的角度夠不夠」。B 會放在事件頁裡，做成「各方說法」分頁；C 等社群規模夠了再開，避免一開始被灌票。</p>
+    </aside>
+  </section>
+
+  <!-- 8 FUNCTION 3 -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">功能 3</span> 討論整理</span>
+    <h2>怎麼讓好的討論被看見——靠 AI、文化，還是大家投票？</h2></div>
+    <div class="slide-main">
+    <div class="opts c3">
+      <div class="opt chosen"><span class="badge">✓ 疊加</span><div class="oname">A AI 結構化摘要</div><div class="oview">AI 整理</div>
+        <ul><li class="g">即時、好懂、可以處理大量留言</li><li class="b">AI 可能講太多，要有界線</li></ul></div>
+      <div class="opt chosen"><span class="badge">✓ 疊加</span><div class="oname">B 鼓勵好好討論的版型</div><div class="oview">靠版規與文化</div>
+        <ul><li class="g">文化最耐久、最真誠</li><li class="b">養文化慢、需版主</li></ul></div>
+      <div class="opt chosen"><span class="badge">✓ 疊加</span><div class="oname">C 大家投票</div><div class="oview">靠社群選出好內容</div>
+        <ul><li class="g">讓使用者一起決定</li><li class="b">容易同溫層互推、爆文洗版</li></ul></div>
+    </div>
+    <div class="why"><span class="wt">手機初版</span><b>AI 摘要收成可展開區塊</b>，先給共同點、分歧點和代表觀點；留言輸入框用版型引導好好講；投票先做「這則有幫助嗎」，不要一開始就做複雜評分。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>第三個：幾百則留言裡，怎麼讓好的討論被看見？我用三種力量來看。</p>
+      <p><b>A 靠 AI</b>——AI 把討論整理成共同點、差異點和代表觀點，快又好懂，但要小心它講太多、變成平台在下結論。<b>B 靠文化</b>——用版規和版型鼓勵大家好好說服彼此，這種文化最耐久、最真誠，但養起來慢，也需要管理。<b>C 靠大家投票</b>——像 PTT 推噓，讓使用者一起決定什麼值得看，但容易同溫層互推、情緒爆文洗版。</p>
+      <p>手機 App 第一版會把三者收得更小：AI 摘要做成可展開區塊，先讓新人快速看懂這串在吵什麼；留言框用幾個提示，引導大家講理由，不只是丟情緒；投票先做很輕的「這則有幫助嗎」，不要一開始就做一堆複雜評分。這樣手機上比較好操作，也比較像真的會被使用的功能。</p>
+    </aside>
+  </section>
+
+  <!-- 9 FUNCTION 4 -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">功能 4</span> 事實查核</span>
+    <h2>誰來幫忙查證——查核機構、大家一起補，還是看來源可信度？</h2></div>
+    <div class="slide-main">
+    <div class="opts c3">
+      <div class="opt chosen"><span class="badge">✓ 第一版先做</span><div class="oname">A 串接專業查核</div><div class="oview">機構 ・ Cofacts／TFC</div>
+        <ul><li class="g">最精準、可信</li><li class="b">覆蓋率低、需有人查過</li></ul></div>
+      <div class="opt"><div class="oname">B 大家一起補查核</div><div class="oview">社群一起整理</div>
+        <ul><li class="g">涵蓋範圍比較廣</li><li class="b">一開始沒人標，也可能被灌票</li></ul></div>
+      <div class="opt chosen"><span class="badge">✓ 第一版示意</span><div class="oname">C 來源可信度</div><div class="oview">看媒體或帳號過去表現</div>
+        <ul><li class="g">自動化、揭露長期低品質</li><li class="b">易被當「給媒體貼標籤」</li></ul></div>
+    </div>
+    <div class="why"><span class="wt">手機初版</span>第一版先做 <b>A 命中就標示 ＋ C 來源提醒</b>，呈現成卡片上的小徽章；點開才看原因。B 大家一起補查核先不做，避免手機流程太重、也避免被灌票。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>第四個，事實查核。台灣其實已經有不少成熟查核單位，所以我們不需要重做一套，而是先串接現有資料。</p>
+      <p><b>A 查核機構</b>——接 Cofacts、查核中心、MyGoPen，最精準可信，但前提是要有人查過。<b>B 大家一起補查核</b>——讓社群一起補充，涵蓋範圍比較廣，但一開始可能沒人標，也怕被灌票。<b>C 來源可信度</b>——看媒體或帳號過去的表現，提醒使用者「這個來源要多留意」，但要小心不要變成亂貼標籤。</p>
+      <p>手機 App 第一版先做最輕的版本：如果查核資料庫命中，就在新聞卡或貼文卡上出現小徽章；來源提醒也先做成小提示，點開才看細節。B 這種大家一起補查核先不做，因為手機流程會太重，也容易被灌票。底線一樣：AI 只比對資料，不自己判真假；所有標示可以點開、可以關掉，也不擋內容。</p>
+    </aside>
+  </section>
+
+  <!-- 10 FUNCTION 5 -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">功能 5</span> 潛入式 AI 與 @Ours</span>
+    <h2>AI 在社群裡「何時、以什麼身分」存在？</h2></div>
+    <div class="slide-main">
+    <div class="opts c3">
+      <div class="opt chosen"><span class="badge">✓ 主打</span><div class="oname">A 潛入式參與者</div><div class="oview">資訊卡輔助＋@Ours 介入</div>
+        <ul><li class="g">最符合「人為主」、有互動感</li><li class="g">平常輕量輔助，公開回應才需 tag</li><li class="b">深度介入需要使用者叫進來</li></ul></div>
+      <div class="opt"><div class="oname">B 個人化助理</div><div class="oview">私人空間 ・ ChatGPT</div>
+        <ul><li class="g">個人深度、隱私</li><li class="b">缺乏公共互動</li></ul></div>
+      <div class="opt"><div class="oname">C 常駐主持人</div><div class="oview">無所不在</div>
+        <ul><li class="b">AI 太搶戲、會有被控制感</li><li class="b">成本高，也違反「人為主」的原則</li></ul></div>
+    </div>
+    <div class="why"><span class="wt">手機初版</span>AI 先輕量潛入資訊卡與討論串，做摘要、脈絡、查核提示；需要公開補充時，才用 <b>`@Ours`</b> tag 進討論串，回覆短、附來源、可收合。<span class="chip" style="margin-left:6px">⚙️ 深度回應才觸發成本</span></div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>第五個功能最能定義 Ours 的性格。問題是：AI 在社群裡何時、以什麼身分存在？</p>
+      <p><b>A 潛入式參與</b>——AI 平常藏在資訊卡和討論串裡，做摘要、脈絡提醒、查核提示；當使用者 tag 它，它才公開進討論串回應，大家都看得到。這最符合「人為主」，也能把成本控制在真的需要深度回應的時候。<b>B 個人化助理</b>——像 ChatGPT 的私聊，只服務你，有深度但缺乏公共互動。<b>C 常駐主持人</b>——AI 一直都在、主動介入每一串。這個我們<b>明確不做</b>，因為它會讓人覺得被平台控制，也違反「人為主」的原則，成本還高。</p>
+      <p>手機 App 第一版會<b>主打 A、輔以 B、不做 C</b>。也就是資訊卡和討論串裡會有輕量 AI 輔助，但公開參與討論時才用 @Ours 叫它進來；回覆要短、可以收合、附來源，不要佔滿整個討論串。B 私聊可以放在事件頁當輔助入口，給想深入問的人用。C 常駐主持人不做，因為手機螢幕很小，AI 一直插話會很煩，也會讓人覺得平台在控場。</p>
+    </aside>
+  </section>
+
+  <!-- 10b 會輸給 Meta AI 嗎 -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">釐清</span> 功能 5 延伸 ・ 大家一定會問</span>
+    <h2>競品自己做 AI，我們用雲端 AI——比的不是誰聰明</h2></div>
+    <div class="slide-main">
+    <div class="two">
+      <div class="opt">
+        <div class="oname">「自己做的 AI 一定比較強」是迷思</div>
+        <ul>
+          <li class="g">我們接的是 Claude、GPT 這種第一線 AI，水準市場頂尖、還一直在進步</li>
+          <li class="g">從頭自己做一個 AI 又貴又慢，做出來也不一定比較強</li>
+          <li class="g">錢花在體驗跟串接，不必重造一台引擎</li>
+        </ul>
+      </div>
+      <div class="opt chosen">
+        <div class="oname">真正的差別：它手上「有什麼料」</div>
+        <ul>
+          <li class="r">Meta AI 是黏在動態牆旁的萬能聊天機器人，目標是讓你多滑一下</li>
+          <li class="r">Ours 的 AI 手上有這件事的：各家新聞、立場、查核、這串的共識與分歧</li>
+          <li class="r">被 tag 進來時，回答緊貼議題、保持中立、附上出處、幫你看到反方說法</li>
+        </ul>
+      </div>
+    </div>
+    <div class="why teal"><span class="wt">一句話</span>Meta AI 像百貨公司門口「什麼都能問」的問路機；Ours 的 AI 像<b>這個議題的隨身助教</b>——前者什麼都聊但都不深，後者只做一件事、但做到底。想閒聊本來就有 Meta AI；想<b>真的搞懂一件公共議題、聽到不同立場</b>，那才是我們要贏的點。</div>
+    </div>
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>講完潛入式 AI 和 @Ours，這裡先攔一個大家一定會問的問題：<b>「競品像 Meta，自己做模型，我們只是接別人的雲端 AI，會不會比較弱、用戶覺得它比較好玩？」</b>這題很重要，我直接回答。</p>
+      <p>第一，<b>「自己做的一定比較強」其實是迷思。</b>我們接的是 Claude、GPT 這種第一線的 AI，水準是市場頂尖、而且一直在進步；反而自己從頭做一個又貴又慢，做出來也不保證比較強。我們把錢花在體驗跟串接，不重造一台引擎。</p>
+      <p>第二，也是更重要的——<b>這題比的根本不是 AI 誰聰明，是誰更懂這件事。</b>Meta AI 是黏在動態牆旁邊的萬能聊天機器人，它的目標是讓你多滑一下；它不知道你正在看的這則新聞各家怎麼報、這串討論在吵什麼。Ours 的 AI 不一樣，它手上有這個議題的料：各家新聞、立場光譜、查核結果、這串討論的共識跟分歧。你叫它出來，它的回答是緊貼這個議題、保持中立、附上出處、還會幫你看到反方說法。</p>
+      <p>所以我會這樣比：<b>Meta AI 像百貨公司門口那台什麼都能問的問路機，Ours 的 AI 像這個議題的隨身助教。</b>前者什麼都聊但都不深，後者只做一件事但做到底。我們不跟 Meta 拚「好玩、什麼都能聊」——想閒聊本來就有 Meta AI；但「我想真的搞懂一個公共議題、想聽到不同立場、想知道哪些查證過」，這件事 Meta AI 給不了，因為它沒有這個平台的新聞、查核、立場當底。那，才是我們要贏的點。</p>
+    </aside>
+  </section>
+
+  <!-- 11 FUNCTION 6 -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">功能 6</span> 促進找共識 ・ 平台靈魂</span>
+    <h2>共識用什麼互動產生——投票、地圖、還是說服？</h2></div>
+    <div class="slide-main">
+    <div class="opts c3">
+      <div class="opt chosen"><span class="badge">✓ 初版</span><div class="oname">A 投票表態型</div><div class="oview">像滑卡片一樣表態</div>
+        <ul><li class="g">輕量、手機好玩、門檻低</li><li class="b">視覺較樸素</li></ul></div>
+      <div class="opt"><div class="oname">B 意見地圖型</div><div class="oview">把不同看法畫成地圖</div>
+        <ul><li class="g">視覺震撼、適合簡報</li><li class="b">手機難讀、門檻高</li></ul></div>
+      <div class="opt"><div class="oname">C 說服遊戲型</div><div class="oview">讓人試著說服彼此</div>
+        <ul><li class="g">真誠、有人味、社群參與感</li><li class="b">慢、需文化與版主</li></ul></div>
+    </div>
+    <div class="why"><span class="wt">手機初版先做 A</span>主畫面做滑卡表態＋共識溫度計，讓人用一隻手就能完成。B 意見地圖改成後台分析或桌機進階檢視，不放進手機初版；C 說服遊戲等文化長出來再做。<span class="chip" style="margin-left:6px">⚙️ 這個功能不一定要靠大模型</span></div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>第六個是平台的靈魂——找共識。台灣其實有很好的案例，像 vTaiwan 就是讓不同立場的人一起找出比較能接受的方向。問題是：這件事在產品裡要怎麼玩？</p>
+      <p><b>A 投票表態</b>——像滑卡片一樣表態，跨陣營都同意的句子往上浮，輕量、手機好玩、門檻低。<b>B 意見地圖</b>——把不同人群的看法畫成地圖，視覺很有感、很適合簡報，但手機上比較難讀。<b>C 說服遊戲</b>——讓人試著說服彼此，最有人味、也最有社群感，但比較慢，需要文化和管理。</p>
+      <p>這裡我會修正成：<b>手機初版先做 A，不做 B 當主功能</b>。原因很直接，B 地圖雖然簡報上好看，但剛剛也講了手機難讀、門檻高；如果我又說初版要做 B，邏輯就衝突。比較合理的是：手機上先做滑卡表態和共識溫度計，讓人一隻手就能參與；B 意見地圖留給後台分析或桌機進階檢視；C 說服遊戲等社群文化長出來再做。</p>
+    </aside>
+  </section>
+
+  <!-- 12 FEASIBILITY -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">04</span> 技術可行性</span>
+    <h2>用雲端 AI 串接，重點是把功能拆對</h2></div>
+    <div class="slide-main">
+    <table class="tbl">
+      <tr><th>功能</th><th>雲端 API 可行？</th><th>關鍵限制與對策</th></tr>
+      <tr><td>1 事件整理＋搜尋</td><td class="ok">✓ 強項</td><td>批次處理＋快取；搜尋用「意思」找，不只靠關鍵字</td></tr>
+      <tr><td>2 立場光譜</td><td class="ok">✓ 可行</td><td>先訂清楚判斷標準，再用人工抽查</td></tr>
+      <tr><td>3 討論整理</td><td class="ok">✓ 可行</td><td>只在熱門議題跑、定時更新</td></tr>
+      <tr><td>4 事實查核</td><td class="ok">✓ 可行</td><td>比對查核資料庫，不靠 AI 自己記憶</td></tr>
+      <tr><td>5 潛入式 AI 與 @Ours</td><td class="ok">✓ 很適合</td><td>輕量提示可批次處理，深度回應才由 @ 觸發</td></tr>
+      <tr><td>6 找共識</td><td class="ok">✓✓ 可行</td><td>手機先做滑卡表態＋統計，不一定要靠大模型</td></tr>
+    </table>
+    <div class="why"><span class="wt">結論</span>Ours 第一版採用<b>雲端 AI API 串接</b>。重點是把功能拆清楚：需要 AI 的地方才呼叫 AI，能用統計或產品機制解的地方就不要硬丟給 AI。要管的是三件事——<b>成本、速度、隱私</b>。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>這頁要講的是：Ours 會用雲端 AI API 串接，所以產品設計要想清楚哪些地方真的需要叫 AI，哪些地方其實用統計或產品機制就夠了。功能 1 到 5 多半是雲端 AI 擅長的整理、摘要、比對、回應；功能 6 則收斂成手機好做的滑卡表態加統計，不一定要靠大模型。</p>
+      <p>特別講功能 5：潛入式 AI 的成本可以分層管理。摘要、查核提示這種輕量輔助可以批次處理；真的需要公開回應時，才由使用者 @Ours 觸發。這會比常駐主持人對每一串持續跑更可控。所以這頁的重點是成本、速度、隱私怎麼管理。</p>
+    </aside>
+  </section>
+
+  <!-- 13 PAYWALL -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">05</span> 單篇付費 × AI 摘要</span>
+    <h2>摘要是「導讀」，不是免費替代品</h2></div>
+    <div class="slide-main">
+    <div class="two">
+      <div>
+        <ul class="clean">
+          <li>摘要只到導讀層級（三塊式：AI 摘要／標題／供應商），<b>不重述付費全文</b></li>
+          <li>付費卡標 <b>🔒 付費</b>，CTA「前往原文（付費）」或「單篇解鎖」</li>
+          <li>收費別只押單篇微支付，<b>三軌併行</b>更穩</li>
+        </ul>
+        <div style="margin-top:12px"><span class="chip">① 導流分潤</span><span class="chip">② 單篇解鎖</span><span class="chip">③ 跨媒體訂閱包</span></div>
+      </div>
+      <div>
+        <div class="why" style="margin-top:0"><span class="wt">⚠️ 借鏡</span><b>Blendle</b> 是單篇微支付先驅，後來放棄改訂閱——證明微支付難長期。Vibe Reader 則用「付費解鎖 AI」的個人化模式。</div>
+        <div class="why teal" style="margin-top:12px"><span class="wt">定位加分</span>「摘要只導讀、全文導流分潤」強化 Ours vs 迷音的<b>「合法、與媒體共榮」</b>差異。</div>
+      </div>
+    </div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>最後一個現實問題：各家新聞台一定會有單篇付費，AI 摘要怎麼跟付費牆共存？核心原則一句話：<b>摘要是導讀，不是免費替代品</b>。如果摘要把付費內容講完了，就害了媒體、也重蹈迷音覆轍。所以摘要只到導讀層級，全文導去原媒體。</p>
+      <p>收費模式我誠實提醒：別只押單篇微支付——Blendle 玩過、放棄了、改訂閱。建議三軌併行：導流分潤、單篇解鎖、訂閱包。這整套又強化了我們「跟媒體共榮、不寄生」的定位。</p>
+    </aside>
+  </section>
+
+  <!-- 14 OVERVIEW -->
+  <section class="slide">
+    <div class="slide-body">
+    <div class="slide-head"><span class="tag"><span class="num">06</span> 功能落點</span>
+    <h2>社群骨架上，六個功能落在三張主畫面</h2></div>
+    <div class="slide-main">
+    <div class="rows">
+      <div class="row"><span class="k">首頁</span><div>事件整理流（功能1）＋可分享閱讀清單＋跨立場都能接受的投票＋查核徽章（功能4）。</div></div>
+      <div class="row"><span class="k">議題聚合頁</span><div>共同事實摘要（功能1）＋立場光譜/專題並陳（功能2）＋各家來源導流。</div></div>
+      <div class="row"><span class="k">議題討論頁</span><div>可展開 AI 摘要＋討論引導＋有幫助投票（功能3）＋滑卡共識區（功能6）＋ @Ours 介入（功能5）。</div></div>
+      <div class="row"><span class="k">個人/社群</span><div>聲望分、閱讀清單、追蹤、分眾社群（社群骨架）。</div></div>
+    </div>
+    <div class="why"><span class="wt">下一步</span>依社群骨架畫手機 wireframe，從<b>首頁、議題聚合頁、議題討論頁</b>三張主畫面下手；<b>共識功能先做滑卡表態＋溫度計</b>，當作可點 Prototype 主秀。</div>
+    </div>
+    
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>把所有東西收斂：六個功能長在社群骨架上，集中落在三張手機主畫面，加上一組個人/社群頁放聲望、閱讀清單、追蹤、分眾社群。接下來就從這三張主畫面開始畫 wireframe，共識功能先做滑卡表態和溫度計，這個最適合手機，也最適合做成可點 Prototype 主秀。</p>
+    </aside>
+  </section>
+
+  <!-- 15 CLOSING -->
+  <section class="slide cover">
+    <div class="slide-body">
+    <div class="tag"><span class="num">結語</span></div>
+    <h1 style="font-size:44px; max-width:22ch">一個以人為主的平台，<br>AI 只是讓我們更會聽彼此。</h1>
+    <p class="sub" style="margin-top:16px">第一版先聚焦「事實」和「觀點」；先讓人找到歸屬感，再慢慢看見不同立場。<br>讓台灣有一個更能好好討論公共議題的平台。</p>
+    <p class="meta">謝謝 — 接下來進入手機 wireframe ・ 共識滑卡優先做可點初版</p>
+    </div>
+    <aside class="notes"><h4>講稿</h4>
+      <p>總結：Ours 首先是一個以人為主的社群平台，AI 不是主角，是讓我們更會聽彼此的工具。我們先給歸屬感，再慢慢帶大家看見不同立場。這件事的意義，是讓台灣有一個更能好好討論公共議題的平台。下一步進手機 wireframe，共識功能先做滑卡表態和溫度計，變成可點的初版。謝謝大家。</p>
+    </aside>
+  </section>
+
+  <div class="progress" id="bar"></div>
+  <div class="foot"><span class="brand">OURS</span><span class="author">作者：黃宣銘</span><span class="pageno"><span id="cur">1</span> / <span id="tot">15</span></span></div>
+</div>
+<aside id="speaker-panel" aria-live="polite"></aside>
+</div>
+
+<button class="navbtn" id="prev" aria-label="上一頁">‹</button>
+<button class="navbtn" id="next" aria-label="下一頁">›</button>
+<button id="startPresenter" type="button">開啟講者模式</button>
+<div id="hint">← → 翻頁　・　功能頁再按一次揭曉選擇　・　按 N 推出／收合講稿</div>
+<div id="presenter-panel">
+  <button id="audienceBtn" type="button">開觀眾視窗</button>
+  <span class="presenter-page"><span id="presenterCur">1</span> / <span id="presenterTot">15</span></span>
+  <button id="presenterPrev" type="button">上一頁</button>
+  <button id="presenterNext" type="button">下一頁</button>
+</div>
+
+<script>
+  const params=new URLSearchParams(location.search);
+  const isPresenter=params.get('presenter')==='1';
+  const isAudience=params.get('audience')==='1';
+  const channel=('BroadcastChannel' in window) ? new BroadcastChannel('ours-presentation') : null;
+  if(isPresenter) document.body.classList.add('presenter');
+  if(isAudience) document.body.classList.add('audience');
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0; const tot=slides.length;
+  document.getElementById('tot').textContent=tot;
+  document.getElementById('presenterTot').textContent=tot;
+  const bar=document.getElementById('bar'), cur=document.getElementById('cur'), panel=document.getElementById('speaker-panel'), presenterCur=document.getElementById('presenterCur');
+  const revealed=new Set();
+  let syncing=false;
+  let audienceWindowRef=null;
+  const imageForOption=(title)=>{
+    if(title.includes('事件聚合')) return '../競品截圖/ground-news-direct.png';
+    if(title.includes('個人化閱讀器')) return '../競品截圖/vibe-reader-direct.png';
+    if(title.includes('社群投票')) return '../競品截圖/reddit-direct.png';
+    if(title.includes('AI 自動光譜')) return '../競品截圖/ground-news-bias-direct.png';
+    if(title.includes('專題式並陳')) return '../競品截圖/twreporter-direct.png';
+    if(title.includes('大家一起補標註')) return '../競品截圖/community-notes-direct.png';
+    if(title.includes('AI 結構化摘要')) return '../競品截圖/ground-news-direct.png';
+    if(title.includes('鼓勵好好討論')) return '../競品截圖/reddit-direct.png';
+    if(title.includes('大家投票')) return '../競品截圖/ptt-direct.png';
+    if(title.includes('專業查核')) return '../競品截圖/cofacts-direct.png';
+    if(title.includes('大家一起補查核')) return '../競品截圖/community-notes-direct.png';
+    if(title.includes('來源可信度')) return '../競品截圖/newsguard-direct.png';
+    if(title.includes('潛入式參與者')) return '../競品截圖/threads-meta-ai-direct.png';
+    if(title.includes('個人化助理')) return '../競品截圖/chatgpt-direct.png';
+    if(title.includes('常駐主持人')) return '../競品截圖/chatbot-host-direct.png';
+    if(title.includes('投票表態')) return '../競品截圖/polis-statement-vote-direct.png';
+    if(title.includes('意見地圖')) return '../競品截圖/polis-opinion-map-direct.png';
+    if(title.includes('說服遊戲')) return '../競品截圖/war-of-election-direct.png';
+    return '../競品截圖/ground-news-bias-direct.png';
+  };
+  slides.forEach(slide=>{
+    const tagNum=slide.querySelector('.tag .num')?.textContent?.trim() || '';
+    const isFeature=tagNum.startsWith('功能');
+    if(isFeature && slide.querySelector('.opts') && slide.querySelector('.why')) slide.classList.add('decision-slide');
+    if(!isFeature) return;
+    slide.querySelectorAll('.opt').forEach(opt=>{
+      if(opt.querySelector('.opt-media')) return;
+      const src=imageForOption(opt.querySelector('.oname')?.textContent?.trim() || opt.textContent);
+      const media=document.createElement('div');
+      media.className='opt-media';
+      media.innerHTML=`<img src="${src}" alt="競品示意圖">`;
+      opt.appendChild(media);
+    });
+  });
+  // 點擊競品截圖放大（lightbox）
+  const lb=document.createElement('div');
+  lb.id='lightbox';
+  lb.innerHTML='<img alt="競品截圖放大"><div class="lb-cap">點任意處關閉</div>';
+  document.body.appendChild(lb);
+  const lbImg=lb.querySelector('img');
+  document.addEventListener('click',e=>{
+    const img=e.target.closest('.opt-media img');
+    if(img){ lbImg.src=img.src; lb.classList.add('on'); return; }
+    if(lb.classList.contains('on')) lb.classList.remove('on');
+  });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') lb.classList.remove('on'); });
+  function updateNotes(){
+    const notes=slides[i].querySelector('.notes');
+    panel.innerHTML=notes ? notes.innerHTML : '<h4>講稿</h4><p>這頁沒有講稿。</p>';
+  }
+  function show(n, shouldSync=true){
+    i=Math.max(0,Math.min(tot-1,n));
+    slides.forEach((s,k)=>{
+      s.classList.toggle('active',k===i);
+      s.classList.toggle('revealed',revealed.has(k));
+    });
+    cur.textContent=i+1; bar.style.width=((i+1)/tot*100)+'%';
+    presenterCur.textContent=i+1;
+    updateNotes();
+    if(shouldSync) syncState();
+  }
+  function syncState(){
+    if(syncing || !channel) return;
+    channel.postMessage({type:'state', index:i, revealed:[...revealed]});
+  }
+  function audienceUrl(){
+    const url=new URL(location.href);
+    url.searchParams.delete('presenter');
+    url.searchParams.set('audience','1');
+    return url;
+  }
+  function presenterUrl(){
+    const url=new URL(location.href);
+    url.searchParams.delete('audience');
+    url.searchParams.set('presenter','1');
+    return url;
+  }
+  function openAudienceWindow(){
+    audienceWindowRef=window.open(audienceUrl().toString(),'ours-audience','popup=yes,width=1280,height=720');
+    if(audienceWindowRef){
+      sessionStorage.setItem('oursAudienceOpen','1');
+      updateAudienceButton();
+      setTimeout(syncState,300);
+    }
+    return audienceWindowRef;
+  }
+  function closeAudienceWindow(){
+    const existing=audienceWindowRef || window.open('', 'ours-audience');
+    if(existing && !existing.closed) existing.close();
+    audienceWindowRef=null;
+    sessionStorage.removeItem('oursAudienceOpen');
+    updateAudienceButton();
+  }
+  function updateAudienceButton(){
+    const btn=document.getElementById('audienceBtn');
+    if(!btn) return;
+    btn.textContent=sessionStorage.getItem('oursAudienceOpen')==='1' ? '關閉觀眾視窗' : '開觀眾視窗';
+  }
+  function startPresenterMode(){
+    openAudienceWindow();
+    location.href=presenterUrl().toString();
+  }
+  function applyRemoteState(state){
+    syncing=true;
+    revealed.clear();
+    (state.revealed || []).forEach(n=>revealed.add(n));
+    show(state.index || 0, false);
+    syncing=false;
+  }
+  function next(){
+    if(slides[i].classList.contains('decision-slide') && !revealed.has(i)){
+      revealed.add(i);
+      slides[i].classList.add('revealed');
+      updateNotes();
+      syncState();
+      return;
+    }
+    show(i+1);
+  }
+  function prev(){
+    if(slides[i].classList.contains('decision-slide') && revealed.has(i)){
+      revealed.delete(i);
+      slides[i].classList.remove('revealed');
+      updateNotes();
+      syncState();
+      return;
+    }
+    show(i-1);
+  }
+  function fit(){
+    const notesOpen=document.body.classList.contains('show-notes') && window.innerWidth>900;
+    const side=notesOpen ? Math.min(360, Math.max(300, window.innerWidth*.25)) + 72 : 0;
+    const availableW=Math.max(320, window.innerWidth - side - 96);
+    const availableH=Math.max(240, window.innerHeight - 72);
+    const s=Math.min(availableW/1280, availableH/720);
+    const stage=document.getElementById('stage');
+    stage.style.transform='scale('+s+')';
+    stage.style.margin=((720*s-720)/2)+'px '+((1280*s-1280)/2)+'px';
+  }
+  document.getElementById('next').onclick=next;
+  document.getElementById('prev').onclick=prev;
+  document.getElementById('presenterNext').onclick=next;
+  document.getElementById('presenterPrev').onclick=prev;
+  document.getElementById('audienceBtn').onclick=()=>{
+    if(sessionStorage.getItem('oursAudienceOpen')==='1') closeAudienceWindow();
+    else openAudienceWindow();
+  };
+  document.getElementById('startPresenter').onclick=startPresenterMode;
+  if(channel){
+    channel.onmessage=(event)=>{
+      if(!event.data || event.data.type!=='state') return;
+      applyRemoteState(event.data);
+    };
+  }
+  if(isPresenter) document.body.classList.add('show-notes');
+  updateAudienceButton();
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+    else if(e.key==='Home'){show(0);} else if(e.key==='End'){show(tot-1);}
+    else if(e.key.toLowerCase()==='n' && !isAudience){document.body.classList.toggle('show-notes'); fit();}
+  });
+  window.addEventListener('resize',fit); fit(); show(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ours 議題頁提案</title>
+<style>
+  :root{
+    --ink:#1f2328; --muted:#6b7280; --faint:#9aa1a9;
+    --bg:#f4f5f7; --surface:#fff; --soft:#e6e9ed; --softer:#f0f2f5;
+    --line:#c2c8cf; --fill:#e4e8ec; --fill-2:#eef1f4;
+    --reco:#2f8f5b; --reco-bg:#e8f4ed; --note:#7a5cff; --note-bg:#f0ecff;
+    --warn:#c75c5c; --warn-bg:#fbeded; --shadow:0 4px 16px rgba(20,24,30,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:38px 28px 70px}
+  h1{font-size:26px;letter-spacing:-.4px;margin-bottom:5px}
+  .lead{color:var(--muted);font-size:14px;margin-bottom:22px}
+
+  /* page toggle */
+  .ptoggle{display:inline-flex;background:var(--surface);border:1px solid var(--soft);border-radius:24px;padding:4px;margin-bottom:26px;box-shadow:var(--shadow)}
+  .ptoggle button{border:none;background:none;font-family:inherit;font-size:14px;padding:8px 20px;border-radius:20px;cursor:pointer;color:var(--muted)}
+  .ptoggle button.on{background:var(--ink);color:#fff;font-weight:700}
+
+  .stage.hidden{display:none}
+  .layout{display:flex;gap:34px;align-items:flex-start;flex-wrap:wrap}
+  .preview{position:sticky;top:24px;flex:0 0 auto}
+  .controls{flex:1;min-width:300px}
+
+  .phone{width:300px;background:var(--surface);border:9px solid #2a2e33;border-radius:38px;overflow:hidden;box-shadow:0 12px 34px rgba(20,24,30,.16)}
+  .phone .nb{height:20px;background:#2a2e33;position:relative}
+  .phone .nb::after{content:"";position:absolute;left:50%;top:7px;transform:translateX(-50%);width:54px;height:6px;border-radius:5px;background:#54585d}
+  .screen{padding:13px;height:586px;overflow-y:auto;background:#fcfcfd}
+  .combo-tag{margin-top:12px;text-align:center;font-size:11.5px;color:var(--muted);max-width:300px}
+  .combo-tag b{color:var(--ink)}
+
+  .grp{background:var(--surface);border:1px solid var(--soft);border-radius:14px;padding:15px 17px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .grp.dim{opacity:.4;pointer-events:none}
+  .grp h3{font-size:14px;margin-bottom:2px}
+  .grp .gh-note{font-size:11.5px;color:var(--faint);margin-bottom:11px}
+  .opts{display:flex;gap:7px;flex-wrap:wrap}
+  .opt{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 12px;font-size:12.5px;cursor:pointer;transition:.14s;display:flex;align-items:center;gap:6px;user-select:none}
+  .opt:hover{border-color:var(--ink)}
+  .opt .ltr{font-weight:700;font-size:10.5px;color:#fff;background:var(--faint);border-radius:5px;width:17px;height:17px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .opt.on{border-color:var(--ink);background:var(--ink);color:#fff;font-weight:700}
+  .opt.on .ltr{background:#fff;color:var(--ink)}
+  .pcnote{margin-top:10px;font-size:11.5px;border-top:1px dashed var(--soft);padding-top:9px;color:var(--muted)}
+  .pcnote .p{color:#356b48}.pcnote .p::before{content:"＋ ";font-weight:700}
+  .pcnote .c{color:#9a4b4b;margin-left:9px}.pcnote .c::before{content:"－ ";font-weight:700}
+  .pcnote .warn{display:block;margin-top:4px;color:var(--warn);font-weight:600}
+  .reco-flag{font-size:9.5px;font-weight:700;color:var(--reco);background:var(--reco-bg);padding:2px 6px;border-radius:20px}
+  .warn-flag{font-size:9.5px;font-weight:700;color:var(--warn);background:var(--warn-bg);padding:2px 6px;border-radius:20px}
+  .actions{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .act{border:1px solid var(--line);background:#fff;border-radius:20px;padding:8px 15px;font-size:13px;cursor:pointer;font-family:inherit}
+  .act:hover{border-color:var(--ink)}
+  .act.solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  /* primitives */
+  .b{border:1px solid var(--soft);border-radius:10px;padding:11px;margin-bottom:10px;background:#fff}
+  .b.flat{background:var(--softer);border-color:transparent}
+  .b.dash{border-style:dashed;border-color:var(--line)}
+  .l{font-size:11px;font-weight:700;color:#3a3f44;margin-bottom:7px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .l .n{display:inline-flex;width:17px;height:17px;border-radius:50%;background:var(--ink);color:#fff;font-size:10px;align-items:center;justify-content:center;flex:0 0 auto}
+  .ln{height:8px;background:var(--fill);border-radius:5px;margin:5px 0}
+  .w95{width:95%}.w90{width:90%}.w80{width:80%}.w70{width:70%}.w60{width:60%}.w45{width:45%}
+  .tt{height:12px;background:var(--line);border-radius:5px;margin-bottom:6px}
+  .x{font-size:11.5px;color:#3a3f44}.x.s{font-size:10px;color:var(--muted)}.x.b{font-weight:700}
+  .chip{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:2px 9px;font-size:9.5px;color:#3a3f44;margin:2px 3px 2px 0;background:#fff}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip.dash{border-style:dashed}
+  .btn{border:1.3px solid var(--ink);border-radius:16px;padding:4px 10px;font-size:10px;display:inline-block;text-align:center}
+  .btn.solid{background:var(--ink);color:#fff}
+  .btn.full{display:block}
+  .ic{width:19px;height:19px;border:1.2px solid var(--line);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)}
+  .icrow{display:flex;gap:8px;align-items:center}
+  .dv{height:1px;background:var(--soft);margin:9px 0}
+  .thumb{width:100%;height:60px;border-radius:8px;background:repeating-linear-gradient(45deg,#e4e8ec,#e4e8ec 7px,#edf0f3 7px,#edf0f3 14px);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:11px;margin-bottom:7px}
+  .thumb.sq{width:46px;height:46px;flex:0 0 auto;margin:0}
+  .rowflex{display:flex;justify-content:space-between;align-items:center}
+  .sechd{font-size:12px;font-weight:700;margin:2px 0 8px}
+
+  .spec{display:flex;height:8px;border-radius:5px;overflow:hidden}
+  .spec.tall{height:13px;border-radius:7px;border:1px solid var(--soft)}
+  .spec span{display:block}
+  .spec .a{background:#aeb8c2}.spec .b{background:#cdd3d9}.spec .c{background:#8d96a0}
+  .leg{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px}
+  .axis{position:relative;height:6px;background:linear-gradient(90deg,#aeb8c2,#e4e8ec,#8d96a0);border-radius:4px;margin:8px 0 4px}
+  .axis i{position:absolute;top:-3px;width:11px;height:11px;border-radius:50%;border:2px solid var(--ink);background:#fff;transform:translateX(-50%)}
+  .pillrow{display:flex;gap:5px}
+  .pillrow span{flex:1;text-align:center;font-size:9px;padding:3px 0;border-radius:6px;color:#3a3f44;white-space:nowrap}
+  .pillrow .a{background:#bcc4cc}.pillrow .b{background:#d8dde2}.pillrow .c{background:#a3abb4}
+  .dotg{display:flex;flex-wrap:wrap;gap:2px}
+  .dotg i{width:7px;height:7px;border-radius:50%}
+  .dotg i.a{background:#aeb8c2}.dotg i.b{background:#cdd3d9}.dotg i.c{background:#8d96a0}
+  .cols3{display:flex;gap:5px}
+  .cols3 .b{flex:1;margin:0;text-align:center;padding:7px}
+
+  .hs{display:flex;gap:7px;overflow-x:auto;padding-bottom:5px}
+  .op{flex:0 0 80%;border:1px solid var(--soft);border-radius:10px;padding:10px;background:#fff}
+  .op.peek{flex:0 0 12%;background:var(--softer);border-style:dashed}
+  .dots{display:flex;gap:5px;justify-content:center;margin-top:6px}
+  .dots i{width:6px;height:6px;border-radius:50%;background:var(--soft)}
+  .dots i.on{background:var(--ink)}
+  .quote{border-left:3px solid var(--line);background:var(--softer);padding:6px 8px;border-radius:4px;margin-top:7px}
+
+  .seg{display:flex;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:10px}
+  .seg span{flex:1;text-align:center;font-size:10.5px;padding:5px 0;color:var(--muted)}
+  .seg span.on{background:var(--ink);color:#fff;font-weight:700}
+  .topics{display:flex;gap:5px;overflow-x:auto;margin-bottom:11px}
+  .tabs{display:flex;gap:12px;border-bottom:1px solid var(--soft);margin-bottom:10px;overflow-x:auto}
+  .tabs span{font-size:10.5px;padding:6px 0;color:var(--muted);white-space:nowrap}
+  .tabs span.on{color:var(--ink);font-weight:700;border-bottom:2px solid var(--ink)}
+  .anchors{display:flex;gap:5px;overflow-x:auto;margin-bottom:9px}
+  .tldr{border:1.4px solid var(--ink);border-radius:10px;padding:11px;margin-bottom:10px;background:#fff}
+
+  .tl{padding-left:13px;border-left:2px solid var(--soft)}
+  .tl .ev{position:relative;margin-bottom:9px}
+  .tl .ev::before{content:"";position:absolute;left:-18px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--line)}
+  .htl{display:flex;gap:7px;overflow-x:auto}
+  .htl .ev{flex:0 0 42%;border:1px solid var(--soft);border-radius:8px;padding:7px;background:#fff}
+
+  .tabbar{display:flex;justify-content:space-around;border-top:1px solid var(--soft);padding:7px 0 3px;background:#fff;position:sticky;bottom:0}
+  .tabbar .t{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:8.5px;color:var(--faint)}
+  .tabbar .t .ic{width:20px;height:20px;border-radius:6px;border-color:var(--soft)}
+  .tabbar .t.on{color:var(--ink);font-weight:700}
+  .tabbar .t.on .ic{border-color:var(--ink);background:var(--fill)}
+  .emptyst{border:1.3px dashed var(--line);border-radius:10px;text-align:center;padding:22px 12px}
+
+  /* reference (static) */
+  .ref{margin-top:40px;border-top:1px solid var(--soft);padding-top:10px}
+  details{background:var(--surface);border:1px solid var(--soft);border-radius:14px;padding:4px 18px;margin-bottom:12px;box-shadow:var(--shadow)}
+  summary{cursor:pointer;font-size:14.5px;font-weight:700;padding:12px 0;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸ ";color:var(--faint)}
+  details[open] summary::before{content:"▾ "}
+  .refbody{padding:4px 0 16px;font-size:13px;color:#3a3f44}
+  .refbody .flowrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .ckwrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .ckcol h4{font-size:13px;margin-bottom:8px}
+  .ckcol ul{list-style:none}
+  .ckcol li{font-size:12px;padding:4px 0 4px 20px;position:relative}
+  .ckcol.ok li::before{content:"✓";position:absolute;left:0;color:var(--reco);font-weight:700}
+  .ckcol.td li::before{content:"○";position:absolute;left:0;color:var(--warn);font-weight:700}
+  @media(max-width:640px){.ckwrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Ours 議題頁提案</h1>
+  <p class="lead">整份提案做成可即時切換：右邊選元件提案，左邊手機馬上組出效果。比文字說明更直觀。</p>
+
+  <div class="ptoggle">
+    <button data-page="list" class="on">探索</button>
+    <button data-page="detail">議題</button>
+  </div>
+
+  <!-- ===================== LIST STAGE ===================== -->
+  <div class="stage" id="stage-list">
+    <div class="layout">
+      <div class="preview">
+        <div class="phone"><div class="nb"></div><div class="screen" id="screen-list"></div>
+          <div class="tabbar"><div class="t"><span class="ic"></span>首頁</div><div class="t on"><span class="ic"></span>探索</div><div class="t"><span class="ic"></span>搜尋</div><div class="t"><span class="ic"></span>我</div></div>
+        </div>
+        <div class="combo-tag" id="tag-list"></div>
+      </div>
+      <div class="controls">
+        <div class="actions"><button class="act solid" data-preset="list-reco">套用推薦組合</button></div>
+        <div class="grp"><h3>議題卡版型</h3><div class="gh-note">卡片版面與資訊密度</div><div class="opts" data-dim="card"></div><div class="pcnote" id="note-card"></div></div>
+        <div class="grp" id="grp-spec"><h3>觀點光譜縮影畫法</h3><div class="gh-note">卡片裡那條「分歧縮影」怎麼畫</div><div class="opts" data-dim="spec"></div><div class="pcnote" id="note-spec"></div></div>
+        <div class="grp"><h3>分區 / 導覽</h3><div class="gh-note">頁面怎麼分區與切換</div><div class="opts" data-dim="nav"></div><div class="pcnote" id="note-nav"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== DETAIL STAGE ===================== -->
+  <div class="stage hidden" id="stage-detail">
+    <div class="layout">
+      <div class="preview">
+        <div class="phone"><div class="nb"></div><div class="screen" id="screen-detail"></div>
+          <div class="tabbar"><div class="t"><span class="ic"></span>首頁</div><div class="t on"><span class="ic"></span>探索</div><div class="t"><span class="ic"></span>搜尋</div><div class="t"><span class="ic"></span>我</div></div>
+        </div>
+        <div class="combo-tag" id="tag-detail"></div>
+      </div>
+      <div class="controls">
+        <div class="actions"><button class="act solid" data-preset="detail-reco">套用推薦組合</button></div>
+        <div class="grp"><h3>整頁結構</h3><div class="gh-note">9 區塊怎麼裝下不嫌長</div><div class="opts" data-dim="struct"></div><div class="pcnote" id="note-struct"></div></div>
+        <div class="grp"><h3>「共同在乎的事」元件</h3><div class="gh-note">跨立場共識怎麼呈現</div><div class="opts" data-dim="consensus"></div><div class="pcnote" id="note-consensus"></div></div>
+        <div class="grp"><h3>觀點光譜元件</h3><div class="gh-note">詳情頁的整體分布</div><div class="opts" data-dim="dspec"></div><div class="pcnote" id="note-dspec"></div></div>
+        <div class="grp"><h3>opinion 呈現方向</h3><div class="gh-note">最多 3 種觀點怎麼排（含空狀態）</div><div class="opts" data-dim="opinion"></div><div class="pcnote" id="note-opinion"></div></div>
+        <div class="grp" id="grp-opcard"><h3>opinion 觀點卡「卡內結構」</h3><div class="gh-note">每張觀點卡裡放什麼</div><div class="opts" data-dim="opcard"></div><div class="pcnote" id="note-opcard"></div></div>
+        <div class="grp"><h3>議題時間序元件</h3><div class="gh-note">事件怎麼發展</div><div class="opts" data-dim="timeline"></div><div class="pcnote" id="note-timeline"></div></div>
+        <div class="grp"><h3>新聞來源 — 可信度呈現</h3><div class="gh-note">每個來源的品質/查核資訊怎麼標（呼應憲法：AI 非裁判）</div><div class="opts" data-dim="source"></div><div class="pcnote" id="note-source"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 參考（靜態） ===================== -->
+  <div class="ref">
+    <details>
+      <summary>使用流程（3 進入點）</summary>
+      <div class="refbody">
+        <div class="flowrow"><span class="chip on">① 探索 Tab</span>→<span class="chip">探索</span>→<span class="chip">議題</span></div>
+        <div class="flowrow"><span class="chip">② 貼文/新聞「屬於 ×× 議題」chip</span>→<span class="chip dash">議題</span></div>
+        <div class="flowrow"><span class="chip">③ 搜尋/追蹤通知</span>→<span class="chip dash">議題</span></div>
+        <div style="margin-top:6px"><span class="x s b">這次不做（後續）：</span> <span class="chip" style="color:var(--warn);background:var(--warn-bg);border-color:#e2b6b6">完整討論串</span><span class="chip" style="color:var(--warn);background:var(--warn-bg);border-color:#e2b6b6">滑卡共識區</span><span class="chip" style="color:var(--warn);background:var(--warn-bg);border-color:#e2b6b6">@Ours 介入</span></div>
+      </div>
+    </details>
+    <details>
+      <summary>輕互動標註</summary>
+      <div class="refbody">
+        <p>· <b>追蹤</b>：列表卡/標題區「＋追蹤」→ 有新進展推通知　· <b>收藏</b>：頂部 ⭐ → 存「我」的收藏</p>
+        <p>· <b>分享</b>：頂部 ↗ → 分享卡（帶光譜縮影）　· <b>投有幫助</b>：opinion 卡 👍 → 餵橋接式排序</p>
+        <p>· <b>點來源導流</b>：來源 ↗ → 出站原文，記錄導流回饋媒體</p>
+      </div>
+    </details>
+    <details>
+      <summary>規則對齊 ✓／待團隊討論 ○</summary>
+      <div class="refbody"><div class="ckwrap">
+        <div class="ckcol ok"><h4>✓ 已對齊</h4><ul>
+          <li>有聲量才進議題頁</li><li>新聞只摘事實</li><li>新聞＋使用者才摘 opinion（有空狀態）</li>
+          <li>觀點最多 3 種、可看來源</li><li>先共識後分歧（捲動順序）</li><li>光譜輕量、強調非評判單一媒體</li><li>議題獨立 Tab，不混首頁瀑布流</li>
+        </ul></div>
+        <div class="ckcol td"><h4>○ 待團隊定</h4><ul>
+          <li>熱度演算法（誰進議題頁、排序）</li><li>「最新議題」定義</li><li>新聞品質評估呈現</li><li>「有幫助」如何餵橋接式排序</li>
+        </ul></div>
+      </div></div>
+    </details>
+  </div>
+</div>
+
+<script>
+const OPT = {
+  // --- list ---
+  card:[
+    {id:'standard',ltr:'A',name:'標準卡',reco:1,p:'資訊均衡、光譜一眼懂',c:'密度中等'},
+    {id:'bigimg',ltr:'B',name:'大圖卡',p:'吸睛、像新聞 App',c:'占空間；未必有代表圖'},
+    {id:'compact',ltr:'C',name:'精簡列',reco:1,recoText:'推薦·最新區',p:'密度高、好掃描',c:'光譜縮太小'},
+    {id:'stat',ltr:'D',name:'數字摘要卡',p:'凸顯跨來源聚合',c:'少了分歧感'},
+  ],
+  spec:[
+    {id:'bar',ltr:'A',name:'分布條',reco:1,p:'最直覺、占空間小',c:''},
+    {id:'pill',ltr:'B',name:'三色標籤',p:'帶文字最清楚',c:'較占寬、命名要中性'},
+    {id:'dots',ltr:'C',name:'點陣密度',p:'表達人數分布',c:'縮小後難讀'},
+    {id:'axis',ltr:'D',name:'光譜軸',warn:1,p:'有連續光譜感',c:'易被讀成政治左右',warnText:'⚠ 違背「AI 非評判」，慎用'},
+  ],
+  nav:[
+    {id:'scroll',ltr:'A',name:'純捲動分區',reco:1,recoText:'推薦·首版',p:'簡單、好做',c:'找特定分區要捲'},
+    {id:'segment',ltr:'B',name:'頂部切換+篩選',p:'切換快、好加分類',c:'頂部變重、一次看一種'},
+  ],
+  // --- detail ---
+  struct:[
+    {id:'scroll',ltr:'A',name:'純長捲動+錨點',reco:1,p:'最忠於「先共識後分歧」敘事',c:'總長度長，靠錨點補'},
+    {id:'tldr',ltr:'B',name:'TL;DR 摘要卡',p:'頂部就懂全貌',c:'摺疊削弱敘事；摘要卡成本高'},
+    {id:'tab',ltr:'C',name:'分頁 Tab',warn:1,p:'每頁短、切換明確',c:'把共識/分歧拆開',warnText:'⚠ 破壞靈魂順序，不建議'},
+  ],
+  consensus:[
+    {id:'chips',ltr:'A',name:'共識 chips',reco:1,p:'輕、掃過即懂',c:''},
+    {id:'cards',ltr:'B',name:'共識卡（帶說明）',p:'每點有說明、更有說服力',c:'較長'},
+    {id:'banner',ltr:'C',name:'共識橫幅',p:'情緒上強化「先共識」',c:'顏色重，低擬真先別定調'},
+  ],
+  dspec:[
+    {id:'bar',ltr:'A',name:'分布條+鑽取',reco:1,p:'與列表一致、可點看來源',c:''},
+    {id:'cols',ltr:'B',name:'三欄並列',p:'對齊 3 觀點、整齊',c:'少了一條光譜分布感'},
+    {id:'axis',ltr:'C',name:'連續光譜軸',warn:1,p:'最有連續光譜視覺',c:'最易被讀成政治左右',warnText:'⚠ 與「非評判」衝突，慎用'},
+  ],
+  opinion:[
+    {id:'cardA',ltr:'A',name:'橫向卡片',reco:1,p:'省空間、切換清楚、符合「最多 3 種」',c:'一次看一種、需滑'},
+    {id:'cardB',ltr:'B',name:'直向堆疊',p:'一次看全、不需滑',c:'頁面拉很長、削弱並列'},
+    {id:'empty',ltr:'C',name:'空狀態（尚無）',p:'新議題必畫，避免看起來壞掉',c:'—'},
+  ],
+  opcard:[
+    {id:'expand',ltr:'A',name:'摘要+展開來源',reco:1,p:'摘要先行、可溯源',c:''},
+    {id:'quote',ltr:'B',name:'摘要+代表引文',p:'有真人語氣、更可信',c:'選哪句＝編輯判斷'},
+    {id:'vote',ltr:'C',name:'摘要+投有幫助',p:'互動埋點明確',c:'怕變相按讚比聲量'},
+  ],
+  timeline:[
+    {id:'vertical',ltr:'A',name:'直向 timeline',reco:1,p:'閱讀順、可放很多事件',c:''},
+    {id:'horizontal',ltr:'B',name:'橫向捲動卡',p:'省垂直空間、有推進感',c:'事件多要一直滑'},
+  ],
+  source:[
+    {id:'tags',ltr:'A',name:'描述式品質標籤',reco:1,p:'標屬性（原創/出處/已查核），不打分、不評判媒體優劣',c:'要先定義標籤規則'},
+    {id:'check',ltr:'B',name:'查核狀態',p:'聚焦事實查核結果（已查核/爭議/待查），對齊 Cofacts',c:'只看查核、不涵蓋媒體品質'},
+    {id:'panel',ltr:'C',name:'透明資訊展開',reco:1,recoText:'推薦·深層',p:'點開看「營養標示」（出處/原創/更新/更正），讓使用者自己判斷',c:'多一層互動'},
+    {id:'grade',ltr:'D',name:'單一可信度評分',warn:1,p:'最一眼（高/中/待查徽章）',c:'最接近「AI 當裁判」',warnText:'⚠ 易被當成評判媒體優劣，與憲法衝突，慎用'},
+  ],
+};
+
+let S = {
+  page:'list',
+  card:'standard', spec:'bar', nav:'scroll',
+  struct:'scroll', consensus:'chips', dspec:'bar', opinion:'cardA', opcard:'expand', timeline:'vertical', source:'tags',
+};
+
+/* ---------- 光譜（列表縮影 4 種 / 詳情 3 種） ---------- */
+function listSpec(kind,compact){
+  if(kind==='bar') return `<div class="spec"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div>`+(compact?'':`<div class="leg"><span>觀點 A</span><span>B</span><span>C</span></div>`);
+  if(kind==='pill') return `<div class="pillrow"><span class="a">支持 50%</span><span class="b">中立 30%</span><span class="c">反對 20%</span></div>`;
+  if(kind==='dots'){let d='';for(let i=0;i<5;i++)d+='<i class="a"></i>';for(let i=0;i<3;i++)d+='<i class="b"></i>';for(let i=0;i<2;i++)d+='<i class="c"></i>';return `<div class="dotg">${d}</div>`;}
+  if(kind==='axis') return `<div class="axis"><i style="left:30%"></i><i style="left:55%"></i><i style="left:80%"></i></div>`+(compact?'':`<div class="leg"><span>一端</span><span>另一端</span></div>`);
+}
+function detailSpec(kind){
+  if(kind==='bar') return `<div class="spec tall"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div><div class="leg"><span>觀點 A 50%</span><span>B 30%</span><span>C 20%</span></div><div class="x s" style="margin-top:5px">點任一段 → 看該觀點來源</div>`;
+  if(kind==='cols') return `<div class="cols3"><div class="b flat"><div class="x b">A</div><div class="x s">50%</div></div><div class="b flat"><div class="x b">B</div><div class="x s">30%</div></div><div class="b flat"><div class="x b">C</div><div class="x s">20%</div></div></div>`;
+  if(kind==='axis') return `<div class="axis"><i style="left:28%"></i><i style="left:52%"></i><i style="left:78%"></i></div><div class="leg"><span>立場一端</span><span>另一端</span></div>`;
+}
+
+/* ---------- 列表卡 ---------- */
+const CARDS=[{tw:'90%',vol:'1.2k',time:'2 小時前',src:18},{tw:'70%',vol:'860',time:'5 小時前',src:12},{tw:'80%',vol:'540',time:'1 天前',src:9},{tw:'62%',vol:'320',time:'剛剛',src:6}];
+function listCard(d){
+  const sp=listSpec(S.spec,false);
+  if(S.card==='standard') return `<div class="b"><div class="tt" style="width:${d.tw}"></div><div class="x s" style="margin-bottom:8px">議題標題（可 1–2 行）</div>${sp}<div class="dv"></div><div class="rowflex"><span class="x s">📊 ${d.vol} · ${d.time}</span><span class="btn">＋追蹤</span></div></div>`;
+  if(S.card==='bigimg') return `<div class="b"><div class="thumb">事件代表圖</div><div class="tt" style="width:${d.tw}"></div><div style="margin-top:7px">${sp}</div><div class="rowflex" style="margin-top:8px"><span class="x s">📊 ${d.vol} · ${d.time}</span><span class="btn">＋追蹤</span></div></div>`;
+  if(S.card==='compact') return `<div class="b" style="padding:8px"><div style="display:flex;gap:9px;align-items:center"><div class="thumb sq">圖</div><div style="flex:1;min-width:0"><div class="tt" style="width:${d.tw};margin-bottom:5px"></div>${listSpec(S.spec,true)}<div class="x s" style="margin-top:4px">📊 ${d.vol} · ${d.time}</div></div><span class="ic">＋</span></div></div>`;
+  if(S.card==='stat') return `<div class="b"><div class="tt" style="width:${d.tw}"></div><div class="x s" style="margin-bottom:7px">議題標題</div><div style="display:flex;gap:6px;margin-bottom:8px"><div class="b flat" style="flex:1;margin:0;text-align:center;padding:6px"><div class="x b">3</div><div class="x s">觀點</div></div><div class="b flat" style="flex:1;margin:0;text-align:center;padding:6px"><div class="x b">${d.src}</div><div class="x s">來源</div></div><div class="b flat" style="flex:1;margin:0;text-align:center;padding:6px"><div class="x b">${d.vol}</div><div class="x s">聲量</div></div></div><span class="btn full">＋追蹤</span></div>`;
+}
+function renderList(){
+  const head=`<div class="rowflex" style="margin-bottom:12px"><div class="x b" style="font-size:16px">議題</div><div class="icrow"><span class="ic">🔍</span><span class="ic">🔔</span></div></div>`;
+  let body;
+  if(S.nav==='scroll') body=`<div class="sechd">🔥 熱門議題</div>${listCard(CARDS[0])}${listCard(CARDS[1])}<div class="sechd" style="margin-top:14px">✨ 你可能感興趣</div>${listCard(CARDS[2])}<div class="sechd" style="margin-top:14px">🆕 最新 <span class="chip dash" style="font-size:9px">排序待團隊定</span></div>${listCard(CARDS[3])}`;
+  else body=`<div class="seg"><span class="on">熱門</span><span>感興趣</span><span>最新</span></div><div class="topics"><span class="chip on">全部</span><span class="chip">政治</span><span class="chip">環境</span><span class="chip">社會</span><span class="chip">科技</span></div>${listCard(CARDS[0])}${listCard(CARDS[1])}${listCard(CARDS[2])}`;
+  document.getElementById('screen-list').innerHTML=head+body;
+  document.getElementById('grp-spec').classList.toggle('dim',S.card==='stat');
+  document.getElementById('tag-list').innerHTML=`目前組合：<b>${nm('card')}</b> · <b>${nm('spec')}</b> · <b>${nm('nav')}</b>`;
+}
+
+/* ---------- 詳情頁區塊 ---------- */
+function consensusHTML(){
+  if(S.consensus==='chips') return `<span class="chip">共識 A</span><span class="chip">共識 B</span><span class="chip">共識 C</span>`;
+  if(S.consensus==='cards') return `<div class="b flat" style="margin:0 0 6px"><div class="x b">大家都在乎 A</div><div class="ln w75"></div></div><div class="b flat" style="margin:0"><div class="x b">大家都在乎 B</div><div class="ln w60"></div></div>`;
+  if(S.consensus==='banner') return `<div class="b" style="margin:0;background:var(--reco-bg);border-color:#bfe0cd"><div class="x b" style="color:var(--reco)">✓ 不分立場，大家都同意</div><div class="ln w90"></div></div>`;
+}
+function opcardInner(){
+  if(S.opcard==='quote') return `<div class="x b">觀點 A · 支持</div><div class="ln w90"></div><div class="quote"><div class="x s">「代表性的一句使用者原話…」</div></div><div class="btn full" style="margin-top:7px">看更多來源 ▾</div>`;
+  if(S.opcard==='vote') return `<div class="x b">觀點 A · 支持</div><div class="ln w90"></div><div class="ln w45"></div><div class="dv"></div><div class="rowflex"><span class="btn">👍 有幫助 23</span><span class="x s">展開 ▾</span></div>`;
+  return `<div class="x b">觀點 A · 支持</div><div class="ln w90"></div><div class="ln w60"></div><div class="dv"></div><div class="x s">📰 12 則討論 / 4 來源</div><div class="btn full" style="margin-top:7px">展開看來源 ▾</div>`;
+}
+function opinionHTML(){
+  if(S.opinion==='empty') return `<div class="emptyst"><div style="font-size:26px;margin-bottom:6px">💬</div><div class="x b" style="margin-bottom:5px">議題還在發酵中</div><div class="x s" style="margin-bottom:12px">已有事實，還沒足夠討論可摘要。等大家開始討論，AI 會整理觀點。</div><span class="btn solid">＋追蹤，有觀點時通知我</span></div>`;
+  if(S.opinion==='cardB') return `<div class="b" style="margin:0 0 6px">${opcardInner()}</div><div class="b" style="margin:0 0 6px"><div class="x b">觀點 B · 中立　▸</div></div><div class="b" style="margin:0"><div class="x b">觀點 C · 反對　▸</div></div>`;
+  // cardA 橫滑
+  return `<div class="hs"><div class="op">${opcardInner()}</div><div class="op peek"></div></div><div class="dots"><i class="on"></i><i></i><i></i></div>`;
+}
+function timelineHTML(){
+  if(S.timeline==='horizontal') return `<div class="htl"><div class="ev"><div class="x s b">6/20</div><div class="ln w90"></div></div><div class="ev"><div class="x s b">6/21</div><div class="ln w75"></div></div><div class="ev"><div class="x s b">6/23</div><div class="ln w60"></div></div></div>`;
+  return `<div class="tl"><div class="ev"><div class="x s">6/20</div><div class="ln w75"></div></div><div class="ev"><div class="x s">6/21</div><div class="ln w60"></div></div><div class="ev"><div class="x s">6/23</div><div class="ln w45"></div></div></div>`;
+}
+function sourceHTML(){
+  const head=`<div class="l"><span class="n">6</span>新聞來源 <span class="chip" style="font-size:8.5px">含可信度</span></div>`;
+  const disc=`<div class="x s" style="margin-top:9px;color:var(--faint)">ⓘ 可信度為輔助資訊，標屬性與查核狀態，非評判媒體優劣</div>`;
+  let rows='';
+  if(S.source==='tags'){
+    rows=`<div style="margin-bottom:8px"><div class="rowflex"><span class="x">📰 來源媒體 A</span><span class="x s">↗ 導流</span></div><div style="margin-top:5px"><span class="chip">原創報導</span><span class="chip">附一手出處</span><span class="chip" style="color:#356b48">✓ 已查核</span></div></div>`
+       +`<div class="dv"></div>`
+       +`<div><div class="rowflex"><span class="x">📰 來源媒體 B</span><span class="x s">↗ 導流</span></div><div style="margin-top:5px"><span class="chip">轉載</span><span class="chip">附出處</span></div></div>`;
+  } else if(S.source==='check'){
+    rows=`<div class="rowflex"><span class="x">📰 來源媒體 A</span><span class="x s" style="color:#356b48">✓ 已查核</span></div>`
+       +`<div class="dv"></div><div class="rowflex"><span class="x">📰 來源媒體 B</span><span class="x s" style="color:#9a6a2f">⚠ 部分爭議</span></div>`
+       +`<div class="dv"></div><div class="rowflex"><span class="x">📰 來源媒體 C</span><span class="x s">⏳ 待查</span></div>`;
+  } else if(S.source==='panel'){
+    rows=`<div class="rowflex"><span class="x">📰 來源媒體 A</span><span class="btn">品質資訊 ▾</span></div>`
+       +`<div class="b flat" style="margin:7px 0 0">`
+       +`<div class="rowflex"><span class="x s">原創報導</span><span class="x s b">是</span></div>`
+       +`<div class="rowflex" style="margin-top:3px"><span class="x s">一手出處</span><span class="x s b">有</span></div>`
+       +`<div class="rowflex" style="margin-top:3px"><span class="x s">更新時間</span><span class="x s b">2 小時前</span></div>`
+       +`<div class="rowflex" style="margin-top:3px"><span class="x s">媒體類型</span><span class="x s b">公共媒體</span></div>`
+       +`<div class="rowflex" style="margin-top:3px"><span class="x s">更正紀錄</span><span class="x s b">無</span></div></div>`
+       +`<div class="dv"></div><div class="rowflex"><span class="x">📰 來源媒體 B</span><span class="btn">品質資訊 ▾</span></div>`;
+  } else { // grade
+    rows=`<div class="rowflex"><span class="x">📰 來源媒體 A</span><span><span class="chip" style="border-color:var(--ink)">🛡 高可信</span><span class="x s">↗</span></span></div>`
+       +`<div class="dv"></div><div class="rowflex"><span class="x">📰 來源媒體 B</span><span><span class="chip">🛡 中 · 待補出處</span><span class="x s">↗</span></span></div>`;
+  }
+  return head+rows+disc;
+}
+function blocks(){
+  return `
+  <div class="b"><div class="l"><span class="n">2</span>新聞事實摘要 facts <span class="chip" style="font-size:8.5px">先放</span></div><div class="ln w90"></div><div class="ln w75"></div><div class="ln w60"></div></div>
+  <div class="b"><div class="l"><span class="n">3</span>共同在乎的事</div>${consensusHTML()}</div>
+  <div class="b"><div class="l"><span class="n">4</span>觀點光譜 <span class="chip" style="font-size:8.5px">整體分布</span></div>${detailSpec(S.dspec)}</div>
+  <div class="b"><div class="l"><span class="n">5</span>意見摘要 opinion <span class="chip" style="font-size:8.5px">最多 3 種</span></div>${opinionHTML()}</div>
+  <div class="b">${sourceHTML()}</div>
+  <div class="b"><div class="l"><span class="n">7</span>議題時間序</div>${timelineHTML()}</div>
+  <div class="b flat"><div class="l"><span class="n">8</span>熱門文章 / 討論入口</div><div class="ln w90"></div></div>
+  <div class="b flat"><div class="l"><span class="n">9</span>猜你喜歡（相關議題）</div><div style="display:flex;gap:7px"><div class="b" style="flex:1;margin:0"><div class="ln w90"></div></div><div class="b" style="flex:1;margin:0"><div class="ln w75"></div></div></div></div>`;
+}
+function renderDetail(){
+  const title=`<div class="b"><div class="tt" style="width:92%"></div><div class="tt" style="width:58%"></div><div class="rowflex" style="margin-top:8px"><span class="x s">📊 1.2k · 更新 2 小時前</span><span class="btn solid">＋追蹤</span></div></div>`;
+  let top='';
+  if(S.struct==='scroll') top=`<div class="anchors"><span class="chip on">事實</span><span class="chip">共識</span><span class="chip">光譜</span><span class="chip">觀點</span><span class="chip">來源</span><span class="chip">時間序</span></div>`;
+  else if(S.struct==='tldr') top=`<div class="tldr"><div class="x b" style="margin-bottom:4px">⚡ 30 秒看懂</div><div class="ln w90"></div><div class="ln w75"></div><div style="margin-top:8px">${detailSpec('bar')}</div></div><div class="x s" style="margin:-2px 0 9px">↓ 以下可展開全部區塊</div>`;
+  else top=`<div class="tabs"><span class="on">事實/共識</span><span>觀點</span><span>來源</span><span>時間序</span></div><div class="x s" style="margin:-4px 0 9px">（配置器列出全部區塊以便比較元件）</div>`;
+  document.getElementById('screen-detail').innerHTML=title+top+blocks();
+  document.getElementById('grp-opcard').classList.toggle('dim',S.opinion==='empty');
+  document.getElementById('tag-detail').innerHTML=`結構 <b>${nm('struct')}</b> · 共識 <b>${nm('consensus')}</b> · 光譜 <b>${nm('dspec')}</b> · opinion <b>${nm('opinion')}</b>${S.opinion==='empty'?'':' / '+'<b>'+nm('opcard')+'</b>'} · 時間序 <b>${nm('timeline')}</b> · 來源 <b>${nm('source')}</b>`;
+}
+
+function nm(dim){return OPT[dim].find(o=>o.id===S[dim]).name;}
+
+/* ---------- 控制面板 ---------- */
+function renderControls(){
+  document.querySelectorAll('.opts').forEach(box=>{
+    const dim=box.dataset.dim;
+    box.innerHTML=OPT[dim].map(o=>{
+      const on=S[dim]===o.id?' on':'';
+      const flag=o.reco?`<span class="reco-flag">${o.recoText||'推薦'}</span>`:(o.warn?`<span class="warn-flag">慎用</span>`:'');
+      return `<div class="opt${on}" data-dim="${dim}" data-id="${o.id}"><span class="ltr">${o.ltr}</span>${o.name}${flag}</div>`;
+    }).join('');
+    const sel=OPT[dim].find(o=>o.id===S[dim]);
+    const note=document.getElementById('note-'+dim);
+    if(note) note.innerHTML=`<span class="p">${sel.p}</span>${sel.c&&sel.c!=='—'&&sel.c!==''?`<span class="c">${sel.c}</span>`:''}${sel.warnText?`<span class="warn">${sel.warnText}</span>`:''}`;
+  });
+}
+function render(){renderControls();renderList();renderDetail();}
+
+document.addEventListener('click',e=>{
+  const opt=e.target.closest('.opt');
+  if(opt){S[opt.dataset.dim]=opt.dataset.id;render();return;}
+  const pg=e.target.closest('[data-page]');
+  if(pg){
+    S.page=pg.dataset.page;
+    document.querySelectorAll('.ptoggle button').forEach(b=>b.classList.toggle('on',b.dataset.page===S.page));
+    document.getElementById('stage-list').classList.toggle('hidden',S.page!=='list');
+    document.getElementById('stage-detail').classList.toggle('hidden',S.page!=='detail');
+    return;
+  }
+  const ps=e.target.closest('[data-preset]');
+  if(ps){
+    if(ps.dataset.preset==='list-reco') Object.assign(S,{card:'standard',spec:'bar',nav:'scroll'});
+    else Object.assign(S,{struct:'scroll',consensus:'chips',dspec:'bar',opinion:'cardA',opcard:'expand',timeline:'vertical',source:'tags'});
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>

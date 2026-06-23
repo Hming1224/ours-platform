@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ours 議題頁 — 設計提案</title>
+<style>
+  :root{
+    --ink:#1f2328; --muted:#6b7280; --faint:#9aa1a9;
+    --bg:#f4f5f7; --surface:#ffffff; --soft:#e6e9ed; --softer:#f0f2f5;
+    --line:#c2c8cf; --fill:#e4e8ec; --fill-2:#eef1f4;
+    --reco:#2f8f5b; --reco-bg:#e8f4ed;
+    --note:#7a5cff; --note-bg:#f0ecff;
+    --warn:#c75c5c; --warn-bg:#fbeded;
+    --shadow:0 4px 16px rgba(20,24,30,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 28px}
+
+  /* header */
+  header{padding:54px 0 22px}
+  header h1{font-size:30px;letter-spacing:-.5px;margin-bottom:6px}
+  header p{color:var(--muted);font-size:15px}
+
+  /* sticky nav */
+  nav{position:sticky;top:0;z-index:20;background:rgba(244,245,247,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--soft);margin-bottom:8px}
+  nav .wrap{display:flex;gap:8px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+  nav a{font-size:13px;color:var(--muted);text-decoration:none;padding:6px 13px;border-radius:20px;border:1px solid transparent;transition:.15s}
+  nav a:hover{color:var(--ink);background:var(--surface);border-color:var(--soft)}
+
+  /* section */
+  section{padding:40px 0}
+  .sechd{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .sechd .num{font-size:13px;font-weight:700;color:var(--reco);letter-spacing:1px}
+  .sechd h2{font-size:23px;letter-spacing:-.3px}
+  .secsub{color:var(--muted);font-size:14px;max-width:760px;margin-bottom:30px}
+
+  /* recommended hero block */
+  .hero{display:flex;gap:34px;align-items:flex-start;flex-wrap:wrap}
+  .hero .why{flex:1;min-width:240px}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--reco);background:var(--reco-bg);padding:4px 11px;border-radius:20px;margin-bottom:14px}
+  .badge::before{content:"★";font-size:11px}
+  .why h3{font-size:16px;margin-bottom:14px}
+  .why .pt{display:flex;gap:11px;margin-bottom:13px}
+  .why .pt .k{flex:0 0 26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .why .pt .v{font-size:13.5px;color:#3a3f44}
+  .why .pt .v b{color:var(--ink)}
+
+  /* phone */
+  .phone{width:284px;background:var(--surface);border:8px solid #2a2e33;border-radius:34px;overflow:hidden;flex:0 0 auto;box-shadow:var(--shadow)}
+  .phone .bar{height:18px;background:#2a2e33;position:relative}
+  .phone .bar::after{content:"";position:absolute;left:50%;top:6px;transform:translateX(-50%);width:50px;height:6px;border-radius:5px;background:#54585d}
+  .screen{padding:13px;max-height:600px;overflow-y:auto;background:#fcfcfd}
+  .phone.sm{width:230px}
+  .phone.sm .screen{max-height:430px;padding:10px}
+
+  /* wf primitives */
+  .b{border:1px solid var(--soft);border-radius:10px;padding:11px;margin-bottom:10px;background:#fff}
+  .b.flat{background:var(--softer);border-color:transparent}
+  .b.dash{border-style:dashed;border-color:var(--line)}
+  .l{font-size:11px;font-weight:700;color:#3a3f44;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+  .l .n{display:inline-flex;width:17px;height:17px;border-radius:50%;background:var(--ink);color:#fff;font-size:10px;align-items:center;justify-content:center;flex:0 0 auto}
+  .ln{height:8px;background:var(--fill);border-radius:5px;margin:5px 0}
+  .w95{width:95%}.w90{width:90%}.w75{width:75%}.w60{width:60%}.w45{width:45%}
+  .tt{height:12px;background:var(--line);border-radius:5px;width:82%;margin-bottom:6px}
+  .x{font-size:11.5px;color:#3a3f44}.x.s{font-size:10px;color:var(--muted)}.x.b{font-weight:700}
+  .chip{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:2px 9px;font-size:9.5px;color:#3a3f44;margin:2px 3px 2px 0;background:#fff}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip.dash{border-style:dashed}
+  .btn{border:1.3px solid var(--ink);border-radius:16px;padding:4px 10px;font-size:10px;display:inline-block;text-align:center}
+  .btn.solid{background:var(--ink);color:#fff}
+  .btn.full{display:block}
+  .ic{width:19px;height:19px;border:1.2px solid var(--line);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted)}
+  .icrow{display:flex;gap:8px;align-items:center}
+  .dv{height:1px;background:var(--soft);margin:9px 0}
+  .thumb{width:100%;height:60px;border-radius:8px;background:repeating-linear-gradient(45deg,#e4e8ec,#e4e8ec 7px,#edf0f3 7px,#edf0f3 14px);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:11px;margin-bottom:7px}
+  .thumb.sq{width:46px;height:46px;flex:0 0 auto;margin:0}
+
+  /* 光譜 */
+  .spec{display:flex;height:13px;border-radius:7px;overflow:hidden;border:1px solid var(--soft)}
+  .spec span{display:block}
+  .spec .a{background:#aeb8c2}.spec .b{background:#cdd3d9}.spec .c{background:#8d96a0}
+  .spec.mini{height:7px;border:none}
+  .leg{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:4px}
+  .axis{position:relative;height:6px;background:linear-gradient(90deg,#aeb8c2,#e4e8ec,#8d96a0);border-radius:4px;margin:9px 0 4px}
+  .axis i{position:absolute;top:-3px;width:11px;height:11px;border-radius:50%;border:2px solid var(--ink);background:#fff;transform:translateX(-50%)}
+  .pillrow{display:flex;gap:5px}
+  .pillrow span{flex:1;text-align:center;font-size:9px;padding:3px 0;border-radius:6px;color:#3a3f44}
+  .pillrow .a{background:#bcc4cc}.pillrow .b{background:#d8dde2}.pillrow .c{background:#a3abb4}
+  .dotg{display:flex;flex-wrap:wrap;gap:2px}
+  .dotg i{width:7px;height:7px;border-radius:50%}
+  .dotg i.a{background:#aeb8c2}.dotg i.b{background:#cdd3d9}.dotg i.c{background:#8d96a0}
+
+  /* opinion */
+  .hs{display:flex;gap:7px;overflow-x:auto;padding-bottom:5px}
+  .op{flex:0 0 78%;border:1px solid var(--soft);border-radius:10px;padding:10px;background:#fff}
+  .op.peek{flex:0 0 13%;background:var(--softer);border-style:dashed}
+  .dots{display:flex;gap:5px;justify-content:center;margin-top:6px}
+  .dots i{width:6px;height:6px;border-radius:50%;background:var(--soft)}
+  .dots i.on{background:var(--ink)}
+  .seg{display:flex;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:10px}
+  .seg span{flex:1;text-align:center;font-size:10px;padding:5px 0;color:var(--muted)}
+  .seg span.on{background:var(--ink);color:#fff;font-weight:700}
+  .tabs{display:flex;gap:13px;border-bottom:1px solid var(--soft);margin-bottom:10px}
+  .tabs span{font-size:10.5px;padding:6px 0;color:var(--muted)}
+  .tabs span.on{color:var(--ink);font-weight:700;border-bottom:2px solid var(--ink)}
+  .tl{padding-left:13px;border-left:2px solid var(--soft)}
+  .tl .ev{position:relative;margin-bottom:9px}
+  .tl .ev::before{content:"";position:absolute;left:-18px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--line)}
+  .htl{display:flex;gap:7px;overflow-x:auto}
+  .htl .ev{flex:0 0 40%;border:1px solid var(--soft);border-radius:8px;padding:7px;background:#fff}
+
+  .tabbar{display:flex;justify-content:space-around;border-top:1px solid var(--soft);padding:7px 0 3px;background:#fff;position:sticky;bottom:0}
+  .tabbar .t{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:8.5px;color:var(--faint)}
+  .tabbar .t .ic{width:20px;height:20px;border-radius:6px;border-color:var(--soft)}
+  .tabbar .t.on{color:var(--ink);font-weight:700}
+  .tabbar .t.on .ic{border-color:var(--ink);background:var(--fill)}
+
+  /* variant grid */
+  .alt-h{display:flex;align-items:center;gap:10px;margin:38px 0 4px}
+  .alt-h .tag{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+  .alt-h .line{flex:1;height:1px;background:var(--soft)}
+  .alt-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:16px}
+  .vcard{background:var(--surface);border:1px solid var(--soft);border-radius:14px;padding:14px;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+  .vcard .vh{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:11px}
+  .vcard .vn{font-size:13.5px;font-weight:700}
+  .pin{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap}
+  .pin.r{color:var(--reco);background:var(--reco-bg)}
+  .pin.g{color:var(--muted);background:var(--fill)}
+  .pin.w{color:var(--warn);background:var(--warn-bg)}
+  .vbody{flex:1;margin-bottom:11px}
+  .vpc{font-size:12px;line-height:1.5;border-top:1px solid var(--soft);padding-top:9px}
+  .vpc .p{color:#356b48}.vpc .p::before{content:"＋ ";font-weight:700}
+  .vpc .c{color:#9a4b4b;display:block;margin-top:2px}.vpc .c::before{content:"－ ";font-weight:700}
+
+  /* interaction notes */
+  .inote{background:var(--note-bg);border:1px solid #d9cfff;border-radius:12px;padding:13px 15px;font-size:12.5px}
+  .inote b{color:#5b43cc}
+  .igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px}
+
+  /* combo table */
+  .combo{background:var(--surface);border:1px solid var(--soft);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+  .combo table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .combo th,.combo td{text-align:left;padding:13px 18px;border-bottom:1px solid var(--soft);vertical-align:top}
+  .combo th{background:var(--softer);color:var(--muted);font-size:12px;font-weight:700}
+  .combo tr:last-child td{border-bottom:none}
+  .combo td:nth-child(2){font-weight:700;color:var(--reco)}
+  .combo td:nth-child(3){color:var(--muted);font-size:12.5px}
+
+  /* checklist */
+  .ck{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .ckcard{background:var(--surface);border:1px solid var(--soft);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+  .ckcard h4{font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .ckcard ul{list-style:none}
+  .ckcard li{font-size:12.5px;padding:5px 0 5px 22px;position:relative;color:#3a3f44}
+  .ckcard.ok li::before{content:"✓";position:absolute;left:0;color:var(--reco);font-weight:700}
+  .ckcard.td li::before{content:"○";position:absolute;left:0;color:var(--warn);font-weight:700}
+
+  .foot{padding:40px 0 70px;color:var(--faint);font-size:13px;text-align:center}
+
+  @media(max-width:680px){.ck{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>Ours 議題頁 — 設計提案</h1>
+  <p>手機 App · 低擬真 wireframe · 先共識 → 後分歧 · 2026-06-23</p>
+</div></header>
+
+<nav><div class="wrap">
+  <a href="#flow">使用流程</a>
+  <a href="#list">議題列表頁</a>
+  <a href="#detail">議題詳情頁</a>
+  <a href="#combo">推薦組合</a>
+  <a href="#align">規則對齊</a>
+</div></nav>
+
+<!-- ============ FLOW ============ -->
+<section id="flow"><div class="wrap">
+  <div class="sechd"><span class="num">FLOW</span><h2>使用者怎麼走進議題</h2></div>
+  <p class="secsub">3 條進入點都通往「議題詳情頁」。輕互動（追蹤／收藏／分享／投有幫助／導流）任一頁可觸發。完整討論串、共識區、@Ours 屬「議題討論頁」，這次不做。</p>
+  <div class="combo" style="padding:22px 22px 6px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="chip on" style="font-size:12px;padding:7px 13px">① 議題 Tab（主場）</div>
+        <span style="color:var(--faint)">→</span>
+        <div class="chip" style="font-size:12px;padding:7px 13px;background:var(--softer)">議題列表頁</div>
+        <span style="color:var(--faint)">→</span>
+        <div class="chip" style="font-size:12px;padding:7px 13px;background:var(--softer)">議題詳情頁（單頁長捲動 · 9 區塊）</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="chip" style="font-size:12px;padding:7px 13px;background:#fff">② 貼文／新聞 →「屬於 ×× 議題」chip</div>
+        <span style="color:var(--faint)">→</span>
+        <div class="chip dash" style="font-size:12px;padding:7px 13px">直接進詳情頁</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="chip" style="font-size:12px;padding:7px 13px;background:#fff">③ 搜尋結果／追蹤通知</div>
+        <span style="color:var(--faint)">→</span>
+        <div class="chip dash" style="font-size:12px;padding:7px 13px">直接進詳情頁</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--soft);margin-top:18px;padding:14px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <span class="x s" style="font-weight:700">這次不做（後續）：</span>
+      <span class="chip" style="color:var(--warn);border-color:#e2b6b6;background:var(--warn-bg)">完整留言討論串</span>
+      <span class="chip" style="color:var(--warn);border-color:#e2b6b6;background:var(--warn-bg)">滑卡表態共識區</span>
+      <span class="chip" style="color:var(--warn);border-color:#e2b6b6;background:var(--warn-bg)">@Ours 介入</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ LIST PAGE ============ -->
+<section id="list" style="background:var(--softer)"><div class="wrap">
+  <div class="sechd"><span class="num">PAGE 1</span><h2>議題列表頁</h2></div>
+  <p class="secsub">分區：熱門議題／你可能感興趣／（過渡）最新。議題卡＝標題＋觀點光譜縮影＋聲量/時間＋追蹤鈕。</p>
+
+  <div class="hero">
+    <div class="phone">
+      <div class="bar"></div>
+      <div class="screen">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="x b" style="font-size:16px">議題</div>
+          <div class="icrow"><span class="ic">🔍</span><span class="ic">🔔</span></div>
+        </div>
+        <div class="x b" style="margin:2px 0 8px">🔥 熱門議題</div>
+        <div class="b">
+          <div class="tt" style="width:90%"></div>
+          <div class="x s" style="margin-bottom:8px">議題標題（可 1–2 行）</div>
+          <div class="spec mini"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div>
+          <div class="leg"><span>觀點 A</span><span>B</span><span>C</span></div>
+          <div class="dv"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="x s">📊 1.2k · 2 小時前</span><span class="btn">＋追蹤</span>
+          </div>
+        </div>
+        <div class="b">
+          <div class="tt" style="width:70%"></div>
+          <div class="spec mini" style="margin-top:6px"><span class="a" style="flex:4"></span><span class="b" style="flex:4"></span><span class="c" style="flex:2"></span></div>
+          <div class="leg"><span>A</span><span>B</span><span>C</span></div>
+          <div class="dv"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="x s">📊 860 · 5 小時前</span><span class="btn">＋追蹤</span>
+          </div>
+        </div>
+        <div class="x b" style="margin:14px 0 8px">✨ 你可能感興趣</div>
+        <div class="b flat">
+          <div class="tt" style="width:80%"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+            <span class="x s">📊 540</span><span class="btn">＋追蹤</span>
+          </div>
+        </div>
+        <div class="x b" style="margin:14px 0 6px">🆕 最新 <span class="chip dash" style="font-size:9px">排序待團隊定</span></div>
+        <div class="b dash"><div class="tt" style="width:62%"></div></div>
+      </div>
+      <div class="tabbar">
+        <div class="t"><span class="ic"></span>首頁</div>
+        <div class="t on"><span class="ic"></span>議題</div>
+        <div class="t"><span class="ic"></span>搜尋</div>
+        <div class="t"><span class="ic"></span>我</div>
+      </div>
+    </div>
+
+    <div class="why">
+      <div class="badge">推薦版型</div>
+      <h3>純捲動分區 + 標準議題卡</h3>
+      <div class="pt"><span class="k">1</span><span class="v"><b>標題</b>最重，點整張卡進詳情頁。</span></div>
+      <div class="pt"><span class="k">2</span><span class="v"><b>觀點光譜縮影</b>用輕量分布條，一眼看出「有分歧、大概怎麼分」。</span></div>
+      <div class="pt"><span class="k">3</span><span class="v"><b>聲量 / 時間</b>＝進議題頁的門檻訊號＋新鮮度。</span></div>
+      <div class="pt"><span class="k">4</span><span class="v"><b>追蹤鈕</b>卡上直接可按，不必先進詳情頁。</span></div>
+      <div class="inote" style="margin-top:6px"><b>⚠ 待團隊定</b>：熱度演算法 &「最新」定義 → 排序先用佔位規則，不卡 wireframe。</div>
+    </div>
+  </div>
+
+  <!-- 列表頁變體 -->
+  <div class="alt-h"><span class="tag">其他變體</span><span class="line"></span></div>
+  <p class="alt-sub">同樣資訊、不同密度與畫法。可混用：熱門用重卡、最新用輕列。</p>
+
+  <div class="alt-h" style="margin-top:8px"><span class="tag" style="color:var(--ink)">議題卡版型</span></div>
+  <div class="vgrid">
+    <div class="vcard">
+      <div class="vh"><span class="vn">標準卡</span><span class="pin r">推薦·熱門</span></div>
+      <div class="vbody"><div class="b" style="margin:0"><div class="tt" style="width:88%"></div><div class="spec mini" style="margin-top:4px"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div><div class="dv"></div><div style="display:flex;justify-content:space-between"><span class="x s">📊 1.2k</span><span class="x s">＋追蹤</span></div></div></div>
+      <div class="vpc"><span class="p">資訊均衡、光譜一眼懂</span><span class="c">密度中等，一屏看不多</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">大圖卡</span><span class="pin g">新聞感</span></div>
+      <div class="vbody"><div class="b" style="margin:0"><div class="thumb">事件圖</div><div class="tt" style="width:85%"></div><div class="spec mini" style="margin-top:4px"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div></div></div>
+      <div class="vpc"><span class="p">吸睛、像新聞 App</span><span class="c">占空間；議題是聚合，未必有代表圖</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">精簡列</span><span class="pin r">推薦·最新</span></div>
+      <div class="vbody"><div class="b" style="margin:0;padding:8px"><div style="display:flex;gap:8px;align-items:center"><div class="thumb sq">圖</div><div style="flex:1"><div class="tt" style="width:95%;margin-bottom:4px"></div><div class="spec mini"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div></div><span class="ic">＋</span></div></div></div>
+      <div class="vpc"><span class="p">密度高、好掃描</span><span class="c">光譜縮太小、訊息弱</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">數字摘要卡</span><span class="pin g">強調聚合</span></div>
+      <div class="vbody"><div class="b" style="margin:0"><div class="tt" style="width:80%"></div><div style="display:flex;gap:5px;margin-top:6px"><div class="b flat" style="flex:1;margin:0;text-align:center;padding:5px"><div class="x b">3</div><div class="x s">觀點</div></div><div class="b flat" style="flex:1;margin:0;text-align:center;padding:5px"><div class="x b">18</div><div class="x s">來源</div></div><div class="b flat" style="flex:1;margin:0;text-align:center;padding:5px"><div class="x b">1.2k</div><div class="x s">聲量</div></div></div></div></div>
+      <div class="vpc"><span class="p">凸顯跨來源聚合特色</span><span class="c">少了分歧感、偏冷資料</span></div>
+    </div>
+  </div>
+
+  <div class="alt-h"><span class="tag" style="color:var(--ink)">觀點光譜縮影畫法</span></div>
+  <div class="vgrid">
+    <div class="vcard">
+      <div class="vh"><span class="vn">分布條</span><span class="pin r">推薦</span></div>
+      <div class="vbody"><div class="spec mini"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div><div class="leg"><span>A</span><span>B</span><span>C</span></div></div>
+      <div class="vpc"><span class="p">最直覺、占空間小</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">三色標籤 pill</span><span class="pin g">最清楚</span></div>
+      <div class="vbody"><div class="pillrow"><span class="a">支持 50%</span><span class="b">中立 30%</span><span class="c">反對 20%</span></div></div>
+      <div class="vpc"><span class="p">帶文字最清楚</span><span class="c">較占寬、命名要中性</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">點陣密度</span></div>
+      <div class="vbody"><div class="dotg"><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="c"></i><i class="c"></i></div></div>
+      <div class="vpc"><span class="p">表達人數分布</span><span class="c">縮小後難讀</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">光譜軸（左—右）</span><span class="pin w">慎用</span></div>
+      <div class="vbody"><div class="axis"><i style="left:30%"></i><i style="left:55%"></i><i style="left:80%"></i></div><div class="leg"><span>一端</span><span>另一端</span></div></div>
+      <div class="vpc"><span class="p">有連續光譜感</span><span class="c">易被讀成政治左右標籤，違背「非評判」</span></div>
+    </div>
+  </div>
+
+  <div class="alt-h"><span class="tag" style="color:var(--ink)">分區 / 導覽</span></div>
+  <div class="vgrid" style="grid-template-columns:repeat(auto-fill,minmax(248px,1fr))">
+    <div class="vcard">
+      <div class="vh"><span class="vn">純捲動分區</span><span class="pin r">推薦·首版</span></div>
+      <div class="vbody"><div class="x b" style="margin-bottom:6px">🔥 熱門</div><div class="b" style="margin:0 0 6px"><div class="tt"></div></div><div class="x b" style="margin:8px 0 6px">✨ 感興趣 ／ 🆕 最新</div><div class="b flat" style="margin:0"><div class="tt" style="width:70%"></div></div></div>
+      <div class="vpc"><span class="p">簡單、好做、一路往下逛</span><span class="c">找特定分區要捲</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">頂部切換 + 主題篩選</span><span class="pin g">可擴充</span></div>
+      <div class="vbody"><div class="seg"><span class="on">熱門</span><span>感興趣</span><span>最新</span></div><div style="display:flex;gap:4px;overflow:hidden"><span class="chip on">全部</span><span class="chip">政治</span><span class="chip">環境</span><span class="chip">社會</span></div></div>
+      <div class="vpc"><span class="p">切換快、之後加分類好接</span><span class="c">頂部變重、一次看一種</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ DETAIL PAGE ============ -->
+<section id="detail"><div class="wrap">
+  <div class="sechd"><span class="num">PAGE 2</span><h2>議題詳情頁（核心）</h2></div>
+  <p class="secsub">單頁長捲動，捲動順序即敘事：事實／共識在前、光譜／意見在後。頂部錨點快速跳轉，避免 9 區塊過長。</p>
+
+  <div class="hero">
+    <div class="phone">
+      <div class="bar"></div>
+      <div class="screen">
+        <div class="b"><div class="tt" style="width:92%"></div><div class="tt" style="width:58%"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="x s">📊 1.2k · 更新 2 小時前</span><span class="btn solid">＋追蹤</span></div></div>
+        <div style="display:flex;gap:5px;overflow-x:auto;margin-bottom:8px"><span class="chip on">事實</span><span class="chip">共識</span><span class="chip">光譜</span><span class="chip">觀點</span><span class="chip">來源</span><span class="chip">時間序</span></div>
+        <div class="b"><div class="l"><span class="n">2</span>新聞事實摘要 facts <span class="chip" style="font-size:8.5px">最無爭議·先放</span></div><div class="ln w90"></div><div class="ln w75"></div><div class="ln w60"></div></div>
+        <div class="b"><div class="l"><span class="n">3</span>共同在乎的事</div><span class="chip">共識 A</span><span class="chip">共識 B</span><span class="chip">共識 C</span></div>
+        <div class="b"><div class="l"><span class="n">4</span>觀點光譜 <span class="chip" style="font-size:8.5px">輕量·整體分布</span></div><div class="spec"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div><div class="leg"><span>觀點 A 50%</span><span>B 30%</span><span>C 20%</span></div></div>
+        <div class="b"><div class="l"><span class="n">5</span>意見摘要 opinion <span class="chip" style="font-size:8.5px">最多 3 種·橫滑</span></div>
+          <div class="hs"><div class="op"><div class="x b" style="margin-bottom:3px">觀點 A · 支持</div><div class="ln w90"></div><div class="ln w60"></div><div class="btn full" style="margin-top:7px">展開看來源 ▾</div></div><div class="op peek"></div></div>
+          <div class="dots"><i class="on"></i><i></i><i></i></div>
+        </div>
+        <div class="b"><div class="l"><span class="n">6</span>新聞來源</div><div style="display:flex;justify-content:space-between"><span class="x">📰 來源媒體 A</span><span class="x s">↗ 導流</span></div><div class="dv"></div><div style="display:flex;justify-content:space-between"><span class="x">📰 來源媒體 B</span><span class="x s">↗ 導流</span></div></div>
+        <div class="b"><div class="l"><span class="n">7</span>議題時間序</div><div class="tl"><div class="ev"><div class="x s">6/20</div><div class="ln w75"></div></div><div class="ev"><div class="x s">6/23</div><div class="ln w45"></div></div></div></div>
+        <div class="b flat"><div class="l"><span class="n">8</span>熱門文章 / 討論入口</div><div class="ln w90"></div></div>
+        <div class="b flat"><div class="l"><span class="n">9</span>猜你喜歡（相關議題）</div><div style="display:flex;gap:7px"><div class="b" style="flex:1;margin:0"><div class="ln w90"></div></div><div class="b" style="flex:1;margin:0"><div class="ln w75"></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="why">
+      <div class="badge">推薦版型</div>
+      <h3>純長捲動 + 頂部錨點</h3>
+      <div class="pt"><span class="k">↑</span><span class="v"><b>②事實 → ③共識</b>放最上：最無爭議、跨立場都同意的先講，建立共同基礎。</span></div>
+      <div class="pt"><span class="k">↓</span><span class="v"><b>④光譜 → ⑤意見</b>往後：進入分歧，但已有共識墊底。</span></div>
+      <div class="pt"><span class="k">＋</span><span class="v"><b>⑥來源 → ⑦時間序</b>給想深究的人鑽取與脈絡；⑧⑨延伸到討論頁與相關議題。</span></div>
+      <div class="inote" style="margin-top:6px"><b>生成條件</b>：②事實一定有；⑤意見要有使用者討論才生成 → 需畫「尚無 opinion」空狀態（見下）。</div>
+    </div>
+  </div>
+
+  <!-- opinion 空狀態 + 兩版型 -->
+  <div class="alt-h"><span class="tag">⑤ 意見摘要 opinion — 兩版型 + 空狀態</span><span class="line"></span></div>
+  <p class="alt-sub">落實 IA 規則：觀點最多 3 種，每種可展開看來源。橫向卡片為推薦。</p>
+  <div class="vgrid" style="grid-template-columns:repeat(auto-fill,minmax(244px,1fr))">
+    <div class="vcard">
+      <div class="vh"><span class="vn">方向 A · 橫向卡片</span><span class="pin r">推薦</span></div>
+      <div class="vbody"><div class="hs"><div class="op"><div class="x b">觀點 A · 支持</div><div class="ln w90"></div><div class="ln w45"></div><div class="dv"></div><div class="x s">來自 12 則討論</div><div class="btn full" style="margin-top:6px">展開看來源 ▾</div></div><div class="op peek"></div></div><div class="dots"><i class="on"></i><i></i><i></i></div></div>
+      <div class="vpc"><span class="p">省垂直空間、切換感清楚、符合「最多 3 種」</span><span class="c">一次只看一種，需主動滑</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">方向 B · 直向堆疊</span><span class="pin g">看全</span></div>
+      <div class="vbody"><div class="b" style="margin:0 0 6px"><div class="x b">觀點 A · 支持　▾</div><div class="ln w90"></div></div><div class="b" style="margin:0 0 6px"><div class="x b">觀點 B · 中立　▸</div></div><div class="b" style="margin:0"><div class="x b">觀點 C · 反對　▸</div></div></div>
+      <div class="vpc"><span class="p">資訊一次看全、不需滑</span><span class="c">頁面拉很長、削弱並列比較</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">空狀態 · 尚無 opinion</span><span class="pin w">必畫</span></div>
+      <div class="vbody"><div class="b dash" style="margin:0;text-align:center;padding:20px 12px"><div style="font-size:26px;margin-bottom:6px">💬</div><div class="x b" style="margin-bottom:5px">議題還在發酵中</div><div class="x s" style="margin-bottom:12px">已有事實，還沒足夠討論可摘要。等大家開始討論，AI 會整理觀點。</div><span class="btn solid">＋追蹤，有觀點時通知我</span></div></div>
+      <div class="vpc"><span class="p">避免看起來像壞掉；事實有、意見空是正常狀態</span></div>
+    </div>
+  </div>
+
+  <!-- 詳情頁其他變體 -->
+  <div class="alt-h"><span class="tag">其他變體</span><span class="line"></span></div>
+
+  <div class="alt-h" style="margin-top:8px"><span class="tag" style="color:var(--ink)">整頁結構 — 怎麼裝下 9 區塊不嫌長</span></div>
+  <div class="vgrid" style="grid-template-columns:repeat(auto-fill,minmax(244px,1fr))">
+    <div class="vcard">
+      <div class="vh"><span class="vn">純長捲動 + 錨點</span><span class="pin r">推薦</span></div>
+      <div class="vbody"><div style="display:flex;gap:4px;overflow:hidden;margin-bottom:7px"><span class="chip on">事實</span><span class="chip">共識</span><span class="chip">光譜</span></div><div class="b" style="margin:0 0 5px"><div class="x s">② facts</div></div><div class="b" style="margin:0 0 5px"><div class="x s">④ 光譜</div></div><div class="b" style="margin:0"><div class="x s">⑤ opinion</div></div></div>
+      <div class="vpc"><span class="p">最忠於「先共識後分歧」敘事</span><span class="c">總長度長，靠錨點補</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">TL;DR 摘要卡 + 摺疊</span><span class="pin g">快速掌握</span></div>
+      <div class="vbody"><div class="b" style="margin:0 0 6px;border:1.3px solid var(--ink)"><div class="x b" style="margin-bottom:4px">⚡ 30 秒看懂</div><div class="ln w90"></div><div class="spec mini" style="margin-top:6px"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div></div><div class="b" style="margin:0 0 5px"><div class="x b">▾ 新聞事實</div></div><div class="b" style="margin:0"><div class="x b">▸ 意見摘要</div></div></div>
+      <div class="vpc"><span class="p">頂部就懂全貌、頁面短</span><span class="c">摺疊削弱敘事；摘要卡設計成本高</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">分頁 Tab</span><span class="pin w">不建議</span></div>
+      <div class="vbody"><div class="tabs"><span class="on">事實/共識</span><span>觀點</span><span>來源</span></div><div class="b" style="margin:0 0 5px"><div class="x s">② facts</div></div><div class="b" style="margin:0"><div class="x s">③ 共識</div></div></div>
+      <div class="vpc"><span class="p">每頁短、切換明確</span><span class="c">把共識/分歧拆到不同 tab，破壞靈魂順序</span></div>
+    </div>
+  </div>
+
+  <div class="alt-h"><span class="tag" style="color:var(--ink)">「共同在乎的事」元件</span></div>
+  <div class="vgrid">
+    <div class="vcard">
+      <div class="vh"><span class="vn">共識 chips</span><span class="pin r">推薦</span></div>
+      <div class="vbody"><span class="chip">在乎 A</span><span class="chip">在乎 B</span><span class="chip">在乎 C</span></div>
+      <div class="vpc"><span class="p">輕、掃過即懂、占空間小</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">共識卡（帶說明）</span></div>
+      <div class="vbody"><div class="b flat" style="margin:0 0 5px"><div class="x b">大家都在乎 A</div><div class="ln w75"></div></div><div class="b flat" style="margin:0"><div class="x b">大家都在乎 B</div></div></div>
+      <div class="vpc"><span class="p">每點有說明、更有說服力</span><span class="c">較長</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">共識橫幅</span></div>
+      <div class="vbody"><div class="b" style="margin:0;background:var(--reco-bg);border-color:#bfe0cd"><div class="x b" style="color:var(--reco)">✓ 不分立場都同意</div><div class="ln w90"></div></div></div>
+      <div class="vpc"><span class="p">情緒上強化「先有共識」</span><span class="c">顏色重，低擬真先別定調</span></div>
+    </div>
+  </div>
+
+  <div class="alt-h"><span class="tag" style="color:var(--ink)">「觀點光譜」元件（詳情頁版）</span></div>
+  <div class="vgrid">
+    <div class="vcard">
+      <div class="vh"><span class="vn">分布條 + 可點鑽取</span><span class="pin r">推薦</span></div>
+      <div class="vbody"><div class="spec"><span class="a" style="flex:5"></span><span class="b" style="flex:3"></span><span class="c" style="flex:2"></span></div><div class="leg"><span>A 50%</span><span>B 30%</span><span>C 20%</span></div><div class="x s" style="margin-top:5px">點任一段 → 看該觀點來源</div></div>
+      <div class="vpc"><span class="p">與列表縮影一致、可鑽取</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">三欄並列</span></div>
+      <div class="vbody"><div style="display:flex;gap:5px"><div class="b flat" style="flex:1;margin:0;text-align:center"><div class="x b">A</div><div class="x s">50%</div></div><div class="b flat" style="flex:1;margin:0;text-align:center"><div class="x b">B</div><div class="x s">30%</div></div><div class="b flat" style="flex:1;margin:0;text-align:center"><div class="x b">C</div><div class="x s">20%</div></div></div></div>
+      <div class="vpc"><span class="p">對齊 opinion 三觀點、整齊</span><span class="c">少了「一條光譜」分布感</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">連續光譜軸</span><span class="pin w">慎用</span></div>
+      <div class="vbody"><div class="axis"><i style="left:28%"></i><i style="left:52%"></i><i style="left:78%"></i></div><div class="leg"><span>立場一端</span><span>另一端</span></div></div>
+      <div class="vpc"><span class="p">最有連續光譜視覺</span><span class="c">最易被讀成政治左右，與「非評判」衝突</span></div>
+    </div>
+  </div>
+
+  <div class="alt-h"><span class="tag" style="color:var(--ink)">opinion 觀點卡「卡內結構」</span></div>
+  <div class="vgrid">
+    <div class="vcard">
+      <div class="vh"><span class="vn">摘要 + 展開來源</span><span class="pin r">推薦</span></div>
+      <div class="vbody"><div class="b" style="margin:0"><div class="x b">觀點 A · 支持</div><div class="ln w90"></div><div class="dv"></div><div class="x s">📰 12 則討論 / 4 來源</div><div class="btn full" style="margin-top:6px">展開看來源 ▾</div></div></div>
+      <div class="vpc"><span class="p">摘要先行、想查證再展開，可溯源</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">摘要 + 代表引文</span></div>
+      <div class="vbody"><div class="b" style="margin:0"><div class="x b">觀點 A · 支持</div><div class="ln w90"></div><div class="b flat" style="margin:6px 0 0;border-left:3px solid var(--line)"><div class="x s">「代表性的一句原話…」</div></div></div></div>
+      <div class="vpc"><span class="p">有真人語氣、更可信</span><span class="c">選哪句＝編輯判斷，要小心中立</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">摘要 + 投有幫助</span></div>
+      <div class="vbody"><div class="b" style="margin:0"><div class="x b">觀點 A · 支持</div><div class="ln w90"></div><div class="dv"></div><div style="display:flex;justify-content:space-between;align-items:center"><span class="btn">👍 有幫助 23</span><span class="x s">展開 ▾</span></div></div></div>
+      <div class="vpc"><span class="p">互動埋點明確，餵橋接式排序</span><span class="c">怕變相按讚比聲量</span></div>
+    </div>
+  </div>
+
+  <div class="alt-h"><span class="tag" style="color:var(--ink)">「議題時間序」元件</span></div>
+  <div class="vgrid">
+    <div class="vcard">
+      <div class="vh"><span class="vn">直向 timeline</span><span class="pin r">推薦</span></div>
+      <div class="vbody"><div class="tl"><div class="ev"><div class="x s">6/20</div><div class="ln w75"></div></div><div class="ev"><div class="x s">6/21</div><div class="ln w60"></div></div><div class="ev"><div class="x s">6/23</div><div class="ln w45"></div></div></div></div>
+      <div class="vpc"><span class="p">閱讀順、可放很多事件</span></div>
+    </div>
+    <div class="vcard">
+      <div class="vh"><span class="vn">橫向捲動卡</span></div>
+      <div class="vbody"><div class="htl"><div class="ev"><div class="x s b">6/20</div><div class="ln w90"></div></div><div class="ev"><div class="x s b">6/21</div><div class="ln w75"></div></div><div class="ev"><div class="x s b">6/23</div><div class="ln w60"></div></div></div></div>
+      <div class="vpc"><span class="p">省垂直空間、有推進感</span><span class="c">事件多時要一直滑</span></div>
+    </div>
+  </div>
+
+  <!-- 輕互動 -->
+  <div class="alt-h"><span class="tag">輕互動標註 — 觸發點與回饋</span><span class="line"></span></div>
+  <div class="igrid">
+    <div class="inote"><b>追蹤議題</b>　列表卡 / 標題區「＋追蹤」→ 鈕變「已追蹤」，有新進展推通知。</div>
+    <div class="inote"><b>收藏</b>　詳情頁頂部 ⭐ → 存入「我」的收藏，可離線回看。</div>
+    <div class="inote"><b>分享</b>　頂部 ↗ → 系統分享卡（帶標題＋光譜縮影）。</div>
+    <div class="inote"><b>對觀點投「有幫助」</b>　⑤每張觀點卡 👍 → 計數＋1，餵橋接式排序（非按讚熱度）。</div>
+    <div class="inote"><b>點來源導流</b>　⑥每筆 ↗ → 出站到原文；記錄導流，回饋媒體合作。</div>
+  </div>
+</div></section>
+
+<!-- ============ COMBO ============ -->
+<section id="combo" style="background:var(--softer)"><div class="wrap">
+  <div class="sechd"><span class="num">PICK</span><h2>我的推薦組合（首版）</h2></div>
+  <p class="secsub">每區我會選哪個＋理由。你可整套採用，或逐區換成別的變體。</p>
+  <div class="combo">
+    <table>
+      <tr><th>區塊</th><th>選用</th><th>理由</th></tr>
+      <tr><td>列表卡</td><td>標準卡（熱門）＋ 精簡列（最新）</td><td>熱門區重、最新區輕，密度分流</td></tr>
+      <tr><td>光譜縮影</td><td>分布條</td><td>最輕、最不易被誤解</td></tr>
+      <tr><td>列表導覽</td><td>純捲動（首版）</td><td>好做；流量大再上頂部切換</td></tr>
+      <tr><td>詳情頁結構</td><td>純長捲動 + 錨點</td><td>最忠於「先共識後分歧」</td></tr>
+      <tr><td>共識區</td><td>共識 chips</td><td>輕、不拉長頁面</td></tr>
+      <tr><td>光譜（詳情）</td><td>分布條 + 可點鑽取</td><td>與列表一致、可看來源；避開易誤解的軸式</td></tr>
+      <tr><td>opinion</td><td>方向 A 橫滑 ＋ 摘要+展開來源</td><td>省空間、可溯源</td></tr>
+      <tr><td>時間序</td><td>直向 timeline</td><td>閱讀順、可擴充</td></tr>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ ALIGN ============ -->
+<section id="align"><div class="wrap">
+  <div class="sechd"><span class="num">CHECK</span><h2>規則對齊</h2></div>
+  <p class="secsub">對照 IA DISCUSSION 規則與簡報定調。</p>
+  <div class="ck">
+    <div class="ckcard ok">
+      <h4>✓ 已對齊（這次設計已遵守）</h4>
+      <ul>
+        <li>有聲量才進議題頁 → 卡片、標題區都以聲量為核心訊號</li>
+        <li>新聞只摘事實 → ②facts 標明「只摘事實」</li>
+        <li>新聞＋使用者才摘 opinion → ⑤有生成條件 + 空狀態</li>
+        <li>觀點最多 3 種、可看來源 → ⑤兩版型都 3 種、可展開</li>
+        <li>先共識後分歧 → 捲動順序事實/共識在前、光譜/意見在後</li>
+        <li>觀點光譜走輕量 → 分布條，不塞複雜大圖表</li>
+        <li>AI 是助手不是裁判 → 光譜文案強調「整體分布、非評判單一媒體」</li>
+        <li>不混進首頁瀑布流 → 議題為獨立 Tab 場域</li>
+      </ul>
+    </div>
+    <div class="ckcard td">
+      <h4>○ 待團隊討論（設計只預留位置）</h4>
+      <ul>
+        <li>熱度演算法（誰進議題頁、列表排序）→ 先用佔位排序</li>
+        <li>「最新議題」定義 → 列表頁留「最新」過渡區佔位</li>
+        <li>新聞品質評估的呈現 → ⑥來源先預留「品質標記」位</li>
+        <li>「有幫助」如何餵橋接式排序 → 互動已埋點，演算法待定</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<div class="foot"><div class="wrap">低擬真 wireframe · 無配色／高擬真／最終樣式 · 挑定後合成定版 → 進 Figma 做 mockup</div></div>
+
+</body>
+</html>
