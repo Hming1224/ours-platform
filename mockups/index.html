@@ -1409,17 +1409,11 @@
           </div>
 
           <!-- Hashtags -->
-          <div style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-bottom:16px;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-bottom:4px;">
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#能源政策</span>
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#核能</span>
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#公民投票</span>
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#2050淨零</span>
-          </div>
-
-          <!-- CTA Button -->
-          <div onclick="{{ triggerMockEditorDisputed }}" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; background:#C0432B; color:#FFFFFF; padding:12px; border-radius:12px; cursor:pointer; font-weight:600; font-size:13.5px; transition:all 0.2s; box-shadow:0 4px 14px rgba(192,67,43,0.25);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-            <span>回到社群編輯：發表你的觀點</span>
           </div>
         </div>
       </sc-if>
@@ -1477,17 +1471,11 @@
           </div>
 
           <!-- Hashtags -->
-          <div style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-bottom:16px;">
+          <div style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-bottom:4px;">
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#凱米颱風</span>
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#高雄災情</span>
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#淹水警戒</span>
             <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">#防災應變</span>
-          </div>
-
-          <!-- CTA Button -->
-          <div onclick="{{ triggerMockEditorFact }}" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px; background:#2F8F5B; color:#FFFFFF; padding:12px; border-radius:12px; cursor:pointer; font-weight:600; font-size:13.5px; transition:all 0.2s; box-shadow:0 4px 14px rgba(47,143,91,0.25);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-            <span>回到社群編輯：回報即時災情</span>
           </div>
         </div>
       </sc-if>
@@ -1506,66 +1494,46 @@
 
   <!-- ░░ TAB: SPECTRUM ░░ -->
   <sc-if value="{{ isSpectrum }}" hint-placeholder-val="{{ true }}">
-  <div style="animation:ourFade .35s ease both; padding:20px 0 8px;">
+  <div style="{{ spectrumPanelStyle }}">
     
     <!-- 各方共同在乎的事 -->
     <div style="padding:0 20px 24px;">
       <h2 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:18px; margin:0 0 12px; color:#17150F;">各方共同在乎的事</h2>
-      <div class="shared-concerns">
-        <div class="shared-concerns__head">
-          <div class="shared-concerns__eyebrow">／ COMMON GROUND</div>
-          <div class="shared-concerns__badge">跨立場共通</div>
-        </div>
-
-        <p class="shared-concerns__question">各方都在問：如何在穩定供電、合理電價與可承擔風險之間取捨？</p>
-
-        <div class="shared-concerns__grid">
-          <div class="concern-cluster">
-            <div class="concern-cluster__label">
-              <span class="concern-cluster__dot"></span>
-              民生與產業
+      <div class="concern-proposals">
+        <div>
+          <div class="concern-proposal-tag">A / 雙面向卡</div>
+          <div class="shared-concerns">
+            <div class="shared-concerns__head"><div class="shared-concerns__eyebrow">／ COMMON GROUND</div><div class="shared-concerns__badge">跨立場共通</div></div>
+            <p class="shared-concerns__question">各方都在問：如何在穩定供電、合理電價與可承擔風險之間取捨？</p>
+            <div class="shared-concerns__grid">
+              <div class="concern-cluster"><div class="concern-cluster__label"><span class="concern-cluster__dot"></span>民生與產業</div><div class="concern-item"><span>供電穩定</span><span class="concern-item__rank">01</span></div><div class="concern-item"><span>電價負擔</span><span class="concern-item__rank">02</span></div><div class="concern-item"><span>2050 淨零</span><span class="concern-item__rank">03</span></div></div>
+              <div class="concern-cluster"><div class="concern-cluster__label"><span class="concern-cluster__dot concern-cluster__dot--green"></span>安全與治理</div><div class="concern-item"><span>核安風險</span><span class="concern-item__rank">04</span></div><div class="concern-item"><span>核廢處置</span><span class="concern-item__rank">05</span></div><div class="concern-item"><span>資訊透明</span><span class="concern-item__rank">06</span></div></div>
             </div>
-            <div class="concern-item">
-              <span>供電穩定</span>
-              <span class="concern-item__rank">01</span>
-            </div>
-            <div class="concern-item">
-              <span>電價負擔</span>
-              <span class="concern-item__rank">02</span>
-            </div>
-            <div class="concern-item">
-              <span>2050 淨零</span>
-              <span class="concern-item__rank">03</span>
-            </div>
-          </div>
-
-          <div class="concern-cluster">
-            <div class="concern-cluster__label">
-              <span class="concern-cluster__dot concern-cluster__dot--green"></span>
-              安全與治理
-            </div>
-            <div class="concern-item">
-              <span>核安風險</span>
-              <span class="concern-item__rank">04</span>
-            </div>
-            <div class="concern-item">
-              <span>核廢處置</span>
-              <span class="concern-item__rank">05</span>
-            </div>
-            <div class="concern-item">
-              <span>資訊透明</span>
-              <span class="concern-item__rank">06</span>
-            </div>
+            <div class="shared-concerns__takeaway"><div class="shared-concerns__mark">!</div><p class="shared-concerns__copy">分歧不在於是否重視安全或供電，而在於哪個風險該優先處理。</p></div>
           </div>
         </div>
-
-        <div class="shared-concerns__takeaway">
-          <div class="shared-concerns__mark">!</div>
-          <p class="shared-concerns__copy">分歧不在於是否重視安全或供電，而在於哪個風險該優先處理。</p>
+        <div>
+          <div class="concern-proposal-tag">B / 共識雷達</div>
+          <div class="concern-radar">
+            <p class="concern-radar__title">跨立場都反覆提到的 6 個關鍵詞</p>
+            <div class="concern-radar__row"><span>供電穩定</span><span class="concern-radar__track"><span class="concern-radar__fill" style="width:92%;"></span></span><span class="concern-radar__score">92</span></div>
+            <div class="concern-radar__row"><span>核安風險</span><span class="concern-radar__track"><span class="concern-radar__fill" style="width:88%;"></span></span><span class="concern-radar__score">88</span></div>
+            <div class="concern-radar__row"><span>電價負擔</span><span class="concern-radar__track"><span class="concern-radar__fill" style="width:76%;"></span></span><span class="concern-radar__score">76</span></div>
+            <div class="concern-radar__row"><span>核廢處置</span><span class="concern-radar__track"><span class="concern-radar__fill" style="width:72%;"></span></span><span class="concern-radar__score">72</span></div>
+            <div class="concern-radar__row"><span>2050 淨零</span><span class="concern-radar__track"><span class="concern-radar__fill" style="width:64%;"></span></span><span class="concern-radar__score">64</span></div>
+            <div class="concern-radar__row"><span>資訊透明</span><span class="concern-radar__track"><span class="concern-radar__fill" style="width:58%;"></span></span><span class="concern-radar__score">58</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="concern-proposal-tag">C / 取捨橋接</div>
+          <div class="concern-bridge">
+            <p class="concern-bridge__title">不同立場的共同底線，其實落在同一組取捨</p>
+            <div class="concern-bridge__flow"><div class="concern-bridge__side"><b>支持方擔心</b><span>缺電、電價上升、產業競爭力下滑。</span></div><div class="concern-bridge__arrow">→</div><div class="concern-bridge__side"><b>反對方擔心</b><span>老舊機組、核廢無解、風險外部化。</span></div></div>
+            <div class="concern-bridge__common"><span class="concern-bridge__chip">穩定供電</span><span class="concern-bridge__chip">可承擔風險</span><span class="concern-bridge__chip">資訊透明</span><span class="concern-bridge__chip">長期能源路徑</span></div>
+          </div>
         </div>
       </div>
     </div>
-
     <!-- 這些立場是怎麼分布的 -->
     <div style="padding:0 20px 14px;">
       <h2 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:18px; margin:0 0 12px; color:#17150F;">這些立場是怎麼分布的</h2>
@@ -1584,99 +1552,27 @@
       </div>
     </div>
 
-    <!-- 立場貼文列表 -->
-    <div style="padding:0 14px 10px; display:flex; flex-direction:column; gap:12px;">
-      
-      <!-- 卡片 1 -->
-      <div style="background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:16px 16px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
-        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
-          <div style="width:36px; height:36px; border-radius:50%; background:#000000; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-          </div>
-          <div style="display:flex; flex-direction:column; line-height:1.2;">
-            <div style="display:flex; align-items:center; gap:4px;">
-              <span style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">Elon Musk</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.99-3.818-3.99-.48 0-.936.1-1.354.27C14.775 2.525 13.435 1.5 11.9 1.5c-1.535 0-2.875 1.025-3.518 2.28-.418-.17-.874-.27-1.354-.27C4.93 3.51 3.22 5.29 3.22 7.5c0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.71 3.99 3.818 3.99.48 0 .936-.1 1.354-.27.643 1.255 1.983 2.28 3.518 2.28 1.535 0 2.875-1.025 3.518-2.28.418.17.874.27 1.354.27 2.108 0 3.818-1.78 3.818-3.99 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6zm-12.72 4.168l-3.96-3.96 1.415-1.414 2.545 2.546 5.657-5.657 1.414 1.414-7.07 7.071z"></path></svg>
-            </div>
-            <span style="font-size:12px; color:#6B6353; font-family:'IBM Plex Mono',monospace;">@elonmusk · May 29</span>
-          </div>
-        </div>
-        
-        <p style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non velit tempor, convallis is ipsum ut, eleifend est. Cras faucibus pharetra ante. <span style="color:#1D9BF0; cursor:pointer;">#hashtag #hashtag</span></p>
-        
-        <div style="background:#9B807A; border-radius:12px; height:180px; width:100%; margin-bottom:12px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:13px; font-weight:500; font-family:'Noto Sans TC';">
-          佔位圖片
-        </div>
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7C7567; padding:2px 4px 0;">
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 13.1k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 1l4 4-4 4m-12 5l-4-4 4-4m12 11h-12a2 2 0 0 1-2-2v-4m16-4v4a2 2 0 0 1-2 2H5"></path></svg> 11.2k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> 36.3k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 97.4k</span>
-          <span style="cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"></path></svg></span>
-        </div>
+    <!-- 分類留言 Post -->
+    <div style="padding:0 14px 10px; display:flex; flex-direction:column; gap:14px;">
+      <div style="padding:0 6px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <h3 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:17px; margin:0; color:#17150F;">留言 Post 依主要立場分類</h3>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.8px; color:#A39C8E;">AI ASSISTED</span>
       </div>
-
-      <!-- 卡片 2 -->
-      <div style="background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:16px 16px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
-        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
-          <div style="width:36px; height:36px; border-radius:50%; background:#000000; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-          </div>
-          <div style="display:flex; flex-direction:column; line-height:1.2;">
-            <div style="display:flex; align-items:center; gap:4px;">
-              <span style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">Elon Musk</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.99-3.818-3.99-.48 0-.936.1-1.354.27C14.775 2.525 13.435 1.5 11.9 1.5c-1.535 0-2.875 1.025-3.518 2.28-.418-.17-.874-.27-1.354-.27C4.93 3.51 3.22 5.29 3.22 7.5c0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.71 3.99 3.818 3.99.48 0 .936-.1 1.354-.27.643 1.255 1.983 2.28 3.518 2.28 1.535 0 2.875-1.025 3.518-2.28.418.17.874.27 1.354.27 2.108 0 3.818-1.78 3.818-3.99 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6zm-12.72 4.168l-3.96-3.96 1.415-1.414 2.545 2.546 5.657-5.657 1.414 1.414-7.07 7.071z"></path></svg>
-            </div>
-            <span style="font-size:12px; color:#6B6353; font-family:'IBM Plex Mono',monospace;">@elonmusk · May 29</span>
-          </div>
+      <section style="background:#FFFDF8; border:1px solid #E8D7B8; border-radius:16px; padding:13px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;"><div style="display:flex; align-items:center; gap:8px;"><span style="width:9px; height:9px; border-radius:50%; background:#B07A2E; box-shadow:0 0 0 4px rgba(176,122,46,.13);"></span><b style="font-family:'Noto Sans TC'; font-size:14px; color:#3E2C13;">支持重啟為主</b></div><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#B07A2E;">42%</span></div>
+        <div style="display:flex; flex-direction:column; gap:9px;">
+          <article style="background:#FFFFFF; border:1px solid #F0E3CB; border-radius:13px; padding:12px;"><div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;"><span style="width:28px; height:28px; border-radius:50%; background:#B07A2E; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">林</span><div style="flex:1; min-width:0;"><div style="font-size:12.5px; font-weight:700; color:#2D2821;">林口拓海</div><div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#A39C8E;">@tokai_linkou · 2 小時前</div></div><span style="font-size:9px; font-weight:600; color:#B07A2E; background:#FBF3E2; border:1px solid #EAD9B8; border-radius:4px; padding:2px 6px;">支持</span></div><p style="margin:0 0 9px; font-size:13px; line-height:1.65; color:#3D392F;">與其每年夏天擔心限電，不如把安全檢查和核廢配套做好，讓核三作為穩定備援。</p><div style="display:flex; gap:14px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;"><span>♥ 1,204</span><span>↩ 48</span></div></article>
+          <article style="background:#FFFFFF; border:1px solid #F0E3CB; border-radius:13px; padding:12px;"><div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;"><span style="width:28px; height:28px; border-radius:50%; background:#8C6A31; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">產</span><div style="flex:1; min-width:0;"><div style="font-size:12.5px; font-weight:700; color:#2D2821;">南科工程師</div><div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#A39C8E;">@grid_worker · 4 小時前</div></div><span style="font-size:9px; font-weight:600; color:#B07A2E; background:#FBF3E2; border:1px solid #EAD9B8; border-radius:4px; padding:2px 6px;">支持</span></div><p style="margin:0 0 9px; font-size:13px; line-height:1.65; color:#3D392F;">再生能源要繼續做，但過渡期不能只靠燃氣。穩定低碳電力是產業留下來的基本條件。</p><div style="display:flex; gap:14px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;"><span>♥ 842</span><span>↩ 31</span></div></article>
         </div>
-        
-        <p style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non velit tempor, convallis is ipsum ut, eleifend est. Cras faucibus pharetra ante. <span style="color:#1D9BF0; cursor:pointer;">#hashtag #hashtag</span></p>
-        
-        <div style="background:#9B807A; border-radius:12px; height:180px; width:100%; margin-bottom:12px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:13px; font-weight:500; font-family:'Noto Sans TC';">
-          佔位圖片
-        </div>
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7C7567; padding:2px 4px 0;">
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 13.1k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 1l4 4-4 4m-12 5l-4-4 4-4m12 11h-12a2 2 0 0 1-2-2v-4m16-4v4a2 2 0 0 1-2 2H5"></path></svg> 11.2k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> 36.3k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 97.4k</span>
-          <span style="cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"></path></svg></span>
-        </div>
-      </div>
-
-      <!-- 卡片 3 -->
-      <div style="background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:16px 16px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
-        <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
-          <div style="width:36px; height:36px; border-radius:50%; background:#000000; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-          </div>
-          <div style="display:flex; flex-direction:column; line-height:1.2;">
-            <div style="display:flex; align-items:center; gap:4px;">
-              <span style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">Elon Musk</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1D9BF0"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.99-3.818-3.99-.48 0-.936.1-1.354.27C14.775 2.525 13.435 1.5 11.9 1.5c-1.535 0-2.875 1.025-3.518 2.28-.418-.17-.874-.27-1.354-.27C4.93 3.51 3.22 5.29 3.22 7.5c0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.71 3.99 3.818 3.99.48 0 .936-.1 1.354-.27.643 1.255 1.983 2.28 3.518 2.28 1.535 0 2.875-1.025 3.518-2.28.418.17.874.27 1.354.27 2.108 0 3.818-1.78 3.818-3.99 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6zm-12.72 4.168l-3.96-3.96 1.415-1.414 2.545 2.546 5.657-5.657 1.414 1.414-7.07 7.071z"></path></svg>
-            </div>
-            <span style="font-size:12px; color:#6B6353; font-family:'IBM Plex Mono',monospace;">@elonmusk · May 29</span>
-          </div>
-        </div>
-        
-        <p style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non velit tempor, convallis is ipsum ut, eleifend est. Cras faucibus pharetra ante. <span style="color:#1D9BF0; cursor:pointer;">#hashtag #hashtag</span></p>
-        
-        <div style="background:#9B807A; border-radius:12px; height:180px; width:100%; margin-bottom:12px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.4); font-size:13px; font-weight:500; font-family:'Noto Sans TC';">
-          佔位圖片
-        </div>
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7C7567; padding:2px 4px 0;">
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 13.1k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 1l4 4-4 4m-12 5l-4-4 4-4m12 11h-12a2 2 0 0 1-2-2v-4m16-4v4a2 2 0 0 1-2 2H5"></path></svg> 11.2k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> 36.3k</span>
-          <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> 97.4k</span>
-          <span style="cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"></path></svg></span>
-        </div>
-      </div>
-
+      </section>
+      <section style="background:#FCFDFD; border:1px solid #D9E0E3; border-radius:16px; padding:13px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;"><div style="display:flex; align-items:center; gap:8px;"><span style="width:9px; height:9px; border-radius:50%; background:#6B7A85; box-shadow:0 0 0 4px rgba(107,122,133,.13);"></span><b style="font-family:'Noto Sans TC'; font-size:14px; color:#2F3A42;">有條件中立</b></div><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#6B7A85;">23%</span></div>
+        <div style="display:flex; flex-direction:column; gap:9px;"><article style="background:#FFFFFF; border:1px solid #E1E6E8; border-radius:13px; padding:12px;"><div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;"><span style="width:28px; height:28px; border-radius:50%; background:#6B7A85; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">路</span><div style="flex:1; min-width:0;"><div style="font-size:12.5px; font-weight:700; color:#2D2821;">小路</div><div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#A39C8E;">@road_design · 5 小時前</div></div><span style="font-size:9px; font-weight:600; color:#6B7A85; background:#EEF1F3; border:1px solid #D9E0E3; border-radius:4px; padding:2px 6px;">中立</span></div><p style="margin:0 0 9px; font-size:13px; line-height:1.65; color:#3D392F;">先公開核安體檢、延役成本和核廢時程。沒有透明資料，投支持或反對都太快。</p><div style="display:flex; gap:14px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;"><span>♥ 523</span><span>↩ 14</span></div></article></div>
+      </section>
+      <section style="background:#FDFBFF; border:1px solid #E2D5F2; border-radius:16px; padding:13px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;"><div style="display:flex; align-items:center; gap:8px;"><span style="width:9px; height:9px; border-radius:50%; background:#8158B0; box-shadow:0 0 0 4px rgba(129,88,176,.13);"></span><b style="font-family:'Noto Sans TC'; font-size:14px; color:#3A2552;">反對重啟為主</b></div><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#8158B0;">35%</span></div>
+        <div style="display:flex; flex-direction:column; gap:9px;"><article style="background:#FFFFFF; border:1px solid #E8DDF4; border-radius:13px; padding:12px;"><div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;"><span style="width:28px; height:28px; border-radius:50%; background:#8158B0; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">海</span><div style="flex:1; min-width:0;"><div style="font-size:12.5px; font-weight:700; color:#2D2821;">海風</div><div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#A39C8E;">@sea_breeze · 3 小時前</div></div><span style="font-size:9px; font-weight:600; color:#8158B0; background:#F4EEFB; border:1px solid #E2D5F2; border-radius:4px; padding:2px 6px;">反對</span></div><p style="margin:0 0 9px; font-size:13px; line-height:1.65; color:#3D392F;">核廢料要放哪？這個問題講了幾十年都沒有答案，不能把風險繼續往後丟。</p><div style="display:flex; gap:14px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;"><span>♥ 980</span><span>↩ 112</span></div></article></div>
+      </section>
     </div>
   </div>
   </sc-if>
@@ -1770,6 +1666,21 @@
     </div>
   </sc-if>
 
+  <!-- ░░ FACT-ONLY COMMENTS ░░ -->
+  <sc-if value="{{ isFactOnlyType }}">
+    <div style="margin:0 14px 16px; background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:16px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px;"><span style="width:25px; height:25px; border-radius:8px; background:#1D1B17; display:flex; align-items:center; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#F2CF66" stroke-width="2" stroke-linejoin="round"></path></svg></span><b style="font-family:'Noto Sans TC'; font-size:15px; color:#17150F;">現場留言</b></div>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.7px; color:#B0A899;">不做光譜分類</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <article style="display:flex; gap:10px; padding:12px; border:1px solid #F0ECE2; border-radius:13px; background:#FFFDF8;"><span style="flex:0 0 auto; width:30px; height:30px; border-radius:50%; background:#2F8F5B; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">苓</span><div style="min-width:0; flex:1;"><div style="display:flex; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap;"><b style="font-size:12.5px; color:#2D2821;">苓雅居民</b><span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#A39C8E;">12 分鐘前</span><span style="font-size:9px; font-weight:600; color:#2F8F5B; background:#F4F1EA; border:1px solid #E4DDCE; border-radius:4px; padding:1px 6px;">現場回報</span></div><p style="margin:0 0 7px; font-size:13px; line-height:1.6; color:#3D392F;">三多一路附近水位大概到腳踝，機車還能慢慢過，但地下道入口已經有警示帶。</p><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;">♥ 86　↩ 12</div></div></article>
+        <article style="display:flex; gap:10px; padding:12px; border:1px solid #F0ECE2; border-radius:13px; background:#FFFDF8;"><span style="flex:0 0 auto; width:30px; height:30px; border-radius:50%; background:#B07A2E; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">車</span><div style="min-width:0; flex:1;"><div style="display:flex; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap;"><b style="font-size:12.5px; color:#2D2821;">通勤車友</b><span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#A39C8E;">24 分鐘前</span><span style="font-size:9px; font-weight:600; color:#B07A2E; background:#F4F1EA; border:1px solid #E4DDCE; border-radius:4px; padding:1px 6px;">交通提醒</span></div><p style="margin:0 0 7px; font-size:13px; line-height:1.6; color:#3D392F;">民族路往北車流很慢，建議避開低窪路段。剛剛看到抽水車已經進場。</p><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;">♥ 54　↩ 6</div></div></article>
+        <article style="display:flex; gap:10px; padding:12px; border:1px solid #F0ECE2; border-radius:13px; background:#FFFDF8;"><span style="flex:0 0 auto; width:30px; height:30px; border-radius:50%; background:#6B7A85; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;">校</span><div style="min-width:0; flex:1;"><div style="display:flex; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap;"><b style="font-size:12.5px; color:#2D2821;">家長群整理</b><span style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:#A39C8E;">37 分鐘前</span><span style="font-size:9px; font-weight:600; color:#6B7A85; background:#F4F1EA; border:1px solid #E4DDCE; border-radius:4px; padding:1px 6px;">資訊彙整</span></div><p style="margin:0 0 7px; font-size:13px; line-height:1.6; color:#3D392F;">目前幾間學校通知明天停課，但托育接送安排還沒完全同步，家長要再看各校群組。</p><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;">♥ 41　↩ 9</div></div></article>
+      </div>
+    </div>
+  </sc-if>
+
   </div>
 
   <!-- ░░ BOTTOM NAV ░░ -->
@@ -1782,30 +1693,6 @@
 
   </div>
 
-  <!-- ░░ MOCK EDITOR MODAL ░░ -->
-  <sc-if value="{{ showMockEditorModal }}">
-    <div style="position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; display:flex; align-items:flex-end; justify-content:center; animation:ourFade 0.25s ease;">
-      <div style="width:min(440px,100%); background:#FFFFFF; border-radius:24px 24px 0 0; padding:20px; display:flex; flex-direction:column; gap:16px; box-shadow:0 -10px 40px rgba(0,0,0,0.15); animation:ourFade 0.3s cubic-bezier(0.1, 1, 0.1, 1) both; z-index:1010;">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-weight:700; font-size:16px; color:#17150F; font-family:'Noto Sans TC';">發表至 Ours 社群</span>
-          <span onclick="{{ closeMockEditor }}" style="color:#A39C8E; cursor:pointer; font-size:14px; font-weight:500; font-family:'Noto Sans TC';">取消</span>
-        </div>
-        <div style="display:flex; gap:10px; align-items:flex-start;">
-          <div style="width:32px; height:32px; border-radius:50%; background:#17150F; color:#FFF; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; font-family:'Noto Sans TC';">銘</div>
-          <div style="flex:1;">
-            <div style="font-weight:700; font-size:13px; color:#17150F; margin-bottom:4px; font-family:'Noto Sans TC';">Hming (黃宣銘) <span style="font-weight:400; color:#A39C8E; font-size:11px; font-family:'IBM Plex Mono',monospace;">@hming</span></div>
-            <textarea oninput="{{ updateEditorText }}" placeholder="{{ mockEditorPlaceholder }}" style="width:100%; min-height:100px; border:none; resize:none; font-family:'Noto Sans TC'; font-size:14px; color:#2D2821; outline:none; padding:4px 0;" autofocus></textarea>
-          </div>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #F0ECE2; padding-top:12px;">
-          <span style="color:#C0432B; font-size:12px; font-family:'IBM Plex Mono',monospace;">#Ours #公共社群</span>
-          <button onclick="{{ submitMockEditor }}" style="border:none; border-radius:20px; background:#17150F; color:#FFF; padding:8px 20px; font-weight:600; font-family:'Noto Sans TC'; font-size:13px; cursor:pointer; transition:all 0.2s;">
-            發布留言
-          </button>
-        </div>
-      </div>
-    </div>
-  </sc-if>
 
 </div>
 </div>
@@ -1820,9 +1707,6 @@ class Component extends DCLogic {
     sourceFilter: 'all',
     open: { n5: true, n104: true },
     topicType: 'disputed', // 'disputed' | 'fact-only'
-    showMockEditorModal: false,
-    mockEditorText: '',
-    mockEditorPlaceholder: '',
     customComments: [],
     likedComments: {},
   };
@@ -1833,8 +1717,9 @@ class Component extends DCLogic {
 
     // ---- tab styles ----
     const tabBase = { flex: '1', textAlign: 'center', padding: '14px 4px', fontSize: '13.5px', fontFamily: "'Noto Sans TC'", cursor: 'pointer', transition: 'color .2s', position: 'relative' };
-    const mkTab = (on) => ({
+    const mkTab = (on, visible = true) => ({
       ...tabBase,
+      display: visible ? 'block' : 'none',
       color: on ? '#17150F' : '#A39C8E',
       fontWeight: on ? 700 : 400,
       borderBottom: on ? `2px solid ${ACTIVE}` : '2px solid transparent',
@@ -1984,43 +1869,19 @@ class Component extends DCLogic {
       setDisputedType: () => this.setState({ topicType: 'disputed', tab: 'spectrum' }),
       setFactOnlyType: () => this.setState({ topicType: 'fact-only', tab: 'timeline' }),
 
-      // mock editor modal
-      showMockEditorModal: s.showMockEditorModal,
-      mockEditorPlaceholder: s.mockEditorPlaceholder,
-      closeMockEditor: () => this.setState({ showMockEditorModal: false }),
-      updateEditorText: (e) => this.setState({ mockEditorText: e.target.value }),
-      submitMockEditor: () => {
-        const text = s.mockEditorText.trim();
-        if (!text) return;
-        const newComment = {
-          id: 'custom_' + Date.now(),
-          name: 'Hming (黃宣銘)',
-          handle: '@hming',
-          avatarText: '銘',
-          avatarBg: '#C0432B',
-          time: '剛剛',
-          stance: s.topicType === 'disputed' ? 'support' : 'neutral',
-          text: text,
-          likes: 0,
-          liked: false,
-          replies: 0,
-        };
-        this.setState((st) => ({
-          customComments: [newComment, ...st.customComments],
-          showMockEditorModal: false,
-          mockEditorText: '',
-        }));
-      },
-      triggerMockEditorDisputed: () => this.setState({ showMockEditorModal: true, mockEditorPlaceholder: '在此輸入您對核三重啟的看法與觀點...' }),
-      triggerMockEditorFact: () => this.setState({ showMockEditorModal: true, mockEditorPlaceholder: '在此回報淹水或災情現況...' }),
 
       // tabs
-      isSpectrum: s.tab === 'spectrum',
-      isTimeline: s.tab === 'timeline',
+      isSpectrum: s.topicType === 'disputed' && s.tab === 'spectrum',
+      isTimeline: s.tab === 'timeline' || (s.topicType === 'fact-only' && s.tab === 'spectrum'),
       isSources: s.tab === 'sources',
-      tabSpectrumStyle: mkTab(s.tab === 'spectrum'),
-      tabTimelineStyle: mkTab(s.tab === 'timeline'),
+      tabSpectrumStyle: mkTab(s.tab === 'spectrum', s.topicType === 'disputed'),
+      tabTimelineStyle: mkTab(s.tab === 'timeline' || (s.topicType === 'fact-only' && s.tab === 'spectrum')),
       tabSourcesStyle: mkTab(s.tab === 'sources'),
+      spectrumPanelStyle: {
+        display: s.topicType === 'disputed' && s.tab === 'spectrum' ? 'block' : 'none',
+        animation: 'ourFade .35s ease both',
+        padding: '20px 0 8px',
+      },
       setSpectrum: () => this.setState({ tab: 'spectrum' }),
       setTimeline: () => this.setState({ tab: 'timeline' }),
       setSources: () => this.setState({ tab: 'sources' }),
