@@ -1389,35 +1389,6 @@
           </sc-for>
         </div>
 
-        <sc-if value="{{ hasCommonGround }}" hint-placeholder-val="{{ true }}">
-          <div class="shared-concerns" style="margin-bottom:0; margin-top:10px;">
-            <div class="shared-concerns__head">
-              <div class="shared-concerns__eyebrow">／ 共通關切</div>
-              <div class="shared-concerns__badge">各方焦點</div>
-            </div>
-            <p class="shared-concerns__question">{{ topic.commonGround.question }}</p>
-            <div class="shared-concerns__grid">
-              <sc-for list="{{ topic.commonGround.clusters }}" as="cl" hint-placeholder-count="2">
-                <div class="concern-cluster">
-                  <div class="concern-cluster__label">
-                    <span class="concern-cluster__dot"></span>
-                    {{ cl.label }}
-                  </div>
-                  <sc-for list="{{ cl.items }}" as="item" hint-placeholder-count="3">
-                    <div class="concern-item">
-                      <span>{{ item }}</span>
-                    </div>
-                  </sc-for>
-                </div>
-              </sc-for>
-            </div>
-            <div class="shared-concerns__takeaway">
-              <div class="shared-concerns__mark">!</div>
-              <p class="shared-concerns__copy">{{ topic.commonGround.takeaway }}</p>
-            </div>
-          </div>
-        </sc-if>
-
         <!-- Hashtags -->
         <div style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-top:12px;">
           <sc-for list="{{ topic.hashtags }}" as="tag" hint-placeholder-count="4">
