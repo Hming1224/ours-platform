@@ -1486,18 +1486,35 @@
             <span class="topic-status-dot" style="{{ topic.statusDotStyle }}"></span>
             {{ topic.status }}
           </span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#A39C8E;">
+            {{ headerMeta.updatedAt }}
+          </span>
         </div>
 
         <h1 class="topic-title">{{ topic.title }}</h1>
 
         <div class="topic-stats-row">
-          <span><b>{{ topic.mediaCount }}</b> 家媒體</span>
-          <span class="dot-separator"></span>
-          <span><b>{{ topic.reportCount }}</b> 篇報導</span>
-          <span class="dot-separator"></span>
-          <span>{{ topic.updatedAt }}</span>
-          <span class="dot-separator"></span>
-          <span>追蹤 <b>{{ topic.trackingCount }}</b></span>
+          <sc-if value="{{ isHeaderVariantA }}" hint-placeholder-val="{{ false }}">
+            <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
+            <span class="dot-separator"></span>
+            <span><b>{{ headerMeta.reportCount }}</b> 篇報導</span>
+            <span class="dot-separator"></span>
+            <span>高可信來源已標註</span>
+          </sc-if>
+
+          <sc-if value="{{ isHeaderVariantB }}" hint-placeholder-val="{{ false }}">
+            <span><b>{{ headerMeta.followerCount }}</b> 人追蹤</span>
+            <span class="dot-separator"></span>
+            <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
+            <span class="dot-separator"></span>
+            <span><b>{{ headerMeta.reportCount }}</b> 篇報導</span>
+          </sc-if>
+
+          <sc-if value="{{ isHeaderVariantC }}" hint-placeholder-val="{{ true }}">
+            <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
+            <span class="dot-separator"></span>
+            <span><b>{{ headerMeta.followerCount }}</b> 人追蹤</span>
+          </sc-if>
         </div>
       </div>
 
@@ -1737,7 +1754,7 @@ class Component extends DCLogic {
     const s = this.state;
     const TOPICS = {
       sports: {
-        id: 'sports', category: '運動', themeColor: '#C0432B', status: '後續觀察',
+        id: 'sports', headerVariant: 'C', category: '運動', themeColor: '#C0432B', status: '後續觀察',
         title: '高雄亞洲同志運動會爭議：運動賽事、國安疑慮與城市治理交會',
         shortTitle: '亞洲同志運動會爭議', trackingCount: '8,420', mediaCount: 12, reportCount: 68,
         updatedAt: '更新於 2 小時前', summaryMode: 'debate', trendLayout: 'stance-spectrum',
@@ -1779,7 +1796,7 @@ class Component extends DCLogic {
         ]
       },
       finance: {
-        id: 'finance', category: '財經', themeColor: '#B07A2E', status: '持續發展',
+        id: 'finance', headerVariant: 'A', category: '財經', themeColor: '#B07A2E', status: '持續發展',
         title: '台股 AI 熱潮與劇烈波動：一年飆漲後挑戰 4 萬點',
         shortTitle: '台股 AI 行情', trackingCount: '15,860', mediaCount: 16, reportCount: 142,
         updatedAt: '更新於 1 小時前', summaryMode: 'market', trendLayout: 'market-sentiment',
@@ -1822,7 +1839,7 @@ class Component extends DCLogic {
         ]
       },
       entertainment: {
-        id: 'entertainment', category: '娛樂', themeColor: '#8158B0', status: '典禮前熱議',
+        id: 'entertainment', headerVariant: 'B', category: '娛樂', themeColor: '#8158B0', status: '典禮前熱議',
         title: '第 37 屆金曲獎登場前熱議：蔡依林 9 項入圍、台語與樂團作品受關注',
         shortTitle: '第 37 屆金曲獎', trackingCount: '21,300', mediaCount: 20, reportCount: 156,
         updatedAt: '更新於 30 分鐘前', summaryMode: 'culture', trendLayout: 'culture-clusters',
@@ -1865,7 +1882,7 @@ class Component extends DCLogic {
         ]
       },
       policy: {
-        id: 'policy', category: '公共政策', themeColor: '#3F6F9F', status: '持續發展',
+        id: 'policy', headerVariant: 'A', category: '公共政策', themeColor: '#3F6F9F', status: '持續發展',
         title: '選罷法修正三讀：緩刑者參選限制放寬，引發「高虹安條款」爭議',
         shortTitle: '選罷法修正爭議', trackingCount: '18,640', mediaCount: 24, reportCount: 186,
         updatedAt: '更新於 2 小時前', summaryMode: 'policy', trendLayout: 'stance-spectrum',
@@ -1904,7 +1921,7 @@ class Component extends DCLogic {
         ]
       },
       weather: {
-        id: 'weather', category: '氣象', themeColor: '#2F8F5B', status: '警戒中',
+        id: 'weather', headerVariant: 'C', category: '氣象', themeColor: '#2F8F5B', status: '警戒中',
         title: '0625 颱風外圍環流與西南風豪雨：高雄多區淹水警戒',
         shortTitle: '豪雨災情', trackingCount: '4,890', mediaCount: 18, reportCount: 92,
         updatedAt: '更新於 10 分鐘前', summaryMode: 'disaster', trendLayout: 'default',
@@ -1934,6 +1951,28 @@ class Component extends DCLogic {
     };
 
     const topic = TOPICS[s.activeTopicId];
+
+    const compactFollowerCount = {
+      sports: '8.4k',
+      finance: '15.9k',
+      entertainment: '21.3k',
+      policy: '18.6k',
+      weather: '4.9k',
+    }[topic.id] || topic.trackingCount;
+
+    const cleanUpdatedAt = topic.updatedAt
+      .replace('更新於 ', '')
+      .replace('前', '前更新');
+
+    const headerMeta = {
+      variant: topic.headerVariant || 'C',
+      category: topic.category,
+      status: topic.status,
+      updatedAt: cleanUpdatedAt,
+      sourceCount: topic.mediaCount,
+      reportCount: topic.reportCount,
+      followerCount: compactFollowerCount,
+    };
 
     const postCtaByTopic = {
       sports: { title: '你怎麼看這場賽事爭議？', desc: '分享你對平權賽事、報名審查或城市治理的看法。' },
@@ -2115,6 +2154,10 @@ class Component extends DCLogic {
     });
 
     return {
+      headerMeta,
+      isHeaderVariantA: headerMeta.variant === 'A',
+      isHeaderVariantB: headerMeta.variant === 'B',
+      isHeaderVariantC: headerMeta.variant === 'C',
       topicChips,
       topic: {
         ...topic,
