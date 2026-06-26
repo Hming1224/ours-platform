@@ -1421,28 +1421,47 @@
       <sc-if value="{{ isTrend }}" hint-placeholder-val="{{ true }}">
         <div style="animation:ourFade .35s ease both; padding:20px 0 8px;">
           
-          <sc-if value="{{ hasDistribution }}" hint-placeholder-val="{{ true }}">
-            <div style="padding:0 20px 14px;">
-              <h2 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:18px; margin:0 0 12px; color:#17150F;">
-                <sc-if value="{{ isStanceSpectrum }}" hint-placeholder-val="{{ true }}">立場分布</sc-if>
-                <sc-if value="{{ isMarketSentiment }}" hint-placeholder-val="{{ false }}">市場情緒</sc-if>
-                <sc-if value="{{ isCultureClusters }}" hint-placeholder-val="{{ false }}">討論面向</sc-if>
-              </h2>
-              
-              <!-- distribution bar -->
+          <div style="padding:0 20px 14px;">
+            <h2 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:18px; margin:0 0 12px; color:#17150F;">{{ trendTitle }}</h2>
+            
+            <!-- distribution bar -->
+            <sc-if value="{{ showDistributionBar }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex; height:36px; border-radius:8px; overflow:hidden; margin-bottom:10px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.03);">
                 <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
                   <div style="width:{{ dist.value }}%; background:{{ dist.color }}; display:flex; align-items:center; justify-content:center; color:#FFF; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:13.5px;">{{ dist.value }}%</div>
                 </sc-for>
               </div>
-              
               <div style="display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:12px; font-family:'Noto Sans TC';">
                 <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
                   <span style="display:flex; align-items:center; gap:5px; color:#6F6859;"><span style="width:8px; height:8px; border-radius:50%; background:{{ dist.color }};"></span>{{ dist.label }}</span>
                 </sc-for>
               </div>
-            </div>
-          </sc-if>
+
+              <sc-if value="{{ trendInsight }}" hint-placeholder-val="{{ false }}">
+                <div class="topic-insight-strip">
+                  <span>{{ trendInsight.label }}</span>
+                  <b>{{ trendInsight.text }}</b>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ trendChips.length > 0 }}" hint-placeholder-val="{{ true }}">
+                <div class="trend-chip-row">
+                  <sc-for list="{{ trendChips }}" as="chip" hint-placeholder-count="4">
+                    <span class="trend-chip">{{ chip }}</span>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </sc-if>
+
+            <sc-if value="{{ showDisasterGrid }}" hint-placeholder-val="{{ false }}">
+              <div class="disaster-grid">
+                <div class="disaster-card"><span>官方警戒</span><b>豪雨特報</b><small>高屏山區留意溪水暴漲</small></div>
+                <div class="disaster-card"><span>道路交通</span><b>部分路段積淹水</b><small>低窪路段避免通行</small></div>
+                <div class="disaster-card"><span>民生影響</span><b>停班停課關注</b><small>以地方政府公告為準</small></div>
+                <div class="disaster-card"><span>安全提醒</span><b>避免前往山區</b><small>留意土石流與坍方</small></div>
+              </div>
+            </sc-if>
+          </div>
 
           <!-- 雷達區塊 (Trend) -->
           <sc-if value="{{ showRadarInTrend }}" hint-placeholder-val="{{ true }}">
@@ -1450,6 +1469,7 @@
               <div class="concern-proposal-tag">{{ radarTag }}</div>
               <div class="concern-radar">
                 <p class="concern-radar__title">{{ radarTitle }}</p>
+                <p class="concern-radar__insight">{{ radarInsight }}</p>
                 <sc-for list="{{ radarItems }}" as="item" hint-placeholder-count="6">
                   <div class="concern-radar__row">
                     <span>{{ item.label }}</span>
@@ -1465,6 +1485,7 @@
 
           <!-- 留言列表 -->
           <div style="padding:0 14px 10px; display:flex; flex-direction:column; gap:12px;">
+            <div style="font-family:'Noto Sans TC'; font-size:13px; font-weight:700; color:#4A463D; padding:4px 4px 0;">{{ commentTitle }}</div>
             <sc-for list="{{ topic.comments }}" as="c" hint-placeholder-count="3">
               <div style="background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:16px 16px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
                 <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
@@ -1636,7 +1657,7 @@ class Component extends DCLogic {
         id: 'finance', category: '財經', themeColor: '#B07A2E', status: '持續發展',
         title: '台股 AI 熱潮與劇烈波動：一年飆漲後挑戰 4 萬點',
         shortTitle: '台股 AI 行情', trackingCount: '15,860', mediaCount: 16, reportCount: 142,
-        updatedAt: '更新於 1 小時前', summaryMode: 'market', trendLayout: 'market-sentiment',
+        updatedAt: '盤中更新於 1 小時前', summaryMode: 'market', trendLayout: 'market-sentiment',
         summaryBlocks: [
           { label: '發生什麼事', tone: 'neutral', text: '台股自 2025 年 4 月低點反彈至 2026 年 4 月高點，一年大漲超過 2 萬點，AI 供應鏈與 ETF 資金成為市場焦點。' },
           { label: '為什麼重要', tone: 'green', text: '台灣資本市場與半導體、AI 伺服器供應鏈高度連動，股市行情也影響散戶投資、退休金與 ETF 熱潮。' },
@@ -1789,10 +1810,76 @@ class Component extends DCLogic {
 
     const topic = TOPICS[s.activeTopicId];
 
+    const topicConfigByType = {
+      sports: {
+        accent: '#C0432B',
+        category: '運動',
+        statusLabel: '後續觀察',
+        trendTabLabel: '話題趨勢',
+        trendTitle: '立場分布',
+        trendMode: 'governance',
+        radarTag: 'B / 共識雷達',
+        radarTitle: '這場賽事爭議中，大家反覆提到的 6 個關鍵詞',
+        commentTitle: '不同立場的社群討論',
+        trendInsight: { label: '治理焦點', text: '這不是單純運動賽事，而是活動審查、國安疑慮與城市形象的交會。' },
+        trendChips: ['報名審查', '身份確認', '入境流程', '主辦透明'],
+      },
+      finance: {
+        accent: '#B88A3C',
+        category: '財經',
+        statusLabel: '持續發展',
+        trendTabLabel: '話題趨勢',
+        trendTitle: '市場情緒',
+        trendMode: 'market',
+        radarTag: 'B / 市場情緒雷達',
+        radarTitle: '台股 AI 行情中，投資人最常討論的 6 個關鍵詞',
+        commentTitle: '投資人討論分群',
+        trendChips: ['估值過熱', '外資撤出', 'ETF 資金潮', 'Fed 利率'],
+      },
+      entertainment: {
+        accent: '#8B5FBF',
+        category: '娛樂',
+        statusLabel: '典禮前熱議',
+        trendTabLabel: '話題趨勢',
+        trendTitle: '討論面向',
+        trendMode: 'culture',
+        radarTag: 'B / 討論熱詞雷達',
+        radarTitle: '金曲獎討論中，樂迷反覆提到的 6 個關鍵詞',
+        commentTitle: '樂迷與評論討論',
+        trendChips: ['獎項預測', '表演舞台', '台語音樂', '獨立樂團', '粉絲應援'],
+      },
+      policy: {
+        accent: '#3F6F9F',
+        category: '公共政策',
+        statusLabel: '持續發展',
+        trendTabLabel: '話題趨勢',
+        trendTitle: '立場分布',
+        trendMode: 'policy',
+        radarTag: 'B / 共識雷達',
+        radarTitle: '選罷法爭議中，跨立場都反覆提到的 6 個關鍵詞',
+        commentTitle: '留言 Post 依主要立場分類',
+        trendInsight: { label: '爭點剖析', text: '核心爭點不是單一政治人物，而是「候選人資格限制」與「參政權保障」如何取得平衡。' },
+      },
+      weather: {
+        accent: '#3F8F63',
+        category: '氣象',
+        statusLabel: '警戒中',
+        trendTabLabel: '話題趨勢',
+        trendTitle: '災情資訊流',
+        trendMode: 'disaster',
+        radarTag: 'B / 災情關鍵雷達',
+        radarTitle: '豪雨災情中，民眾最關心的 6 個資訊關鍵詞',
+        commentTitle: '現場與民生留言',
+      },
+    };
+
+    const currentTopicConfig = topicConfigByType[s.activeTopicId] || topicConfigByType.policy;
+
     const radarByTopic = {
       sports: {
         tag: 'B / 共識雷達',
         title: '這場賽事爭議中，大家反覆提到的 6 個關鍵詞',
+        insight: '討論焦點集中在活動治理，而不是單純支持或反對同志賽事。',
         items: [
           { label: '活動安全', score: 91 },
           { label: '報名審查', score: 86 },
@@ -1805,6 +1892,7 @@ class Component extends DCLogic {
       finance: {
         tag: 'B / 市場情緒雷達',
         title: '台股 AI 行情中，投資人最常討論的 6 個關鍵詞',
+        insight: '社群討論同時呈現追高焦慮與基本面信心。',
         items: [
           { label: 'AI 題材', score: 94 },
           { label: '台積電', score: 89 },
@@ -1817,6 +1905,7 @@ class Component extends DCLogic {
       entertainment: {
         tag: 'B / 討論熱詞雷達',
         title: '金曲獎討論中，樂迷反覆提到的 6 個關鍵詞',
+        insight: '討論從得獎預測延伸到音樂性、語言與獨立樂團能見度。',
         items: [
           { label: '蔡依林', score: 95 },
           { label: '入圍名單', score: 88 },
@@ -1829,6 +1918,7 @@ class Component extends DCLogic {
       policy: {
         tag: 'B / 共識雷達',
         title: '選罷法爭議中，跨立場都反覆提到的 6 個關鍵詞',
+        insight: '分歧不只在修法內容，也在修法時機是否具有個案色彩。',
         items: [
           { label: '參政權', score: 92 },
           { label: '修法時機', score: 88 },
@@ -1841,6 +1931,7 @@ class Component extends DCLogic {
       weather: {
         tag: 'B / 災情關鍵雷達',
         title: '豪雨災情中，民眾最關心的 6 個資訊關鍵詞',
+        insight: '災情頁應優先整理可行動資訊，而不是立場分類。',
         items: [
           { label: '停班停課', score: 96 },
           { label: '淹水路段', score: 92 },
@@ -1865,7 +1956,7 @@ class Component extends DCLogic {
     });
 
     // ---- tab styles ----
-    const ACTIVE = topic.themeColor;
+    const ACTIVE = currentTopicConfig.accent;
     const tabBase = { flex: '1', textAlign: 'center', padding: '14px 4px', fontSize: '13.5px', fontFamily: "'Noto Sans TC'", cursor: 'pointer', transition: 'color .2s', position: 'relative' };
     const mkTab = (on) => ({
       ...tabBase,
@@ -1893,11 +1984,19 @@ class Component extends DCLogic {
       };
     });
 
+    const commentBadgeByTopic = {
+      sports: { support: '支持', neutral: '中立', oppose: '反對' },
+      finance: { support: '偏多', neutral: '觀望', oppose: '偏空' },
+      entertainment: { support: '粉絲', neutral: '樂評', oppose: '獨立' },
+      policy: { support: '支持', neutral: '中立', oppose: '反對' },
+      weather: { support: '現場', neutral: '交通', oppose: '提問' },
+    };
+
     // stance colors
     const stanceMeta = {
-      support: { label: '支持', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
-      neutral: { label: '中立', color: '#6B7A85', bg: '#EEF1F3', bd: '#D9E0E3' },
-      oppose: { label: '反對', color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
+      support: { color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
+      neutral: { color: '#6B7A85', bg: '#EEF1F3', bd: '#D9E0E3' },
+      oppose: { color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
     };
 
     const credMeta = {
@@ -1909,10 +2008,12 @@ class Component extends DCLogic {
 
     const processedComments = (topic.comments || []).map(c => {
       const st = stanceMeta[c.stance] || stanceMeta.neutral;
+      const badgeLabels = commentBadgeByTopic[s.activeTopicId] || commentBadgeByTopic.policy;
+      const label = badgeLabels[c.stance] || badgeLabels.neutral;
       return {
         ...c,
-        hasStance: topic.id !== 'weather' && topic.trendLayout === 'stance-spectrum', // simplistic fallback
-        stanceLabel: st.label,
+        hasStance: true,
+        stanceLabel: label,
         stanceStyle: `color:${st.color}; background:${st.bg}; border:1px solid ${st.bd};`
       };
     });
@@ -1958,6 +2059,15 @@ class Component extends DCLogic {
       hasDistribution: topic.distribution && topic.distribution.length > 0,
       radarTag: currentRadar.tag,
       radarTitle: currentRadar.title,
+      radarInsight: currentRadar.insight,
+      trendInsight: currentTopicConfig.trendInsight,
+      trendChips: currentTopicConfig.trendChips || [],
+      topicAccent: currentTopicConfig.accent,
+      trendTitle: currentTopicConfig.trendTitle,
+      trendMode: currentTopicConfig.trendMode,
+      commentTitle: currentTopicConfig.commentTitle,
+      showDistributionBar: currentTopicConfig.trendMode !== 'disaster',
+      showDisasterGrid: currentTopicConfig.trendMode === 'disaster',
       radarItems: currentRadar.items.map((item) => ({
         ...item,
         fillStyle: `width: ${item.score}%;`,
