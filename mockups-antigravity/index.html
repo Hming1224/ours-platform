@@ -1761,7 +1761,7 @@ class Component extends DCLogic {
         id: 'weather', category: '氣象', themeColor: '#2F8F5B', status: '警戒中',
         title: '0625 颱風外圍環流與西南風豪雨：高雄多區淹水警戒',
         shortTitle: '豪雨災情', trackingCount: '4,890', mediaCount: 18, reportCount: 92,
-        updatedAt: '更新於 10 分鐘前', summaryMode: 'disaster', trendLayout: 'none',
+        updatedAt: '更新於 10 分鐘前', summaryMode: 'disaster', trendLayout: 'default',
         summaryBlocks: [
           { label: '最新狀況', tone: 'orange', text: '颱風外圍環流帶來超大豪雨，高雄山區及低窪地區累積雨量突破 1000 毫米，市區多處積淹水。' },
           { label: '災情統計', tone: 'red', text: '截至今日下午 3 點，已造成 2 死、數百戶停電，多條道路與橋樑預警性封閉。' },
@@ -1857,7 +1857,7 @@ class Component extends DCLogic {
       return {
         id: t.id,
         label: t.category,
-        onClick: () => this.setState({ activeTopicId: t.id, tab: t.id === 'weather' ? 'timeline' : 'trend' }),
+        onClick: () => this.setState({ activeTopicId: t.id, tab: 'trend' }),
         style: `flex-shrink:0; border:none; border-radius:20px; padding:6px 14px; cursor:pointer; font-weight:600; font-family:'Noto Sans TC'; font-size:12.5px; transition:all .2s; background: ${active ? t.themeColor : '#F1ECE2'}; color: ${active ? '#FFF' : '#7C7567'}; box-shadow: ${active ? '0 2px 6px rgba(0,0,0,0.1)' : 'none'}`
       };
     });
@@ -1960,8 +1960,8 @@ class Component extends DCLogic {
         ...item,
         fillStyle: `width: ${item.score}%;`,
       })),
-      showRadarInTrend: s.activeTopicId !== 'weather',
-      showRadarInTimeline: s.activeTopicId === 'weather',
+      showRadarInTrend: true,
+      showRadarInTimeline: false,
       isTrend: s.tab === 'trend',
       isTimeline: s.tab === 'timeline',
       isSources: s.tab === 'sources',
