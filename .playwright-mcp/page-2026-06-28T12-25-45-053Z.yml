@@ -1,0 +1,183 @@
+- generic [active] [ref=e1]:
+  - link "返回首頁" [ref=e2] [cursor=pointer]:
+    - /url: ../index.html
+    - img [ref=e3]
+    - text: 返回首頁
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e9]: Demo 切換：
+      - generic [ref=e10]:
+        - button "運動" [ref=e11] [cursor=pointer]
+        - button "財經" [ref=e12] [cursor=pointer]
+        - button "娛樂" [ref=e13] [cursor=pointer]
+        - button "公共政策" [ref=e14] [cursor=pointer]
+        - button "氣象" [ref=e15] [cursor=pointer]
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - img [ref=e20]
+          - generic [ref=e22]:
+            - generic [ref=e23]: Ours · 議題
+            - generic [ref=e24]: 運動
+        - generic [ref=e25]:
+          - button "收藏議題" [ref=e26] [cursor=pointer]:
+            - img [ref=e27]
+          - button "更多操作" [ref=e28] [cursor=pointer]:
+            - img [ref=e29]
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]: 具事實查核優良報導
+            - generic [ref=e39]: 後續觀察
+          - heading "高雄亞洲同志運動會爭議：運動賽事、國安疑慮與城市治理交會" [level=1] [ref=e40]
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - generic [ref=e43]:
+                - generic [ref=e44]: 8.4k
+                - text: 人追蹤
+              - generic [ref=e46]:
+                - generic [ref=e47]: "12"
+                - text: 家來源
+              - generic [ref=e49]:
+                - generic [ref=e50]: "76"
+                - text: 篇報導
+            - generic [ref=e51]: 2 小時前更新
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - img [ref=e56]
+              - generic [ref=e57]: 30 秒快速看懂
+            - generic [ref=e58]: 由 AI 整理 · 爭點摘要
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - generic [ref=e61]: 發生什麼事
+              - generic [ref=e62]: 2026 亞洲同志運動會於 4/30–5/4 在高雄舉行，賽前爆出中國選手報名人數暴增，並傳出部分資料疑似異常。
+            - generic [ref=e63]:
+              - generic [ref=e64]: 為什麼重要
+              - generic [ref=e65]: 原本屬於多元平權與運動交流的賽事，延伸成國安、入境審查、城市治理與活動透明度的討論。
+            - generic [ref=e66]:
+              - generic [ref=e67]: 目前爭議
+              - generic [ref=e68]: 支持者擔心政治疑慮蓋過平權與體育交流；質疑方則認為大量報名與資料異常必須被嚴格審查。
+            - generic [ref=e69]:
+              - generic [ref=e70]: 尚未釐清
+              - generic [ref=e71]: 報名資料異常的實際比例、主辦單位審核流程、入境登錄暫緩後的後續處理仍需說明。
+          - generic [ref=e72]:
+            - generic [ref=e73]: "#亞洲同志運動會"
+            - generic [ref=e74]: "#高雄"
+            - generic [ref=e75]: "#運動賽事治理"
+            - generic [ref=e76]: "#國安疑慮"
+            - generic [ref=e77]: "#多元平權"
+        - tablist "議題內容切換" [ref=e78]:
+          - tab "話題趨勢" [selected] [ref=e79] [cursor=pointer]
+          - tab "議題時間軸" [ref=e80] [cursor=pointer]
+          - tab "新聞來源" [ref=e81] [cursor=pointer]
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - heading "立場分布" [level=2] [ref=e84]
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - generic [ref=e87]: "38"
+                - text: "%"
+              - generic [ref=e88]:
+                - generic [ref=e89]: "27"
+                - text: "%"
+              - generic [ref=e90]:
+                - generic [ref=e91]: "35"
+                - text: "%"
+            - generic [ref=e92]:
+              - generic [ref=e95]: 重視交流與平權
+              - generic [ref=e98]: 要求補充資訊
+              - generic [ref=e101]: 主張嚴格審查
+          - generic [ref=e102]:
+            - generic [ref=e103]: 共識雷達
+            - generic [ref=e104]:
+              - paragraph [ref=e105]: 這場賽事爭議中，大家反覆提到的 6 個關鍵詞
+              - generic [ref=e106]:
+                - generic [ref=e107]: 活動安全
+                - generic [ref=e110]: "91"
+              - generic [ref=e111]:
+                - generic [ref=e112]: 報名審查
+                - generic [ref=e115]: "86"
+              - generic [ref=e116]:
+                - generic [ref=e117]: 城市形象
+                - generic [ref=e120]: "78"
+              - generic [ref=e121]:
+                - generic [ref=e122]: 多元平權
+                - generic [ref=e125]: "74"
+              - generic [ref=e126]:
+                - generic [ref=e127]: 國安疑慮
+                - generic [ref=e130]: "70"
+              - generic [ref=e131]:
+                - generic [ref=e132]: 主辦透明
+                - generic [ref=e135]: "63"
+          - generic [ref=e136]:
+            - generic [ref=e137]: 社群怎麼看
+            - generic [ref=e138]: 依主要立場分組
+          - generic [ref=e139]:
+            - generic [ref=e140]:
+              - generic [ref=e142]: 重視交流與平權
+              - article [ref=e143]:
+                - generic [ref=e144]:
+                  - img [ref=e146]
+                  - generic [ref=e147]:
+                    - generic [ref=e148]: 高雄活動志工
+                    - generic [ref=e149]: "@kaohsiung_vol"
+                - paragraph [ref=e150]: 支持平權賽事，也希望外界不要只用政治角度看待所有參賽者。但主辦單位確實要把報名審查說清楚。
+                - generic [ref=e151]:
+                  - generic [ref=e152]:
+                    - img [ref=e153]
+                    - generic [ref=e155]: "36"
+                  - generic [ref=e156]:
+                    - img [ref=e157]
+                    - generic [ref=e158]: "824"
+            - generic [ref=e159]:
+              - generic [ref=e161]: 要求補充資訊
+              - article [ref=e162]:
+                - generic [ref=e163]:
+                  - img [ref=e165]
+                  - generic [ref=e166]:
+                    - generic [ref=e167]: 城市觀察筆記
+                    - generic [ref=e168]: "@city_note"
+                - paragraph [ref=e169]: 這件事真正需要討論的是大型活動治理：報名、身份確認、入境流程、地方政府監督，不能只停在口水戰。
+                - generic [ref=e170]:
+                  - generic [ref=e171]:
+                    - img [ref=e172]
+                    - generic [ref=e174]: "18"
+                  - generic [ref=e175]:
+                    - img [ref=e176]
+                    - generic [ref=e177]: "512"
+            - generic [ref=e178]:
+              - generic [ref=e180]: 主張嚴格審查
+              - article [ref=e181]:
+                - generic [ref=e182]:
+                  - img [ref=e184]
+                  - generic [ref=e185]:
+                    - generic [ref=e186]: 資安小編
+                    - generic [ref=e187]: "@sec_watch"
+                - paragraph [ref=e188]: 如果真的有大量資料異常，暫緩登錄是合理的。國際活動越開放，審核機制就越要可信。
+                - generic [ref=e189]:
+                  - generic [ref=e190]:
+                    - img [ref=e191]
+                    - generic [ref=e193]: "44"
+                  - generic [ref=e194]:
+                    - img [ref=e195]
+                    - generic [ref=e196]: "690"
+          - generic [ref=e198]:
+            - generic [ref=e199]:
+              - generic [ref=e200]: JOIN THE DISCUSSION
+              - paragraph [ref=e201]: 你怎麼看這場賽事爭議？
+              - paragraph [ref=e202]: 分享你對平權賽事、報名審查或城市治理的看法。
+            - button "發表看法" [ref=e203] [cursor=pointer]
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - img [ref=e206]
+          - generic [ref=e209]: 探索
+        - generic [ref=e210]:
+          - img [ref=e211]
+          - generic [ref=e214]: 議題
+        - generic [ref=e215]:
+          - img [ref=e216]
+          - generic [ref=e218]: 通知
+        - generic [ref=e219]:
+          - img [ref=e220]
+          - generic [ref=e223]: 我的

@@ -1,0 +1,3524 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ours 議題頁 — 定版 Mockup Prototype</title>
+
+  <!-- 引入 Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+/* Ours mockup shared styles. Keep layout-specific one-off styles inline until this prototype graduates. */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #E9E4DA;
+  font-family: "Noto Sans TC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #1D1B17;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+@keyframes ourFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ourGrow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.shared-concerns {
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid #E8DFCF;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(251, 246, 235, .95) 0%, rgba(255, 253, 248, .96) 58%, rgba(244, 250, 248, .88) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+
+.shared-concerns__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.shared-concerns__eyebrow {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #A39C8E;
+  text-transform: uppercase;
+}
+
+.shared-concerns__badge {
+  flex: 0 0 auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .7px;
+  color: #3F7D63;
+  background: #E7F4EC;
+  border: 1px solid #CBE5D5;
+  border-radius: 999px;
+  padding: 3px 7px;
+}
+
+.shared-concerns__question {
+  margin: 0 0 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #242019;
+}
+
+.shared-concerns__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-bottom: 11px;
+}
+
+.concern-cluster {
+  min-height: 122px;
+  padding: 11px;
+  border: 1px solid rgba(222, 213, 195, .9);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .58);
+}
+
+.concern-cluster__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4A4438;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-cluster__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #B88A3C;
+  box-shadow: 0 0 0 3px rgba(184, 138, 60, .12);
+}
+
+.concern-cluster__dot--green {
+  background: #5B9071;
+  box-shadow: 0 0 0 3px rgba(91, 144, 113, .12);
+}
+
+.concern-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(232, 223, 207, .7);
+  font-size: 12px;
+  color: #514B40;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-item:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.concern-item__rank {
+  flex: 0 0 auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: #AEA493;
+}
+
+.shared-concerns__takeaway {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 11px;
+  border-radius: 12px;
+  background: #FFF8E8;
+  border: 1px solid #EBDDBE;
+}
+
+.shared-concerns__mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #17150F;
+  color: #F2CF66;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.shared-concerns__copy {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #5B5242;
+  font-family: 'Noto Sans TC';
+}
+
+.summary-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.summary-block-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: flex-start;
+}
+
+.summary-block-label {
+  justify-self: start;
+}
+
+.summary-block-text {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #3D392F;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+.concern-proposals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trend-dashboard {
+  margin: 0 14px 16px;
+  padding: 14px;
+  border: 1px solid #E8DFCF;
+  border-radius: 18px;
+  background: #FFFDF8;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.trend-dashboard__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.trend-dashboard__head h2 {
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.trend-dashboard__head h2 span {
+  font: inherit;
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+.trend-dashboard__head > span {
+  flex: 0 0 auto;
+  max-width: 150px;
+  text-align: right;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+  color: #A39C8E;
+}
+
+.trend-dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.trend-metric-card {
+  min-height: 132px;
+  padding: 11px;
+  border-radius: 14px;
+  border: 1px solid #E8DFCF;
+  background: rgba(255, 255, 255, .72);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trend-metric-card__label {
+  display: block;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #7C7567;
+}
+
+.trend-metric-card__value {
+  display: block;
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #17150F;
+}
+
+.trend-metric-card__delta {
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #5D5950;
+}
+
+.trend-metric-card__source {
+  display: block;
+  margin-top: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #9B9385;
+}
+
+.trend-sparkline {
+  width: 100%;
+  height: 28px;
+  margin: 2px 0 0;
+  overflow: visible;
+}
+
+.trend-sparkline polyline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trend-metric-card--info {
+  border-color: #D9E0E3;
+  background: #EEF3F5;
+  color: #4A6B82;
+}
+
+.trend-metric-card--watching {
+  border-color: #EAD9B8;
+  background: #FBF3E2;
+  color: #B07A2E;
+}
+
+.trend-metric-card--alert {
+  border-color: #F2C4C1;
+  background: #FCECEB;
+  color: #B84A42;
+}
+
+.trend-metric-card--safe {
+  border-color: #B8E0CA;
+  background: #E8F4ED;
+  color: #2F8F5B;
+}
+
+.disaster-question-section {
+  padding: 0 14px 16px;
+}
+
+.disaster-question-title {
+  margin: 0 0 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.disaster-question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.disaster-question-card {
+  border: 1px solid #E4DDD0;
+  border-radius: 14px;
+  background: #FFFFFF;
+  padding: 13px 14px;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.disaster-question-card h3 {
+  margin: 0 0 5px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.disaster-question-card p {
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #6B6353;
+}
+
+.concern-proposal-tag {
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #17150F;
+}
+
+.concern-radar {
+  padding: 14px;
+  border: 1px solid #E6DDCE;
+  border-radius: 16px;
+  background: #FFFDF8;
+}
+
+.concern-radar__title,
+.concern-bridge__title {
+  margin: 0 0 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #242019;
+}
+
+.concern-radar__row {
+  display: grid;
+  grid-template-columns: 76px 1fr 30px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid #F0E9DD;
+  font-family: 'Noto Sans TC';
+  font-size: 12px;
+  color: #514B40;
+}
+
+.concern-radar__row:first-of-type {
+  border-top: 0;
+}
+
+.concern-radar__track {
+  height: 7px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.concern-radar__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.concern-radar__score {
+  text-align: right;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  color: #8A8377;
+}
+
+.concern-bridge {
+  padding: 14px;
+  border: 1px solid #E8DFCF;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9F5EC 100%);
+}
+
+.concern-bridge__flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.concern-bridge__side {
+  padding: 10px;
+  border: 1px solid #E8DFCF;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .65);
+}
+
+.concern-bridge__side b {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #2F2A22;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-bridge__side span {
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #6B6353;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-bridge__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B0A899;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.concern-bridge__common {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed #E4DDCE;
+}
+
+.concern-bridge__chip {
+  font-size: 11.5px;
+  color: #4A463D;
+  background: #F4EFE4;
+  border: 1px solid #E8DFCF;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-family: 'Noto Sans TC';
+}
+
+.topic-header {
+  padding: 22px 20px 18px;
+}
+
+.topic-kicker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 13px;
+  flex-wrap: wrap;
+}
+
+.topic-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  color: #23855A;
+  background: #F2FFF7;
+  border: 1px solid #8CCFA9;
+  border-radius: 999px;
+  padding: 5px 9px;
+}
+
+.topic-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: .5px;
+  color: #7C7567;
+  background: #FFFDF8;
+  border: 1px solid #E8DFCF;
+  border-radius: 999px;
+  padding: 5px 9px;
+}
+
+.topic-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.topic-title {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  line-height: 1.32;
+  letter-spacing: -0.3px;
+  margin: 0 0 14px;
+  color: #17150F;
+  text-wrap: balance;
+}
+
+.topic-stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  color: #7C7567;
+}
+
+.topic-stats-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  min-width: 0;
+}
+
+.topic-stats-row b {
+  color: #17150F;
+  font-weight: 600;
+}
+
+.topic-updated-at {
+  flex: 0 0 auto;
+  color: #7C7567;
+  white-space: nowrap;
+}
+
+.dot-separator {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #CFC8BA;
+}
+
+.post-cta-card {
+  margin-top: 2px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid #E8DFCF;
+  background: linear-gradient(135deg, #FFFDF8 0%, #F7F1E7 100%);
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.post-cta-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+  color: #A39C8E;
+}
+
+.post-cta-title {
+  margin: 0 0 6px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.post-cta-desc {
+  margin: 0 0 12px;
+  font-family: 'Noto Sans TC';
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #6B6353;
+}
+
+.post-cta-button {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 999px;
+  background: #3A2A1D;
+  color: #FFFFFF;
+  font-family: 'Noto Sans TC';
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(40, 35, 28, 0.12);
+}
+
+.comment-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 14px;
+  margin-bottom: 10px;
+}
+
+.comment-section-title {
+  display: block;
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.comment-section-title span {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.comment-section-head > span {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  letter-spacing: .8px;
+  color: #A39C8E;
+}
+
+.grouped-comment-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.post-cta-wrap {
+  padding: 0 14px 10px;
+}
+
+.comment-filter-chip {
+  flex: 0 0 auto;
+  border: 1px solid #E8DFCF;
+  border-radius: 9px;
+  background: #F9F5EC;
+  color: #5D5950;
+  padding: 7px 10px;
+  font-family: 'Noto Sans TC';
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65);
+}
+
+.comment-group-wrap {
+  width: 100%;
+  border-radius: 0;
+  padding: 14px 14px 20px;
+  border: 0;
+  box-shadow: none;
+}
+
+.comment-group-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 4px 9px;
+  font-family: 'Noto Sans TC';
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, .35);
+}
+
+.comment-card {
+  background: #FFFFFF;
+  border: 1px solid #ECE6DA;
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.comment-card+.comment-card {
+  margin-top: 10px;
+}
+
+.source-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.source-card {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+  min-height: 118px;
+  background: #FFFFFF;
+  border: 1px solid #ECE6DA;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.source-card__thumb {
+  width: 76px;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #EDE6D8;
+  color: #A89F8E;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.source-card__body {
+  min-width: 0;
+}
+
+.source-card__fact-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 7px;
+  padding: 2px 7px;
+  border: 1px solid #B8E0CA;
+  border-radius: 5px;
+  background: #E8F4ED;
+  color: #2F8F5B;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.source-card__title {
+  margin: 0 0 7px;
+  color: #17150F;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.source-card__media {
+  margin: 0 0 8px;
+  color: #5D5950;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.source-card__date {
+  display: block;
+  color: #A39C8E;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.comment-avatar-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+  </style>
+<!-- 引入 React 和 ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- 引入 dc-runtime -->
+  <script>
+// GENERATED from dc-runtime/src/*.ts — do not edit. Rebuild with `cd dc-runtime && bun run build`.
+"use strict";
+(() => {
+  var __defProp = Object.defineProperty;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+
+  // src/react.ts
+  function getReact() {
+    const R = window.React;
+    if (!R) throw new Error("dc-runtime: window.React is not available yet");
+    return R;
+  }
+  function getReactDOM() {
+    const RD = window.ReactDOM;
+    if (!RD) throw new Error("dc-runtime: window.ReactDOM is not available yet");
+    return RD;
+  }
+  var h = ((...args) => getReact().createElement(
+    ...args
+  ));
+
+  // src/parse.ts
+  function parseDcDocument(doc) {
+    const dc = doc.querySelector("x-dc");
+    if (!dc) return null;
+    const scriptEl = doc.querySelector("script[data-dc-script]");
+    const { props, preview } = parseDataProps(
+      scriptEl?.getAttribute("data-props") ?? null
+    );
+    return {
+      template: dc.innerHTML,
+      js: scriptEl ? scriptEl.textContent || "" : "",
+      props,
+      preview
+    };
+  }
+  function parseDcText(src) {
+    const openMatch = /<x-dc(?:\s[^>]*)?>/.exec(src);
+    if (!openMatch) return null;
+    const close = src.lastIndexOf("</x-dc>");
+    if (close === -1 || close < openMatch.index) return null;
+    const template = src.slice(openMatch.index + openMatch[0].length, close);
+    const doc = new DOMParser().parseFromString(src, "text/html");
+    const scriptEl = doc.querySelector("script[data-dc-script]");
+    const { props, preview } = parseDataProps(
+      scriptEl?.getAttribute("data-props") ?? null
+    );
+    return {
+      template,
+      js: scriptEl ? scriptEl.textContent || "" : "",
+      props,
+      preview
+    };
+  }
+  function parseDataProps(raw) {
+    if (!raw) return { props: null, preview: null };
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { props: null, preview: null };
+    }
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return { props: null, preview: null };
+    }
+    const obj = parsed;
+    const preview = obj.$preview && typeof obj.$preview === "object" ? obj.$preview : null;
+    const rest = {};
+    for (const k of Object.keys(obj)) {
+      if (k[0] !== "$") rest[k] = obj[k];
+    }
+    return { props: Object.keys(rest).length ? rest : null, preview };
+  }
+  function dcNameFromPath(pathname) {
+    let p = pathname || "";
+    try {
+      p = decodeURIComponent(p);
+    } catch {
+    }
+    const base = p.split("/").pop() || "Root";
+    return base.replace(/\.dc\.html$/, "").replace(/\.html?$/, "") || "Root";
+  }
+
+  // src/boot.ts
+  var BASE_CSS = `
+    .sc-placeholder{background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:rgba(0,0,0,.7);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:rgba(0,0,0,.5);background:rgba(0,0,0,.05);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts \u2014 keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  `;
+  var FULL_PAGE_CSS = "html,body{height:100%;margin:0}#dc-root,#dc-root>.sc-host{height:100%}";
+  function rootNameForDocument(doc, loc) {
+    let bootPath = loc.pathname || "";
+    if (!/\.dc\.html?$/i.test(safeDecode(bootPath))) {
+      try {
+        bootPath = new URL(doc.baseURI || "/").pathname;
+      } catch {
+      }
+    }
+    return dcNameFromPath(bootPath);
+  }
+  function safeDecode(s) {
+    try {
+      return decodeURIComponent(s);
+    } catch {
+      return s;
+    }
+  }
+  function boot(runtime, doc = document) {
+    const parsed = parseDcDocument(doc);
+    if (!parsed) return null;
+    const React = getReact();
+    const rootName = rootNameForDocument(doc, location);
+    runtime.markFetched(rootName);
+    runtime.adoptParsed(rootName, parsed);
+    fetch(location.href).then((res) => res.ok ? res.text() : "").then((t) => {
+      const raw = t ? parseDcText(t) : null;
+      if (raw?.template) runtime.updateHtml(rootName, raw.template);
+    }).catch(() => {
+    });
+    const dc = doc.querySelector("x-dc");
+    const hostEl = doc.createElement("div");
+    hostEl.id = "dc-root";
+    dc.replaceWith(hostEl);
+    if (!parsed.preview) {
+      const s = doc.createElement("style");
+      s.textContent = FULL_PAGE_CSS;
+      doc.head.appendChild(s);
+    }
+    const Root = runtime.getDC(rootName);
+    const entry = runtime.registry.get(rootName);
+    function StandaloneRoot() {
+      const [, setTick] = React.useState(0);
+      React.useEffect(() => {
+        const sub = () => setTick((n) => n + 1);
+        entry.subs.add(sub);
+        return () => {
+          entry.subs.delete(sub);
+        };
+      }, []);
+      return h(Root, entry.propOverrides || null);
+    }
+    const ReactDOM = getReactDOM();
+    if (ReactDOM.createRoot)
+      ReactDOM.createRoot(hostEl).render(h(StandaloneRoot));
+    else ReactDOM.render(h(StandaloneRoot), hostEl);
+    return rootName;
+  }
+
+  // src/expr.ts
+  var IDENT_RE = /^[A-Za-z_$][A-Za-z0-9_$]*/;
+  var NUMBER_RE = /^-?\d+(\.\d+)?$/;
+  function resolve(vals, src) {
+    const expr = String(src).trim();
+    if (!expr) return void 0;
+    if (expr[0] === "(" && expr[expr.length - 1] === ")" && parensWrapWhole(expr)) {
+      return resolve(vals, expr.slice(1, -1));
+    }
+    const eq = findTopLevelEquality(expr);
+    if (eq) {
+      const lv = resolve(vals, expr.slice(0, eq.index));
+      const rv = resolve(vals, expr.slice(eq.index + eq.op.length));
+      switch (eq.op) {
+        case "===":
+          return lv === rv;
+        case "!==":
+          return lv !== rv;
+        case "==":
+          return lv == rv;
+        default:
+          return lv != rv;
+      }
+    }
+    if (expr[0] === "!") return !resolve(vals, expr.slice(1));
+    if (expr === "true") return true;
+    if (expr === "false") return false;
+    if (expr === "null") return null;
+    if (expr === "undefined") return void 0;
+    if (NUMBER_RE.test(expr)) return Number(expr);
+    if (expr.length >= 2 && (expr[0] === '"' || expr[0] === "'") && expr[expr.length - 1] === expr[0]) {
+      return expr.slice(1, -1);
+    }
+    return resolvePath(vals, expr);
+  }
+  function parensWrapWhole(expr) {
+    let depth = 0;
+    for (let i = 0; i < expr.length - 1; i++) {
+      if (expr[i] === "(") depth++;
+      else if (expr[i] === ")") {
+        depth--;
+        if (depth === 0) return false;
+      }
+    }
+    return true;
+  }
+  function findTopLevelEquality(expr) {
+    let depth = 0;
+    for (let i = 0; i < expr.length; i++) {
+      const c = expr[i];
+      if (c === "[" || c === "(") depth++;
+      else if (c === "]" || c === ")") depth--;
+      else if (depth === 0 && (c === "=" || c === "!") && expr[i + 1] === "=") {
+        if (i > 0 && (expr[i - 1] === "=" || expr[i - 1] === "!")) continue;
+        if (!expr.slice(0, i).trim()) continue;
+        const op = expr[i + 2] === "=" ? c + "==" : c + "=";
+        return { index: i, op };
+      }
+    }
+    return null;
+  }
+  function resolvePath(vals, expr) {
+    const head = expr.match(IDENT_RE);
+    if (!head) return void 0;
+    let cur = vals == null ? void 0 : vals[head[0]];
+    let i = head[0].length;
+    while (i < expr.length) {
+      if (expr[i] === ".") {
+        const m = expr.slice(i + 1).match(IDENT_RE) || expr.slice(i + 1).match(/^\d+/);
+        if (!m) return void 0;
+        cur = cur == null ? void 0 : cur[m[0]];
+        i += 1 + m[0].length;
+      } else if (expr[i] === "[") {
+        let depth = 1;
+        let j = i + 1;
+        while (j < expr.length && depth > 0) {
+          if (expr[j] === "[") depth++;
+          else if (expr[j] === "]") {
+            depth--;
+            if (depth === 0) break;
+          }
+          j++;
+        }
+        if (depth !== 0) return void 0;
+        const key = resolve(vals, expr.slice(i + 1, j));
+        cur = cur == null ? void 0 : cur[key];
+        i = j + 1;
+      } else {
+        return void 0;
+      }
+    }
+    return cur;
+  }
+
+  // src/encode.ts
+  var CAMEL_ATTR = "sc-camel-";
+  var RAW_WRAP = {
+    select: "sc-raw-select",
+    table: "sc-raw-table",
+    tbody: "sc-raw-tbody",
+    thead: "sc-raw-thead",
+    tfoot: "sc-raw-tfoot",
+    tr: "sc-raw-tr",
+    td: "sc-raw-td",
+    th: "sc-raw-th",
+    caption: "sc-raw-caption"
+  };
+  var RAW_UNWRAP = Object.fromEntries(
+    Object.entries(RAW_WRAP).map(([k, v]) => [v, k])
+  );
+  var EVENT_MAP = {
+    onclick: "onClick",
+    onchange: "onChange",
+    oninput: "onInput",
+    onsubmit: "onSubmit",
+    onkeydown: "onKeyDown",
+    onkeyup: "onKeyUp",
+    onkeypress: "onKeyPress",
+    onmousedown: "onMouseDown",
+    onmouseup: "onMouseUp",
+    onmouseenter: "onMouseEnter",
+    onmouseleave: "onMouseLeave",
+    onfocus: "onFocus",
+    onblur: "onBlur",
+    ondoubleclick: "onDoubleClick",
+    oncontextmenu: "onContextMenu"
+  };
+  var ATTRS = `(?:[^>"']|"[^"]*"|'[^']*')*`;
+  var IMPORT_SELF_CLOSE_RE = new RegExp(
+    "<(x-import|dc-import)(" + ATTRS + ")/>",
+    "gi"
+  );
+  var CAMEL_ATTR_RE = /(\s)([a-z]+[A-Z][A-Za-z0-9]*)(\s*=)/g;
+  function encodeCase(html) {
+    html = html.replace(
+      IMPORT_SELF_CLOSE_RE,
+      (_, t, a) => "<" + t + a + "></" + t + ">"
+    );
+    html = html.replace(/<helmet(\s|>)/gi, "<sc-helmet$1");
+    html = html.replace(/<\/helmet\s*>/gi, "</sc-helmet>");
+    html = html.replace(
+      CAMEL_ATTR_RE,
+      (_, sp, name, eq) => sp + CAMEL_ATTR + name.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()) + eq
+    );
+    for (const [real, alias] of Object.entries(RAW_WRAP)) {
+      html = html.replace(
+        new RegExp("(</?)" + real + "(?=[\\s>])", "gi"),
+        "$1" + alias
+      );
+    }
+    return html;
+  }
+  function kebabToCamel(s) {
+    return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  }
+  function cssToObj(css) {
+    const o = {};
+    for (const decl of css.split(";")) {
+      const i = decl.indexOf(":");
+      if (i < 0) continue;
+      const prop = decl.slice(0, i).trim();
+      o[prop.startsWith("--") ? prop : kebabToCamel(prop)] = decl.slice(i + 1).trim();
+    }
+    return o;
+  }
+  function compileAttr(raw) {
+    const whole = raw.match(/^\s*\{\{([\s\S]+?)\}\}\s*$/);
+    if (whole) {
+      const path = whole[1];
+      return (vals) => resolve(vals, path);
+    }
+    if (raw.includes("{{")) {
+      const parts = raw.split(/\{\{([\s\S]+?)\}\}/g);
+      return (vals) => parts.map((s, i) => i & 1 ? resolve(vals, s) ?? "" : s).join("");
+    }
+    return () => raw;
+  }
+
+  // src/compile.ts
+  function collectProps(node, isComponent, host) {
+    const propGetters = [];
+    const pseudoClasses = [];
+    let hintSize = null;
+    for (const { name, value } of [...node.attributes]) {
+      if (name === "sc-name" || name === "data-dc-tpl") continue;
+      let key = name;
+      if (key.startsWith(CAMEL_ATTR))
+        key = kebabToCamel(key.slice(CAMEL_ATTR.length));
+      if (key === "hint-size") {
+        hintSize = value;
+        continue;
+      }
+      if (key.startsWith("style-")) {
+        pseudoClasses.push(host.pseudoClass(key.slice(6), value));
+        continue;
+      }
+      if (isComponent) {
+        if (key.includes("-")) key = kebabToCamel(key);
+      } else {
+        if (key === "class") key = "className";
+        else if (key === "for") key = "htmlFor";
+        else if (key.startsWith("on"))
+          key = EVENT_MAP[key] || "on" + key[2].toUpperCase() + key.slice(3);
+      }
+      propGetters.push([key, compileAttr(value)]);
+    }
+    return { propGetters, pseudoClasses, hintSize };
+  }
+  var HOST_STYLE_PROPS = /* @__PURE__ */ new Set([
+    "position",
+    "left",
+    "right",
+    "top",
+    "bottom",
+    "inset",
+    "width",
+    "height",
+    "z-index",
+    "transform"
+  ]);
+  function hostPositionStyle(style) {
+    const all = typeof style === "string" ? cssToObj(style) : style != null && typeof style === "object" ? style : null;
+    if (!all) return void 0;
+    const out = {};
+    for (const [k, v] of Object.entries(all)) {
+      const kebab = k.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase());
+      if (HOST_STYLE_PROPS.has(kebab)) out[k] = v;
+    }
+    return Object.keys(out).length ? out : void 0;
+  }
+  function compileTemplate(html, host) {
+    const tpl = document.createElement("template");
+    //! nosemgrep: direct-inner-html-assignment
+    tpl.innerHTML = encodeCase(html);
+    let tplN = 0;
+    (function stamp(node) {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        node.setAttribute("data-dc-tpl", String(tplN++));
+      }
+      for (const c of node.childNodes) stamp(c);
+    })(tpl.content);
+    const builders = walkChildren(tpl.content, host);
+    const render = ((vals, ctx) => builders.map((b, i) => b(vals || {}, ctx, i)));
+    render.__annotated = tpl.innerHTML;
+    return render;
+  }
+  function walkChildren(node, host) {
+    return [...node.childNodes].map((c) => walk(c, host)).filter((b) => b != null);
+  }
+  function walk(node, host) {
+    if (node.nodeType === Node.TEXT_NODE) return walkText(node);
+    if (node.nodeType !== Node.ELEMENT_NODE) return null;
+    const el = node;
+    const tag = el.tagName.toLowerCase();
+    if (tag === "sc-for") return walkFor(el, host);
+    if (tag === "sc-if") return walkIf(el, host);
+    if (tag === "x-import") return walkXImport(el, host);
+    if (tag === "sc-helmet") return host.helmet(el);
+    if (tag === "dc-import") return walkComponent(el, host);
+    return walkElement(el, host);
+  }
+  var warnedHoles = /* @__PURE__ */ new Set();
+  function warnUnresolved(ctx, what) {
+    const key = (ctx?.__name || "?") + "\0" + what;
+    if (warnedHoles.has(key)) return;
+    warnedHoles.add(key);
+    console.warn("[dc-runtime] " + (ctx?.__name || "template") + ": " + what);
+  }
+  function walkText(node) {
+    const txt = node.nodeValue ?? "";
+    if (!txt.includes("{{")) {
+      if (!txt.trim() && !txt.includes(" ")) return null;
+      return () => txt;
+    }
+    const parts = txt.split(/\{\{([\s\S]+?)\}\}/g);
+    return (vals, ctx, key) => h(
+      getReact().Fragment,
+      { key },
+      ...parts.map((p, i) => {
+        if (!(i & 1)) return p;
+        const v = resolve(vals, p);
+        if (v === void 0) {
+          if (!ctx?.__streamingNow) {
+            if (document.body?.hasAttribute("data-dc-editor-on")) {
+              return h(
+                "span",
+                { key: i, className: "sc-interp sc-unresolved" },
+                "{{ " + p.trim() + " }}"
+              );
+            }
+            warnUnresolved(
+              ctx,
+              "{{ " + p.trim() + " }} never resolved \u2014 rendered as empty"
+            );
+            return null;
+          }
+          return h(
+            "span",
+            { key: i, className: "sc-interp sc-missing" },
+            p.trim()
+          );
+        }
+        if (getReact().isValidElement(v) || Array.isArray(v)) {
+          return h(getReact().Fragment, { key: i }, v);
+        }
+        if (v === null || typeof v === "boolean") return null;
+        return h("span", { key: i, className: "sc-interp" }, String(v));
+      })
+    );
+  }
+  function walkFor(el, host) {
+    const listGet = compileAttr(el.getAttribute("list") || "");
+    const asName = el.getAttribute("as") || "item";
+    const hintN = parseInt(el.getAttribute("hint-placeholder-count") || "0", 10);
+    const kids = walkChildren(el, host);
+    const listSrc = el.getAttribute("list") || "";
+    return (vals, ctx, key) => {
+      let list = listGet(vals);
+      if (!Array.isArray(list)) {
+        if (!ctx?.__streamingNow) {
+          if (list !== void 0 && list !== null) {
+            warnUnresolved(
+              ctx,
+              'sc-for list="' + listSrc + '" is not an array (' + typeof list + ")"
+            );
+          }
+          list = [];
+        } else {
+          list = hintN > 0 ? Array(hintN).fill(void 0) : [];
+        }
+      }
+      return h(
+        getReact().Fragment,
+        { key },
+        list.map((item, i) => {
+          const sub = { ...vals, [asName]: item, $index: i };
+          return h(
+            getReact().Fragment,
+            { key: i },
+            kids.map((b, j) => b(sub, ctx, j))
+          );
+        })
+      );
+    };
+  }
+  function walkIf(el, host) {
+    const valGet = compileAttr(el.getAttribute("value") || "");
+    const hintRaw = el.getAttribute("hint-placeholder-val");
+    const hintGet = hintRaw != null ? compileAttr(hintRaw) : null;
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      let v = valGet(vals);
+      if (v === void 0 && hintGet && ctx?.__streamingNow) v = hintGet(vals);
+      return v ? h(
+        getReact().Fragment,
+        { key },
+        kids.map((b, j) => b(vals, ctx, j))
+      ) : null;
+    };
+  }
+  function walkComponent(el, host) {
+    const name = el.getAttribute("name") || el.getAttribute("component") || "";
+    el.removeAttribute("name");
+    el.removeAttribute("component");
+    const tplId = el.getAttribute("data-dc-tpl");
+    const styleRaw = el.getAttribute("style");
+    el.removeAttribute("style");
+    const styleGet = styleRaw != null ? compileAttr(styleRaw) : null;
+    const { propGetters, hintSize } = collectProps(el, true, host);
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      const props = {
+        key,
+        __hintSize: hintSize,
+        __tplId: tplId,
+        __hostStyle: styleGet ? hostPositionStyle(styleGet(vals)) : void 0
+      };
+      for (const [k, g] of propGetters) props[k] = g(vals);
+      if (kids.length) props.children = kids.map((b, j) => b(vals, ctx, j));
+      return h(host.component(name), props);
+    };
+  }
+  function walkXImport(el, host) {
+    const globalNameGet = compileAttr(
+      el.getAttribute("component-from-global-scope") || ""
+    );
+    const exportNameGet = compileAttr(
+      el.getAttribute("component") || el.getAttribute("name") || ""
+    );
+    const url = el.getAttribute("from") || el.getAttribute("src") || el.getAttribute("import") || "";
+    const kind = /\.(jsx|tsx)(\?|#|$)/i.test(url) ? "jsx" : "js";
+    const tplId = el.getAttribute("data-dc-tpl");
+    const styleRaw = el.getAttribute("style");
+    el.removeAttribute("style");
+    const styleGet = styleRaw != null ? compileAttr(styleRaw) : null;
+    const wrap = tplId != null || styleGet != null;
+    const { propGetters, hintSize } = collectProps(el, true, host);
+    const hasContent = el.children.length > 0 || !!(el.textContent || "").trim();
+    const kids = hasContent ? walkChildren(el, host) : [];
+    const urlBindable = url.includes("{{");
+    if (url && !urlBindable) host.loadExternal(kind, url);
+    const evalName = (g, vals) => {
+      const v = g(vals);
+      const s = v == null ? "" : String(v);
+      return s.includes("{{") ? "" : s;
+    };
+    return (vals, ctx, key) => {
+      const globalName = evalName(globalNameGet, vals);
+      const name = globalName || evalName(exportNameGet, vals);
+      const C = !name || urlBindable ? null : globalName ? host.resolveExternalGlobal(url, globalName) : host.resolveExternal(url, name);
+      const hostStyle = styleGet ? hostPositionStyle(styleGet(vals)) : void 0;
+      const wrapper = wrap ? {
+        key,
+        className: "sc-host-x",
+        "data-dc-tpl": tplId,
+        style: hostStyle || { display: "contents" }
+      } : null;
+      if (!C) {
+        const error = urlBindable ? "x-import `from` cannot contain {{ \u2026 }} \u2014 module URLs are resolved at parse time; use a literal URL" : host.resolveExternalError(url, name);
+        const ph = host.placeholder({
+          key: wrapper ? void 0 : key,
+          name,
+          hintSize,
+          error
+        });
+        return wrapper ? h("div", wrapper, ph) : ph;
+      }
+      const props = wrapper ? {} : { key };
+      let unresolvedHole = false;
+      for (const [k, g] of propGetters) {
+        if (k === "component" || k === "componentFromGlobalScope" || k === "name" || k === "from" || k === "src" || k === "import") {
+          continue;
+        }
+        const v = g(vals);
+        if (v === void 0) unresolvedHole = true;
+        props[k] = v;
+      }
+      if (unresolvedHole && ctx?.__htmlStreamingNow) {
+        const ph = host.placeholder({
+          key: wrapper ? void 0 : key,
+          name,
+          hintSize,
+          error: null
+        });
+        return wrapper ? h("div", wrapper, ph) : ph;
+      }
+      if (kids.length) props.children = kids.map((b, j) => b(vals, ctx, j));
+      return wrapper ? h("div", wrapper, h(C, props)) : h(C, props);
+    };
+  }
+  function walkElement(el, host) {
+    const realTag = RAW_UNWRAP[el.localName] || el.localName;
+    const tplId = el.getAttribute("data-dc-tpl");
+    const { propGetters, pseudoClasses } = collectProps(el, false, host);
+    const kids = walkChildren(el, host);
+    return (vals, ctx, key) => {
+      const props = { key, "data-dc-tpl": tplId };
+      for (const [k, g] of propGetters) {
+        let v = g(vals);
+        if (k === "style" && typeof v === "string") v = cssToObj(v);
+        if ((k === "value" || k === "checked") && v === void 0) {
+          v = k === "checked" ? false : "";
+        }
+        props[k] = v;
+      }
+      if (pseudoClasses.length) {
+        props.className = [props.className, ...pseudoClasses].filter(Boolean).join(" ");
+      }
+      return h(realTag, props, ...kids.map((b, j) => b(vals, ctx, j)));
+    };
+  }
+
+  // src/logic.ts
+  var StreamableLogic = class {
+    constructor(props) {
+      __publicField(this, "props");
+      __publicField(this, "state", {});
+      /** Back-pointer to the wrapper component, installed after construction. */
+      __publicField(this, "__host");
+      this.props = props || {};
+    }
+    setState(update, cb) {
+      this.__host && this.__host.__setLogicState(update, cb);
+    }
+    forceUpdate() {
+      this.__host && this.__host.forceUpdate();
+    }
+    componentDidMount() {
+    }
+    componentDidUpdate(_prevProps) {
+    }
+    componentWillUnmount() {
+    }
+    /** The flat object the template renders against (merged over props). */
+    renderVals() {
+      return {};
+    }
+  };
+  function evalDcLogic(src) {
+    //! nosemgrep: eval-and-function-constructor
+    const fn = new Function(
+      "DCLogic",
+      "StreamableLogic",
+      "React",
+      src + '\n;return (typeof Component!=="undefined"&&Component)||undefined;'
+    );
+    return fn(StreamableLogic, StreamableLogic, getReact());
+  }
+
+  // src/component.ts
+  function shallowEqual(a, b) {
+    if (!b) return false;
+    const ak = Object.keys(a).filter((k) => k !== "children");
+    const bk = Object.keys(b).filter((k) => k !== "children");
+    if (ak.length !== bk.length) return false;
+    for (const k of ak) if (a[k] !== b[k]) return false;
+    return true;
+  }
+  function Placeholder({
+    name,
+    hintSize,
+    streaming,
+    error
+  }) {
+    const [w, hgt] = (hintSize || "100%,60px").split(",");
+    return h(
+      "div",
+      {
+        className: "sc-placeholder" + (streaming ? " sc-streaming" : ""),
+        style: { width: w.trim(), height: hgt && hgt.trim() },
+        title: name
+      },
+      error ? h(
+        "div",
+        { className: "sc-placeholder-error" },
+        (name ? name + ": " : "") + error
+      ) : null
+    );
+  }
+  function hintToMin(hint) {
+    if (!hint) return void 0;
+    const [w, hgt] = hint.split(",");
+    return { minWidth: w.trim(), minHeight: hgt && hgt.trim() };
+  }
+  function createComponentFactory(registry, ensureFetched) {
+    const React = getReact();
+    const AncestorContext = React.createContext([]);
+    class StreamableComponent extends React.Component {
+      constructor(props) {
+        super(props);
+        __publicField(this, "__name");
+        __publicField(this, "__sub");
+        __publicField(this, "__needsDidMount", false);
+        /** Snapshot of the registry's streaming flags taken at render time —
+         *  builders read it off the RenderCtx (this) to pick placeholder vs
+         *  render-nothing for unresolved values. */
+        __publicField(this, "__streamingNow", false);
+        __publicField(this, "__htmlStreamingNow", false);
+        /** When a construct throws, remember the (class, registry.ver, props)
+         *  triple so render-time reconcile doesn't re-attempt it on every parent
+         *  re-render. A registry bump (new class, template, external module
+         *  resolving via bumpAll) changes `ver` and breaks the memo so an
+         *  env-dependent constructor can self-heal. */
+        __publicField(this, "__failedLogic", null);
+        __publicField(this, "__failedUserProps", null);
+        __publicField(this, "__failedVer", -1);
+        /** Per-instance constructor error — kept here (not on the registry entry)
+         *  so one instance's successful construct can't hide a sibling's failure,
+         *  and a construct can never wipe an eval error `updateJs` recorded on
+         *  `r.logicError`. */
+        __publicField(this, "__ctorError", null);
+        __publicField(this, "logic");
+        this.__name = props.__name;
+        this.state = { __v: 0, __err: null };
+        this.__sub = () => {
+          if (this.state.__err) this.setState({ __err: null });
+          this.forceUpdate();
+        };
+        this.__makeLogic(registry.get(this.__name).Logic, null);
+        ensureFetched(this.__name);
+      }
+      /** Error-boundary hook: a render crash anywhere in this DC's subtree
+       *  (its own template, an x-import'd component, a child DC without its
+       *  own deeper boundary) lands here instead of unmounting the page. */
+      static getDerivedStateFromError(e) {
+        return { __err: e instanceof Error && e.message ? e.message : String(e) };
+      }
+      componentDidCatch(e, info) {
+        console.error(
+          "[dc-runtime] render error in <" + this.__name + ">:",
+          e,
+          info?.componentStack || ""
+        );
+      }
+      /** Instantiate the logic class (or the no-op base) and adopt `prevState`
+       *  over its initial state — used both at mount and on hot-swap. */
+      __makeLogic(Logic, prevState) {
+        const L = Logic || StreamableLogic;
+        try {
+          this.logic = new L(this.__userProps());
+          this.__failedLogic = null;
+          this.__failedUserProps = null;
+          this.__ctorError = null;
+        } catch (e) {
+          console.error(e);
+          this.__failedLogic = Logic;
+          this.__failedUserProps = this.__userProps();
+          this.__failedVer = registry.get(this.__name).ver;
+          this.__ctorError = this.__name + ": " + (e instanceof Error && e.message ? e.message : String(e));
+          this.logic = new StreamableLogic(
+            this.__userProps()
+          );
+        }
+        this.logic.__host = this;
+        if (prevState)
+          this.logic.state = { ...this.logic.state || {}, ...prevState };
+      }
+      /** The props the author's logic + template see — internal __-prefixed
+       *  wiring stripped. */
+      __userProps() {
+        const { __name, __hintSize, __tplId, __hostStyle, ...rest } = this.props;
+        return rest;
+      }
+      __setLogicState(update, cb) {
+        const prev = this.logic.state;
+        const patch = typeof update === "function" ? update(prev) : update;
+        this.logic.state = { ...prev, ...patch };
+        this.setState((s) => ({ __v: s.__v + 1 }), cb);
+      }
+      /** Swap the logic instance when the registry's Logic class changed
+       *  (streaming completion, hot reload). State carries over; didMount
+       *  re-fires after the swap commits so refs exist. */
+      __reconcileLogic() {
+        const r = registry.get(this.__name);
+        const Next = r.Logic;
+        const Cur = this.logic.constructor;
+        if (Next === Cur || !Next && Cur === StreamableLogic || Next === this.__failedLogic && r.ver === this.__failedVer && shallowEqual(this.__userProps(), this.__failedUserProps)) {
+          return;
+        }
+        if (!this.__needsDidMount) {
+          try {
+            this.logic.componentWillUnmount();
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        this.__makeLogic(Next, this.logic.state);
+        this.__needsDidMount = true;
+      }
+      componentDidMount() {
+        registry.get(this.__name).subs.add(this.__sub);
+        try {
+          this.logic.componentDidMount();
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      componentDidUpdate(prevProps) {
+        this.logic.props = this.__userProps();
+        if (this.__needsDidMount) {
+          if (this.state.__err || !registry.get(this.__name).tpl) return;
+          this.__needsDidMount = false;
+          try {
+            this.logic.componentDidMount();
+          } catch (e) {
+            console.error(e);
+          }
+        } else {
+          try {
+            this.logic.componentDidUpdate(prevProps);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      componentWillUnmount() {
+        registry.get(this.__name).subs.delete(this.__sub);
+        if (!this.__needsDidMount) {
+          try {
+            this.logic.componentWillUnmount();
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      render() {
+        const r = registry.get(this.__name);
+        const cls = "sc-host" + (r.htmlStreaming ? " sc-streaming-html" : "") + (r.jsStreaming ? " sc-streaming-js" : "");
+        const hintStyle = r.htmlStreaming ? hintToMin(this.props.__hintSize) : void 0;
+        const hostStyle = this.props.__hostStyle || hintStyle ? { ...hintStyle || {}, ...this.props.__hostStyle || {} } : void 0;
+        const hostBase = {
+          className: cls,
+          style: hostStyle,
+          "data-sc-name": this.__name,
+          "data-dc-tpl": this.props.__tplId
+        };
+        const chain = Array.isArray(this.context) ? this.context : [];
+        if (chain.includes(this.__name)) {
+          const cycle = [
+            ...chain.slice(chain.indexOf(this.__name)),
+            this.__name
+          ].join(" \u2192 ");
+          return h(
+            "div",
+            { ...hostBase, className: cls + " sc-has-error" },
+            h(Placeholder, {
+              name: this.__name,
+              hintSize: this.props.__hintSize,
+              error: "circular import: " + cycle
+            })
+          );
+        }
+        if (this.state.__err) {
+          return h(
+            "div",
+            { ...hostBase, className: cls + " sc-has-error" },
+            h(
+              "div",
+              { className: "sc-logic-error" },
+              this.__name + ": " + this.state.__err
+            ),
+            h(Placeholder, {
+              name: this.__name,
+              hintSize: this.props.__hintSize,
+              error: this.state.__err
+            })
+          );
+        }
+        this.__reconcileLogic();
+        if (!r.tpl) {
+          return h(
+            "div",
+            hostBase,
+            h(Placeholder, { name: this.__name, hintSize: this.props.__hintSize })
+          );
+        }
+        const userProps = this.__userProps();
+        this.logic.props = userProps;
+        let vals = userProps;
+        let renderErr = r.logicError || this.__ctorError;
+        try {
+          vals = { ...userProps, ...this.logic.renderVals() || {} };
+        } catch (e) {
+          console.error(e);
+          renderErr = this.__name + ".renderVals(): " + (e instanceof Error && e.message ? e.message : String(e));
+        }
+        this.__streamingNow = !!(r.htmlStreaming || r.jsStreaming);
+        this.__htmlStreamingNow = !!r.htmlStreaming;
+        return h(
+          "div",
+          { ...hostBase, className: cls + (renderErr ? " sc-has-error" : "") },
+          renderErr && h("div", { className: "sc-logic-error" }, renderErr),
+          h(
+            AncestorContext.Provider,
+            { value: [...chain, this.__name] },
+            r.tpl(vals, this)
+          )
+        );
+      }
+    }
+    __publicField(StreamableComponent, "contextType", AncestorContext);
+    const named = /* @__PURE__ */ new Map();
+    function getDC(name) {
+      const hit = named.get(name);
+      if (hit) return hit;
+      function Dispatcher(p) {
+        const [, setTick] = React.useState(0);
+        React.useEffect(() => {
+          const sub = () => setTick((n) => n + 1);
+          registry.get(name).subs.add(sub);
+          return () => {
+            registry.get(name).subs.delete(sub);
+          };
+        }, []);
+        ensureFetched(name);
+        return h(StreamableComponent, { ...p, __name: name });
+      }
+      Dispatcher.displayName = name;
+      named.set(name, Dispatcher);
+      return Dispatcher;
+    }
+    return {
+      getDC,
+      StreamableComponent
+    };
+  }
+
+  // src/external.ts
+  var isCustomElementName = (n) => !n.includes(".") && n.includes("-");
+  function isRenderableType(g) {
+    if (typeof g === "function") return !isElementClass(g);
+    return typeof g === "object" && g !== null && typeof g.$typeof === "symbol";
+  }
+  function resolveDottedPath(root, name) {
+    let cur = root;
+    for (const seg of name.split(".")) {
+      if (cur == null) return void 0;
+      cur = cur[seg];
+    }
+    return cur;
+  }
+  var BABEL_URL = "https://unpkg.com/@babel/standalone@7.26.4/babel.min.js";
+  var GLOBAL_POLL_INTERVAL_MS = 50;
+  var GLOBAL_POLL_TIMEOUT_MS = 3e4;
+  function createExternalModules(onResolved) {
+    const cache = /* @__PURE__ */ new Map();
+    let babelLoading = null;
+    const reportedMissing = /* @__PURE__ */ new Map();
+    const polling = /* @__PURE__ */ new Set();
+    function ensureBabel() {
+      if (window.Babel) return Promise.resolve();
+      if (babelLoading) return babelLoading;
+      babelLoading = new Promise((res, rej) => {
+        const s = document.createElement("script");
+        s.src = BABEL_URL;
+        s.crossOrigin = "anonymous";
+        s.onload = () => res();
+        s.onerror = rej;
+        document.head.appendChild(s);
+      });
+      return babelLoading;
+    }
+    function load(kind, url) {
+      if (cache.has(url)) return;
+      cache.set(url, null);
+      console.info("[dc-runtime] x-import: loading", url, "(" + kind + ")");
+      const ready = kind === "jsx" ? ensureBabel() : Promise.resolve();
+      ready.then(() => fetch(url)).then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.text();
+      }).then((src) => {
+        const code = kind === "jsx" ? window.Babel.transform(src, {
+          filename: url,
+          presets: ["react", "typescript"]
+        }).code : src;
+        const module = { exports: {} };
+        const before = new Set(Object.keys(window));
+        //! nosemgrep: eval-and-function-constructor
+        new Function("React", "module", "exports", "require", code)(
+          getReact(),
+          module,
+          module.exports,
+          () => ({})
+        );
+        const globals = {};
+        for (const k of Object.keys(window)) {
+          if (!before.has(k) && typeof window[k] === "function") {
+            globals[k] = window[k];
+          }
+        }
+        cache.set(url, { mod: module.exports, globals });
+        console.info(
+          "[dc-runtime] x-import: loaded",
+          url,
+          "\u2014 exports:",
+          Object.keys(module.exports),
+          "window globals:",
+          Object.keys(globals)
+        );
+        onResolved();
+      }).catch((e) => {
+        cache.set(url, {
+          mod: {},
+          globals: {},
+          error: "failed to load: " + (e instanceof Error && e.message ? e.message : String(e))
+        });
+        console.error(
+          "[dc-runtime] x-import: FAILED to load",
+          url,
+          "(" + kind + ")",
+          e
+        );
+        onResolved();
+      });
+    }
+    function resolve2(url, name) {
+      const entry = cache.get(url);
+      if (!entry) return null;
+      const { mod, globals } = entry;
+      const C = mod && mod[name] || globals && globals[name] || typeof window !== "undefined" && window[name] || mod && mod.default;
+      if (typeof C === "function") return C;
+      const key = url + "\0" + name;
+      if (!reportedMissing.has(key)) {
+        reportedMissing.set(
+          key,
+          entry.error || 'no export named "' + name + '" (has: ' + Object.keys(mod).join(", ") + ")"
+        );
+        console.error(
+          "[dc-runtime] x-import: module",
+          url,
+          "loaded but has no component named",
+          JSON.stringify(name),
+          "\u2014 available exports:",
+          Object.keys(mod),
+          "window globals:",
+          Object.keys(globals),
+          ". The module must `module.exports = {" + name + "}` or set `window." + name + "`."
+        );
+      }
+      return null;
+    }
+    function waitForGlobal(name) {
+      if (polling.has(name)) return;
+      polling.add(name);
+      const started = Date.now();
+      const isCE = isCustomElementName(name);
+      const tick = () => {
+        const found = isCE ? customElements.get(name) : isRenderableType(resolveDottedPath(window, name));
+        if (found) {
+          polling.delete(name);
+          onResolved();
+          return;
+        }
+        if (Date.now() - started >= GLOBAL_POLL_TIMEOUT_MS) {
+          console.warn(
+            "[dc-runtime] x-import: global",
+            JSON.stringify(name),
+            "never appeared on window after " + GLOBAL_POLL_TIMEOUT_MS + "ms"
+          );
+          return;
+        }
+        setTimeout(tick, GLOBAL_POLL_INTERVAL_MS);
+      };
+      setTimeout(tick, GLOBAL_POLL_INTERVAL_MS);
+    }
+    function resolveGlobal(url, name) {
+      const isCE = isCustomElementName(name);
+      if (!url) {
+        if (isCE) {
+          if (customElements.get(name)) return name;
+          waitForGlobal(name);
+          return null;
+        }
+        const g2 = resolveDottedPath(window, name);
+        if (isRenderableType(g2)) return g2;
+        waitForGlobal(name);
+        return null;
+      }
+      const entry = cache.get(url);
+      if (!entry) return null;
+      if (isCE && customElements.get(name)) return name;
+      const g = entry.globals[name] ?? resolveDottedPath(window, name);
+      if (isRenderableType(g)) return g;
+      if (name.includes(".")) return null;
+      const key = url + "\0global\0" + name;
+      if (!reportedMissing.has(key)) {
+        reportedMissing.set(key, null);
+        if (isCE && !customElements.get(name)) {
+          console.warn(
+            "[dc-runtime] x-import:",
+            url,
+            "loaded but no custom element",
+            JSON.stringify(name),
+            "is registered and window." + name + " is not a function \u2014 rendering <" + name + "> as an unknown element."
+          );
+        }
+      }
+      return name;
+    }
+    function getError(url, name) {
+      const entry = cache.get(url);
+      if (entry?.error) return entry.error;
+      return reportedMissing.get(url + "\0" + name) || null;
+    }
+    return { load, resolve: resolve2, resolveGlobal, getError };
+  }
+  function isElementClass(g) {
+    try {
+      return typeof g === "function" && typeof HTMLElement !== "undefined" && g.prototype instanceof HTMLElement;
+    } catch {
+      return false;
+    }
+  }
+
+  // src/atomics.ts
+  var ATOMIC_CSS = (
+    // layout
+    ".fx{display:flex}.col{display:flex;flex-direction:column}.grid{display:grid}.ac{align-items:center}.jc{justify-content:center}.jb{justify-content:space-between}.f1{flex:1}.noshrink{flex-shrink:0}.wrap{flex-wrap:wrap}.fw5{font-weight:500}.fw6{font-weight:600}.fw7{font-weight:700}.fw8{font-weight:800}.fs11{font-size:11px}.fs12{font-size:12px}.fs13{font-size:13px}.fs14{font-size:14px}.fs15{font-size:15px}.fs16{font-size:16px}.fs20{font-size:20px}.fs22{font-size:22px}.upper{text-transform:uppercase}.tc{text-align:center}.nowrap{white-space:nowrap}.gap8{gap:8px}.gap10{gap:10px}.gap12{gap:12px}.gap16{gap:16px}.gap24{gap:24px}.m0{margin:0}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}.posrel{position:relative}.posabs{position:absolute}.round{border-radius:50%}.ohide{overflow:hidden}.bbox{box-sizing:border-box}.pointer{cursor:pointer}.w100{width:100%}.b0{border:none}"
+  );
+
+  // src/helmet.ts
+  function createHelmetManager(doc, isStreaming) {
+    const mounted = /* @__PURE__ */ new Set();
+    const live = /* @__PURE__ */ new Map();
+    function compile(node) {
+      const raw = [...node.children];
+      const helmetClosed = node.nextSibling != null || node.parentNode?.nextSibling != null;
+      if (node.hasAttribute("data-dc-atomics") && !mounted.has("__dc-atomics")) {
+        mounted.add("__dc-atomics");
+        const el = doc.createElement("style");
+        el.id = "__dc-atomics";
+        el.textContent = ATOMIC_CSS;
+        doc.head.appendChild(el);
+      }
+      return (_vals, ctx) => {
+        const name = ctx && ctx.__name || "";
+        const streaming = !!(name && isStreaming(name));
+        for (let i = 0; i < raw.length; i++) {
+          const child = raw[i];
+          const tag = child.tagName;
+          const mayBePartial = streaming && !helmetClosed && i === raw.length - 1;
+          if (tag === "SCRIPT") {
+            if (mayBePartial) continue;
+            const key = "SCRIPT|" + (child.getAttribute("src") || child.textContent || "");
+            if (mounted.has(key)) continue;
+            mounted.add(key);
+            const el = doc.createElement("script");
+            for (const { name: an, value } of [...child.attributes])
+              el.setAttribute(an, value);
+            if (child.textContent) el.textContent = child.textContent;
+            doc.head.appendChild(el);
+          } else if (tag === "LINK" || tag === "META") {
+            if (mayBePartial) continue;
+            const key = tag + "|" + (child.getAttribute("href") || child.getAttribute("src") || child.outerHTML);
+            if (mounted.has(key)) continue;
+            mounted.add(key);
+            doc.head.appendChild(child.cloneNode(true));
+          } else {
+            const key = name + "|" + i;
+            let el = live.get(key);
+            if (!el || el.tagName !== tag) {
+              if (el) el.remove();
+              el = doc.createElement(tag.toLowerCase());
+              live.set(key, el);
+              doc.head.appendChild(el);
+            }
+            for (const { name: an, value } of [...child.attributes]) {
+              if (el.getAttribute(an) !== value) el.setAttribute(an, value);
+            }
+            if (el.textContent !== child.textContent)
+              el.textContent = child.textContent;
+          }
+        }
+        return null;
+      };
+    }
+    return { compile };
+  }
+
+  // src/pseudo.ts
+  function createPseudoSheet(doc) {
+    let el = null;
+    const cache = /* @__PURE__ */ new Map();
+    let n = 0;
+    return (pseudo, css) => {
+      const k = pseudo + "|" + css;
+      const hit = cache.get(k);
+      if (hit) return hit;
+      if (!el) {
+        el = doc.createElement("style");
+        doc.head.appendChild(el);
+      }
+      const cls = "scp" + (n++).toString(36);
+      const sel = pseudo === "before" || pseudo === "after" ? "." + cls + "::" + pseudo : "." + cls + ":" + pseudo;
+      el.sheet.insertRule(sel + "{" + css + "}", el.sheet.cssRules.length);
+      cache.set(k, cls);
+      return cls;
+    };
+  }
+
+  // src/registry.ts
+  function createRegistry() {
+    const entries = /* @__PURE__ */ Object.create(null);
+    function get(name) {
+      return entries[name] || (entries[name] = {
+        html: "",
+        tpl: null,
+        Logic: null,
+        jsStreaming: false,
+        htmlStreaming: false,
+        ver: 0,
+        subs: /* @__PURE__ */ new Set(),
+        fetched: false
+      });
+    }
+    function bump(name) {
+      const r = get(name);
+      r.ver++;
+      for (const fn of r.subs) fn();
+    }
+    return {
+      entries,
+      get,
+      bump,
+      bumpAll() {
+        for (const n in entries) bump(n);
+      }
+    };
+  }
+
+  // src/runtime.ts
+  var COMPONENT_DIR = ".";
+  function createRuntime(doc = document) {
+    const registry = createRegistry();
+    const pseudoClass = createPseudoSheet(doc);
+    const helmet = createHelmetManager(
+      doc,
+      (name) => registry.get(name).htmlStreaming
+    );
+    const external = createExternalModules(() => registry.bumpAll());
+    const factory = createComponentFactory(registry, ensureFetched);
+    const host = {
+      component: (name) => factory.getDC(name),
+      placeholder: (props) => h(Placeholder, props),
+      helmet: (node) => helmet.compile(node),
+      loadExternal: (kind, url) => external.load(kind, url),
+      resolveExternal: (url, name) => external.resolve(url, name),
+      resolveExternalGlobal: (url, name) => external.resolveGlobal(url, name),
+      resolveExternalError: (url, name) => external.getError(url, name),
+      pseudoClass
+    };
+    function ensureFetched(name) {
+      const r = registry.get(name);
+      if (r.fetched) return;
+      r.fetched = true;
+      const url = COMPONENT_DIR + "/" + encodeURIComponent(name) + ".dc.html";
+      fetch(url).then((res) => {
+        if (!res.ok) {
+          console.error(
+            "[dc-runtime] sibling fetch for <" + name + "/> failed:",
+            url,
+            "returned",
+            res.status,
+            "\u2014 the reference renders as an empty placeholder."
+          );
+          return "";
+        }
+        return res.text();
+      }).then((t) => {
+        if (!t) return;
+        const parsed = parseDcText(t);
+        if (!parsed) {
+          console.error(
+            "[dc-runtime] sibling fetch for <" + name + "/>:",
+            url,
+            "has no <x-dc> block \u2014 not a Design Component."
+          );
+          return;
+        }
+        if (parsed.props) r.propsMeta = parsed.props;
+        if (parsed.preview) r.preview = parsed.preview;
+        if (parsed.template && !r.html) updateHtml(name, parsed.template);
+        if (parsed.js && !r.Logic) updateJs(name, parsed.js);
+      }).catch(
+        (e) => console.error(
+          "[dc-runtime] sibling fetch for <" + name + "/> threw:",
+          url,
+          e
+        )
+      );
+    }
+    function updateHtml(name, html) {
+      const r = registry.get(name);
+      r.html = html;
+      try {
+        r.tpl = compileTemplate(html, host);
+      } catch (e) {
+        console.error("[dc-runtime] template compile FAILED for", name, e);
+      }
+      registry.bump(name);
+    }
+    function updateJs(name, src) {
+      const r = registry.get(name);
+      const seq = r.jsSeq = (r.jsSeq || 0) + 1;
+      try {
+        const Cls = evalDcLogic(src);
+        if (r.jsSeq !== seq) return;
+        if (typeof Cls !== "function") {
+          r.logicError = name + ".dc.html: <script data-dc-script> must define `class Component extends DCLogic`";
+        } else {
+          r.logicError = null;
+          r.Logic = Cls;
+        }
+      } catch (e) {
+        if (r.jsSeq !== seq) return;
+        console.error(
+          "[dc-runtime] logic class eval FAILED for",
+          name,
+          "\u2014 the template renders with props only.",
+          e
+        );
+        r.logicError = name + ": " + (e instanceof Error && e.message ? e.message : String(e));
+      }
+      registry.bump(name);
+    }
+    function setStreaming(name, kind, on) {
+      const r = registry.get(name);
+      if (kind === "html") r.htmlStreaming = !!on;
+      else r.jsStreaming = !!on;
+      let any = false;
+      for (const n in registry.entries) {
+        const e = registry.entries[n];
+        if (e && (e.htmlStreaming || e.jsStreaming)) {
+          any = true;
+          break;
+        }
+      }
+      doc.documentElement.classList.toggle("sc-dc-streaming", any);
+      registry.bump(name);
+    }
+    function dcUpdate(name, kind, content, streaming) {
+      if (streaming) registry.get(name).fetched = true;
+      if (kind === "html") {
+        setStreaming(name, "html", !!streaming);
+        updateHtml(name, content);
+      } else if (kind === "js") {
+        setStreaming(name, "js", !!streaming);
+        if (!streaming) updateJs(name, content);
+      } else if (kind === "props") {
+        const { props, preview } = parseDataProps(content);
+        const r = registry.get(name);
+        r.propsMeta = props ?? void 0;
+        r.preview = preview;
+        registry.bump(name);
+      }
+    }
+    function setProps(name, overrides) {
+      registry.get(name).propOverrides = overrides && typeof overrides === "object" ? { ...overrides } : null;
+      registry.bump(name);
+    }
+    function adoptParsed(name, parsed) {
+      if (!parsed) return;
+      const r = registry.get(name);
+      if (parsed.props) r.propsMeta = parsed.props;
+      if (parsed.preview) r.preview = parsed.preview;
+      if (parsed.template) updateHtml(name, parsed.template);
+      if (parsed.js) updateJs(name, parsed.js);
+    }
+    return {
+      registry,
+      getDC: factory.getDC,
+      updateHtml,
+      updateJs,
+      dcUpdate,
+      setProps,
+      adoptParsed,
+      markFetched: (name) => {
+        registry.get(name).fetched = true;
+      },
+      annotatedTemplate: (name) => {
+        const r = registry.get(name);
+        return r.tpl && r.tpl.__annotated || null;
+      },
+      templateSource: (name) => registry.get(name).html || null,
+      StreamableLogic
+    };
+  }
+
+  // src/index.ts
+  var REACT_URL = "https://unpkg.com/react@18.3.1/umd/react.production.min.js";
+  var REACT_SRI = "sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z";
+  var REACT_DOM_URL = "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js";
+  var REACT_DOM_SRI = "sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1";
+  function hideRawTemplate() {
+    const s = document.createElement("style");
+    s.textContent = "x-dc{display:none!important}";
+    document.head.appendChild(s);
+  }
+  function loadScript(src, integrity) {
+    return new Promise((resolve2, reject) => {
+      //! nosemgrep: create-script-element
+      const s = document.createElement("script");
+      s.src = src;
+      s.integrity = integrity;
+      s.crossOrigin = "anonymous";
+      s.async = false;
+      s.onload = () => resolve2();
+      s.onerror = () => reject(new Error(`failed to load ${src}`));
+      document.head.appendChild(s);
+    });
+  }
+  function loadReactUmd() {
+    const w = window;
+    if (w.React && w.ReactDOM) return Promise.resolve();
+    return Promise.all([
+      loadScript(REACT_URL, REACT_SRI),
+      loadScript(REACT_DOM_URL, REACT_DOM_SRI)
+    ]).then(() => void 0);
+  }
+  function init() {
+    const runtime = createRuntime(document);
+    let rootName = "Root";
+    const baseCss = document.createElement("style");
+    baseCss.textContent = BASE_CSS;
+    document.head.prepend(baseCss);
+    const notifyHost = () => {
+      if (window.parent === window) return;
+      const r = runtime.registry.entries[rootName];
+      try {
+        window.parent.postMessage(
+          {
+            type: "__dc_booted",
+            rootName,
+            propsMeta: r && r.propsMeta || null,
+            preview: r && r.preview || null
+          },
+          "*"
+        );
+      } catch {
+      }
+    };
+    const api = {
+      __dcUpdate: (name, kind, content, streaming) => {
+        runtime.dcUpdate(name, kind, content, streaming);
+        if (name === rootName && !streaming && kind === "props") notifyHost();
+      },
+      __dcSetProps: (name, overrides) => runtime.setProps(name, overrides),
+      /** Name of the component currently mounted as the page root — DC tools
+       *  push their template-stream here when targeting "the open page". */
+      __dcRootName: () => rootName,
+      /** Editor bridge — the encoded, `data-dc-tpl`-annotated template source.
+       *  The host editor parses this into its own template DOM so it can map a
+       *  rendered node (carrying the same `data-dc-tpl`) back to the source
+       *  node that emitted it. Returns the encoded form (`<sc-comp>`,
+       *  `sc-camel-*` attrs); the editor decodes on serialize. */
+      __dcAnnotatedTemplate: (name) => runtime.annotatedTemplate(name),
+      /** Editor bridge — the *original* (decoded) template source. */
+      __dcTemplateSource: (name) => runtime.templateSource(name),
+      __dcBoot: () => {
+        rootName = boot(runtime, document) ?? rootName;
+        notifyHost();
+      },
+      __dcRegistry: runtime.registry.entries,
+      getDC: (name) => runtime.getDC(name),
+      // `DCLogic` is the documented base class name; `StreamableLogic` is the
+      // implementation alias kept for any project that already references it.
+      DCLogic: runtime.StreamableLogic,
+      StreamableLogic: runtime.StreamableLogic
+    };
+    Object.assign(window, api);
+    if (document.readyState !== "loading") api.__dcBoot();
+    else document.addEventListener("DOMContentLoaded", () => api.__dcBoot());
+  }
+  hideRawTemplate();
+  loadReactUmd().then(init).catch((err) => {
+    console.error("[dc] failed to load React or boot:", err);
+    throw err;
+  });
+})();
+
+  </script>
+</head>
+
+<body>
+  <!-- Back to Home Button -->
+  <a href="../index.html"
+    style="position:fixed; bottom:24px; right:24px; z-index:99999; background:#1D1B17; color:#FFF; padding:12px 18px; border-radius:99px; text-decoration:none; font-family:'Noto Sans TC',sans-serif; font-size:14px; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,0.2); display:flex; align-items:center; gap:8px; transition:transform 0.2s;"
+    onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </svg>
+    返回首頁
+  </a>
+  <x-dc>
+    <helmet></helmet>
+<div
+      style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#E9E4DA; padding:20px 0;">
+
+      <!-- ░░ DEMO CONTROLLER ░░ -->
+      <div
+        style="width:min(440px,100%); margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:10px 16px; box-shadow:0 4px 20px rgba(40,35,28,0.06); z-index:100;">
+        <span
+          style="font-size:12.5px; font-weight:700; color:#5D5950; font-family:'Noto Sans TC'; white-space:nowrap; margin-right:10px;">Demo
+          切換：</span>
+        <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none;">
+          <sc-for list="{{ topicChips }}" as="chip">
+            <button onclick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- ░░ PHONE LAYOUT CONTAINER ░░ -->
+      <div
+        style="width:min(440px,100%); background:#FBF9F5; min-height:85vh; border-radius:24px; position:relative; box-shadow:0 0 60px rgba(40,35,28,0.16); overflow:hidden; display:flex; flex-direction:column;">
+
+        <!-- ░░ TOP BAR ░░ -->
+        <div
+          style="position:sticky; top:0; z-index:30; height:54px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; background:rgba(251,249,245,0.86); backdrop-filter:blur(12px); border-bottom:1px solid #ECE6DA;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div
+              style="width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2;">
+              <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
+                <path d="M12.5 4.5 L7 10 L12.5 15.5" stroke="#1D1B17" stroke-width="1.7" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div style="display:flex; flex-direction:column; line-height:1;">
+              <span
+                style="font-family:'Noto Sans TC',sans-serif; font-size:9px; letter-spacing:2px; color:#A39C8E; text-transform:uppercase;">Ours
+                · 議題</span>
+              <span
+                style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:15px; color:#1D1B17; margin-top:3px;">{{
+                topic.category }}</span>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button type="button" aria-label="收藏議題" onclick="{{ toggleBookmark }}"
+              style="width:34px; height:34px; border:0; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2; cursor:pointer; padding:0;">
+              <svg width="15" height="15" viewBox="0 0 20 20" fill="{{ bmFill }}">
+                <path d="M5 3.5 h10 v14 l-5 -3.6 l-5 3.6 z" stroke="#1D1B17" stroke-width="1.5" stroke-linejoin="round">
+                </path>
+              </svg>
+            </button>
+            <button type="button" aria-label="更多操作"
+              style="width:34px; height:34px; border:0; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2; cursor:pointer; padding:0;">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <circle cx="5.5" cy="10" r="1.6" fill="#1D1B17"></circle>
+                <circle cx="10" cy="10" r="1.6" fill="#1D1B17"></circle>
+                <circle cx="14.5" cy="10" r="1.6" fill="#1D1B17"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div style="flex:1; padding-bottom:86px;">
+
+          <!-- ░░ TOPIC HEADER ░░ -->
+          <div class="topic-header">
+            <div class="topic-kicker-row">
+              <sc-if value="{{ hasExcellentSource }}" hint-placeholder-val="{{ true }}">
+                <span class="topic-trust-badge">具事實查核優良報導</span>
+              </sc-if>
+              <span class="topic-status-pill">
+                <span class="topic-status-dot" style="{{ topic.statusDotStyle }}"></span>
+                {{ topic.status }}
+              </span>
+            </div>
+
+            <h1 class="topic-title">{{ topic.title }}</h1>
+
+            <div class="topic-stats-row">
+              <div class="topic-stats-main">
+                <span><b>{{ headerMeta.followerCount }}</b> 人追蹤</span>
+                <span class="dot-separator"></span>
+                <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
+                <span class="dot-separator"></span>
+                <span><b>{{ headerMeta.reportCount }}</b> 篇報導</span>
+              </div>
+              <span class="topic-updated-at">{{ headerMeta.updatedAt }}</span>
+            </div>
+          </div>
+
+          <!-- ░░ AI SUMMARY CARD ░░ -->
+          <div
+            style="margin:0 14px 16px; background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:18px 18px 20px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span
+                  style="width:26px; height:26px; border-radius:8px; background:#17150F; display:flex; align-items:center; justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="#FBD24B">
+                    <path
+                      d="M10 1.5 L11.6 7.2 L17.5 8 L13 11.6 L14.4 17.5 L10 14.2 L5.6 17.5 L7 11.6 L2.5 8 L8.4 7.2 Z">
+                    </path>
+                  </svg>
+                </span>
+                <span style="font-family:'Noto Sans TC'; font-weight:700; font-size:15px; color:#17150F;">30
+                  秒快速看懂</span>
+              </div>
+              <span style="font-family:'Noto Sans TC',sans-serif; font-size:9px; letter-spacing:0.5px; color:#B0A899;">由
+                AI 整理 · {{ topic.summaryLabel }}</span>
+            </div>
+
+            <div class="summary-block-list">
+              <sc-for list="{{ topic.summaryBlocks }}" as="block">
+                <div class="summary-block-row">
+                  <span class="summary-block-label" style="{{ block.labelStyle }}">{{ block.label }}</span>
+                  <span class="summary-block-text">{{ block.text }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- Hashtags -->
+            <div
+              style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-top:12px;">
+              <sc-for list="{{ topic.hashtags }}" as="tag" hint-placeholder-count="4">
+                <span
+                  style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">{{
+                  tag }}</span>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- ░░ TAB BAR ░░ -->
+          <div role="tablist" aria-label="議題內容切換"
+            style="position:sticky; top:54px; z-index:20; background:rgba(251,249,245,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #ECE6DA; display:flex; padding:0 14px;">
+            <sc-if value="{{ hasTrend }}" hint-placeholder-val="{{ true }}">
+              <button type="button" role="tab" aria-selected="{{ isTrend }}" onclick="{{ setTrend }}"
+                style="{{ tabTrendStyle }}">
+                <span>話題趨勢</span>
+              </button>
+            </sc-if>
+            <button type="button" role="tab" aria-selected="{{ isTimeline }}" onclick="{{ setTimeline }}"
+              style="{{ tabTimelineStyle }}">
+              <span>議題時間軸</span>
+            </button>
+            <button type="button" role="tab" aria-selected="{{ isSources }}" onclick="{{ setSources }}"
+              style="{{ tabSourcesStyle }}">
+              <span>新聞來源</span>
+            </button>
+          </div>
+
+          <!-- ░░ TAB: TREND ░░ -->
+          <sc-if value="{{ isTrend }}" hint-placeholder-val="{{ true }}">
+            <div style="animation:ourFade .35s ease both; padding:20px 0 8px;">
+
+              <!-- 雷達區塊 (Trend) -->
+              <sc-if value="{{ showRadarInTrend }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:0 14px 16px;">
+                  <div class="concern-proposal-tag">{{ radarTag }}</div>
+                  <div class="concern-radar">
+                    <p class="concern-radar__title">{{ radarTitle }}</p>
+                    <sc-for list="{{ radarItems }}" as="item" hint-placeholder-count="6">
+                      <div class="concern-radar__row">
+                        <span>{{ item.label }}</span>
+                        <span class="concern-radar__track">
+                          <span class="concern-radar__fill" style="{{ item.fillStyle }}"></span>
+                        </span>
+                        <span class="concern-radar__score">{{ item.score }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ topic.hasTrendDashboard }}" hint-placeholder-val="{{ false }}">
+                <section class="trend-dashboard">
+                  <div class="trend-dashboard__head">
+                    <h2>{{ topic.trendDashboard.title }}</h2>
+                    <span>{{ topic.trendDashboard.sourceLabel }}</span>
+                  </div>
+
+                  <div class="trend-dashboard__grid">
+                    <sc-for list="{{ topic.trendDashboard.cards }}" as="card" hint-placeholder-count="4">
+                      <article class="trend-metric-card {{ card.statusClass }}">
+                        <span class="trend-metric-card__label">{{ card.label }}</span>
+                        <strong class="trend-metric-card__value">{{ card.value }}</strong>
+                        <p class="trend-metric-card__delta">{{ card.delta }}</p>
+                        <sc-if value="{{ card.hasSparkline }}" hint-placeholder-val="{{ false }}">
+                          <svg class="trend-sparkline" viewBox="0 0 100 28" preserveAspectRatio="none">
+                            <polyline points="{{ card.sparklinePoints }}"></polyline>
+                          </svg>
+                        </sc-if>
+                        <span class="trend-metric-card__source">來源：{{ card.source }}</span>
+                      </article>
+                    </sc-for>
+                  </div>
+                </section>
+              </sc-if>
+
+              <sc-if value="{{ hasDistribution }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:0 14px 14px;">
+                  <h2
+                    style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:16px; margin:0 0 12px; color:#17150F;">
+                    <sc-if value="{{ isStanceSpectrum }}" hint-placeholder-val="{{ true }}">立場分布</sc-if>
+                    <sc-if value="{{ isMarketSentiment }}" hint-placeholder-val="{{ false }}">市場情緒</sc-if>
+                    <sc-if value="{{ isCultureClusters }}" hint-placeholder-val="{{ false }}">討論面向</sc-if>
+                  </h2>
+
+                  <!-- distribution bar -->
+                  <div
+                    style="display:flex; height:36px; border-radius:8px; overflow:hidden; margin-bottom:10px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.03);">
+                    <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
+                      <div
+                        style="width:{{ dist.value }}%; background:{{ dist.color }}; display:flex; align-items:center; justify-content:center; color:#FFF; font-family:'Noto Sans TC',sans-serif; font-weight:600; font-size:13.5px;">
+                        {{ dist.value }}%</div>
+                    </sc-for>
+                  </div>
+
+                  <div
+                    style="display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:12px; font-family:'Noto Sans TC';">
+                    <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
+                      <span style="display:flex; align-items:center; gap:5px; color:#6F6859;"><span
+                          style="width:8px; height:8px; border-radius:50%; background:{{ dist.color }};"></span>{{
+                        dist.label }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <!-- 留言列表 -->
+              <sc-if value="{{ isGroupedComments }}" hint-placeholder-val="{{ true }}">
+                <div class="comment-section-head">
+                  <div class="comment-section-title">
+                    {{ commentSectionTitle }}</div>
+                  <span>依主要立場分組</span>
+                </div>
+                <div class="grouped-comment-stack">
+                  <sc-for list="{{ commentGroups }}" as="group" hint-placeholder-count="3">
+                    <section class="comment-group-wrap" style="{{ group.wrapStyle }}">
+                      <div class="comment-group-tag" style="{{ group.tagStyle }}">{{ group.label }}</div>
+                      <sc-for list="{{ group.comments }}" as="c" hint-placeholder-count="1">
+                        <article class="comment-card">
+                          <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                            <div class="comment-avatar-x">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF">
+                                <path
+                                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                                </path>
+                              </svg>
+                            </div>
+                            <div style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
+                              <span
+                                style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">{{
+                                c.name }}</span>
+                              <span style="font-size:12px; color:#6B6353; font-family:'Noto Sans TC',sans-serif;">{{
+                                c.handle }}</span>
+                            </div>
+                          </div>
+                          <p
+                            style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">
+                            {{ c.text }}</p>
+                          <div
+                            style="display:flex; align-items:center; gap:16px; font-family:'Noto Sans TC',sans-serif; font-size:11px; color:#7C7567; padding:2px 4px 0;">
+                            <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                              </svg> {{ c.replies }}</span>
+                            <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path
+                                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                </path>
+                              </svg> {{ c.likes }}</span>
+                          </div>
+                        </article>
+                      </sc-for>
+                    </section>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isFeedComments }}" hint-placeholder-val="{{ false }}">
+                <div class="comment-section-head">
+                  <div class="comment-section-title">
+                    {{ commentSectionTitle }}</div>
+                  <button class="comment-filter-chip" style="{{ commentFilterStyle }}">{{ commentFilterLabel }} <span
+                      style="font-size:10px; color:#8A8377;">▾</span></button>
+                </div>
+                <div style="padding:0 14px 10px; display:flex; flex-direction:column; gap:12px;">
+                  <sc-for list="{{ topic.comments }}" as="c" hint-placeholder-count="3">
+                    <article class="comment-card">
+                      <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                        <div class="comment-avatar-x">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF">
+                            <path
+                              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                            </path>
+                          </svg>
+                        </div>
+                        <div style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
+                          <span style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">{{
+                            c.name }}</span>
+                          <span style="font-size:12px; color:#6B6353; font-family:'Noto Sans TC',sans-serif;">{{
+                            c.handle }}</span>
+                        </div>
+                      </div>
+                      <p
+                        style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">
+                        {{ c.text }}</p>
+                      <div
+                        style="display:flex; align-items:center; gap:16px; font-family:'Noto Sans TC',sans-serif; font-size:11px; color:#7C7567; padding:2px 4px 0;">
+                        <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                          </svg> {{ c.replies }}</span>
+                        <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path
+                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                          </svg> {{ c.likes }}</span>
+                      </div>
+                    </article>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <!-- 發 Post CTA -->
+              <div class="post-cta-wrap">
+                <div class="post-cta-card">
+                  <div class="post-cta-copy">
+                    <span class="post-cta-eyebrow">JOIN THE DISCUSSION</span>
+                    <p class="post-cta-title">{{ postCtaTitle }}</p>
+                    <p class="post-cta-desc">{{ postCtaDesc }}</p>
+                  </div>
+                  <button class="post-cta-button">
+                    發表看法
+                  </button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ░░ TAB: TIMELINE ░░ -->
+          <sc-if value="{{ isTimeline }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:ourFade .35s ease both; padding:20px 20px 8px;">
+
+              <!-- 雷達區塊 (Timeline / Weather) -->
+              <sc-if value="{{ showRadarInTimeline }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:0 0 16px;">
+                  <div class="concern-proposal-tag">{{ radarTag }}</div>
+                  <div class="concern-radar">
+                    <p class="concern-radar__title">{{ radarTitle }}</p>
+                    <sc-for list="{{ radarItems }}" as="item" hint-placeholder-count="6">
+                      <div class="concern-radar__row">
+                        <span>{{ item.label }}</span>
+                        <span class="concern-radar__track">
+                          <span class="concern-radar__fill" style="{{ item.fillStyle }}"></span>
+                        </span>
+                        <span class="concern-radar__score">{{ item.score }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <h2
+                style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:19px; margin:0 0 4px; color:#17150F;">
+                議題怎麼走到今天</h2>
+              <div style="position:relative;">
+                <div
+                  style="position:absolute; left:7px; top:6px; bottom:6px; width:2px; background:linear-gradient(180deg,#E4DDCE,#E4DDCE 92%,transparent);">
+                </div>
+                <sc-for list="{{ topic.timeline }}" as="node" hint-placeholder-count="3">
+                  <div style="position:relative; padding-left:34px; padding-bottom:18px;">
+                    <div style="{{ node.dotStyle }}"></div>
+                    <div
+                      style="background:#FFF; border:1px solid #ECE6DA; border-radius:13px; padding:13px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+                      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                        <span
+                          style="font-family:'Noto Sans TC',sans-serif; font-size:11px; font-weight:600; color:{{ topic.themeColor }};">{{
+                          node.date }}</span>
+                        <span style="{{ node.tagStyle }}">{{ node.tag }}</span>
+                      </div>
+                      <div
+                        style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:15.5px; line-height:1.45; color:#17150F; margin-bottom:4px;">
+                        {{ node.title }}</div>
+                      <div style="font-size:12.5px; line-height:1.65; color:#6B6353;">{{ node.desc }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ░░ TAB: SOURCES ░░ -->
+          <sc-if value="{{ isSources }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:ourFade .35s ease both; padding:20px 20px 8px;">
+              <h2
+                style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:19px; margin:0 0 4px; color:#17150F;">
+                相關新聞來源</h2>
+
+              <div class="source-card-list">
+                <sc-for list="{{ topic.sources }}" as="src" hint-placeholder-count="3">
+                  <div class="source-card">
+                    <span class="source-card__thumb">示意圖</span>
+                    <div class="source-card__body">
+                      <sc-if value="{{ src.showFactCheckBadge }}" hint-placeholder-val="{{ true }}">
+                        <span class="source-card__fact-badge">事實查核優良</span>
+                      </sc-if>
+                      <h3 class="source-card__title">{{ src.latest }}</h3>
+                      <p class="source-card__media">{{ src.name }}</p>
+                      <time class="source-card__date">{{ src.time }}</time>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+
+        <!-- ░░ BOTTOM NAV ░░ -->
+        <div
+          style="position:sticky; bottom:0; z-index:30; height:62px; display:flex; align-items:stretch; background:rgba(251,249,245,0.92); backdrop-filter:blur(12px); border-top:1px solid #ECE6DA; margin-top:auto;">
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="6.5" stroke="#A39C8E" stroke-width="1.8"></circle>
+              <path d="M16 16 L20 20" stroke="#A39C8E" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg><span style="font-size:9px;">探索</span>
+          </div>
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:{{ topic.themeColor }};">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect x="4" y="4" width="16" height="16" rx="3" stroke="{{ topic.themeColor }}" stroke-width="1.8"></rect>
+              <path d="M8 9 H16 M8 12.5 H16 M8 16 H12.5" stroke="{{ topic.themeColor }}" stroke-width="1.8"
+                stroke-linecap="round"></path>
+            </svg><span style="font-size:9px; font-weight:600;">議題</span>
+          </div>
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 4 C8 4 6 6.5 6 10 v4 l-2 3 h16 l-2 -3 v-4 c0 -3.5 -2 -6 -6 -6 z" stroke="#A39C8E"
+                stroke-width="1.8" stroke-linejoin="round"></path>
+            </svg><span style="font-size:9px;">通知</span>
+          </div>
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8.5" r="3.5" stroke="#A39C8E" stroke-width="1.8"></circle>
+              <path d="M5.5 19 c0 -3.6 2.9 -5.5 6.5 -5.5 s6.5 1.9 6.5 5.5" stroke="#A39C8E" stroke-width="1.8"
+                stroke-linecap="round"></path>
+            </svg><span style="font-size:9px;">我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </x-dc>
+  <script>
+"use strict";
+
+window.OursMockup = (() => {
+  function createRenderVals(component, state) {
+    const s = state;
+    const TOPICS = {
+      sports: {
+        id: 'sports', category: '運動', themeColor: '#C0432B', status: '後續觀察',
+        title: '高雄亞洲同志運動會爭議：運動賽事、國安疑慮與城市治理交會',
+        shortTitle: '亞洲同志運動會爭議', trackingCount: '8,420', mediaCount: 12, reportCount: 76,
+        updatedAt: '更新於 2 小時前', summaryMode: 'debate', trendLayout: 'stance-spectrum',
+        summaryBlocks: [
+          { label: '發生什麼事', tone: 'neutral', text: '2026 亞洲同志運動會於 4/30–5/4 在高雄舉行，賽前爆出中國選手報名人數暴增，並傳出部分資料疑似異常。' },
+          { label: '為什麼重要', tone: 'green', text: '原本屬於多元平權與運動交流的賽事，延伸成國安、入境審查、城市治理與活動透明度的討論。' },
+          { label: '目前爭議', tone: 'red', text: '支持者擔心政治疑慮蓋過平權與體育交流；質疑方則認為大量報名與資料異常必須被嚴格審查。' },
+          { label: '尚未釐清', tone: 'gray', text: '報名資料異常的實際比例、主辦單位審核流程、入境登錄暫緩後的後續處理仍需說明。' }
+        ],
+        hashtags: ['#亞洲同志運動會', '#高雄', '#運動賽事治理', '#國安疑慮', '#多元平權'],
+        commonGround: {
+          question: '各方都在問：如何在開放交流、賽事安全與城市治理之間取得平衡？',
+          clusters: [
+            { label: '賽事與城市形象', items: ['多元平權', '國際交流', '高雄城市品牌'] },
+            { label: '安全與治理', items: ['入境審查', '報名資料真實性', '主辦透明度'] }
+          ],
+          takeaway: '分歧不在於是否支持運動和平權，而在於活動治理與安全審查是否足夠透明。'
+        },
+        distribution: [
+          { label: '重視交流與平權', value: 38, color: '#B07A2E' },
+          { label: '要求補充資訊', value: 27, color: '#6B7A85' },
+          { label: '主張嚴格審查', value: 35, color: '#8158B0' }
+        ],
+        comments: [
+          { stance: 'support', name: '高雄活動志工', handle: '@kaohsiung_vol', text: '支持平權賽事，也希望外界不要只用政治角度看待所有參賽者。但主辦單位確實要把報名審查說清楚。', likes: 824, replies: 36 },
+          { stance: 'neutral', name: '城市觀察筆記', handle: '@city_note', text: '這件事真正需要討論的是大型活動治理：報名、身份確認、入境流程、地方政府監督，不能只停在口水戰。', likes: 512, replies: 18 },
+          { stance: 'oppose', name: '資安小編', handle: '@sec_watch', text: '如果真的有大量資料異常，暫緩登錄是合理的。國際活動越開放，審核機制就越要可信。', likes: 690, replies: 44 }
+        ],
+        timeline: [
+          { date: '2026.04.27', tag: '重大事件', title: '媒體報導中國選手報名人數暴增', desc: '報導指出中國選手報名達 834 人，約占總報名數四成以上，並傳出部分資料疑似異常。' },
+          { date: '2026.04.27', tag: '政府回應', title: '高雄市運發局要求主辦單位說明', desc: '市府表示已要求主辦單位補充說明，並暫緩相關移民署登錄作業。' },
+          { date: '2026.04.30', tag: '賽事開始', title: '亞洲同志運動會於高雄登場', desc: '賽事於 4/30–5/4 舉行，活動本身仍以多元平權與運動交流為主軸。' },
+          { date: '後續觀察', tag: '待追蹤', title: '活動治理與入境審查流程檢討', desc: '後續可追蹤主辦單位報告、地方政府檢討與未來大型活動審核機制。' }
+        ],
+        sources: [
+          { name: '中央社', mono: '央', cred: 'excellent', latest: '中國選手報名暴增，高雄市府要求主辦說明', count: 3, time: '2026/04/27' },
+          { name: '高雄市政府／運發局', mono: '高', cred: 'official', latest: '市府說明活動審查與暫緩登錄作業', count: 1, time: '2026/04/27' },
+          { name: '社群討論／Threads', mono: '社', cred: 'verify', latest: '網友討論活動治理、平權與國安疑慮', count: 20, time: '持續更新' }
+        ]
+      },
+      finance: {
+        id: 'finance', category: '財經', themeColor: '#B07A2E', status: '持續發展',
+        title: '台股 AI 熱潮與劇烈波動：一年飆漲後挑戰 4 萬點',
+        shortTitle: '台股 AI 行情', trackingCount: '15,860', mediaCount: 16, reportCount: 142,
+        updatedAt: '更新於 1 小時前', summaryMode: 'market', trendLayout: 'market-sentiment',
+        summaryBlocks: [
+          { label: '發生什麼事', tone: 'neutral', text: '台股自 2025 年 4 月低點反彈至 2026 年 4 月高點，一年大漲超過 2 萬點，AI 供應鏈與 ETF 資金成為市場焦點。' },
+          { label: '為什麼重要', tone: 'green', text: '台灣資本市場與半導體、AI 伺服器供應鏈高度連動，股市行情也影響散戶投資、退休金與 ETF 熱潮。' },
+          { label: '目前爭議', tone: 'red', text: '樂觀派認為 AI 基本面仍強；保守派擔心漲幅過快、估值偏高，國際利率與地緣風險可能引發修正。' },
+          { label: '尚未釐清', tone: 'gray', text: 'AI 需求能否持續、外資是否續買、Fed 利率政策與國際情勢，都會影響下半年走勢。' }
+        ],
+        hashtags: ['#台股', '#AI行情', '#主動式ETF', '#資金行情', '#投資風險'],
+        commonGround: {
+          question: '市場共同關注：AI 成長是真需求，還是資金行情推高估值？',
+          clusters: [
+            { label: '基本面', items: ['AI 伺服器需求', '半導體供應鏈', '企業財報'] },
+            { label: '市場風險', items: ['外資動向', '利率政策', '地緣政治'] }
+          ],
+          takeaway: '分歧不在是否看好 AI，而在於目前價格是否已經提前反映太多樂觀預期。'
+        },
+        distribution: [
+          { label: '偏多：AI 基本面續強', value: 46, color: '#B07A2E' },
+          { label: '觀望：等財報與利率', value: 31, color: '#6B7A85' },
+          { label: '偏空：估值與風險升高', value: 23, color: '#8158B0' }
+        ],
+        trendDashboard: {
+          title: '市場追蹤',
+          sourceLabel: '依官方市場資料與新聞整理 · 14:30 更新',
+          cards: [
+            {
+              label: '加權指數',
+              value: '23,418.72',
+              delta: '+312.45 / +1.35%',
+              status: 'safe',
+              source: '證交所每日收盤行情',
+              sparkline: [23120, 23084, 23176, 23288, 23190, 23342, 23418]
+            },
+            {
+              label: '成交金額',
+              value: '4,862 億',
+              delta: '較 5 日均量 +18%',
+              status: 'watching',
+              source: '證交所大盤統計',
+              sparkline: [3850, 4020, 3968, 4210, 4380, 4512, 4862]
+            },
+            {
+              label: '法人動向',
+              value: '外資 +186.4 億',
+              delta: '連 3 買',
+              status: 'safe',
+              source: '三大法人買賣超日報',
+              sparkline: [-42, 28, 76, 93, 112, 151, 186]
+            },
+            {
+              label: '電子類股',
+              value: '類股指數 +1.9%',
+              delta: '半導體、伺服器供應鏈轉強',
+              status: 'watching',
+              source: '證交所類股資訊 / Ours 新聞整理',
+              sparkline: [1328, 1335, 1322, 1348, 1356, 1361, 1368]
+            }
+          ]
+        },
+        comments: [
+          { stance: 'support', name: 'ETF 定期定額派', handle: '@etf_monthly', text: 'AI 不是短線題材，台灣供應鏈真的吃得到訂單。只是現在追高要分批，不要一次 all in。', likes: 1320, replies: 58 },
+          { stance: 'neutral', name: '財報派觀察', handle: '@earnings_watch', text: '先看下季財報和外資動向。現在市場太容易被一句利率或一則國際新聞影響。', likes: 746, replies: 22 },
+          { stance: 'oppose', name: '韭菜保護協會', handle: '@risk_first', text: '一年漲一倍多，大家都說這次不一樣，但風險永遠都是在最熱的時候被忽略。', likes: 980, replies: 73 }
+        ],
+        timeline: [
+          { date: '2025.04', tag: '市場低點', title: '台股受對等關稅衝擊回落', desc: '台股低點落在 17306.97 點，成為後續一年反彈的比較基準。' },
+          { date: '2026.04.23', tag: '重大事件', title: '台股高點來到 38921.95 點', desc: '一年大漲超過 2 萬點，AI 供應鏈、ETF 資金與外資買盤成為市場主因。' },
+          { date: '2026.06.12', tag: '市場波動', title: '台股單日大漲逾千點', desc: '受國際情勢與美股反彈激勵，台股終場大漲 1019.58 點。' },
+          { date: '後續觀察', tag: '待追蹤', title: 'AI 財報、Fed 利率與地緣政治', desc: '下半年市場將持續關注 AI 需求能否支撐高估值。' }
+        ],
+        sources: [
+          { name: '中央社財經', mono: '央', cred: 'excellent', latest: '台股一年大漲逾 2 萬點，AI 與資金行情推升', count: 8, time: '2026/04/23' },
+          { name: '證交所／櫃買中心', mono: '證', cred: 'official', latest: '市場成交量、指數與類股資料', count: 4, time: '持續更新' },
+          { name: '法人投顧分析', mono: '法', cred: 'stance', latest: 'AI 供應鏈仍具長期成長動能', count: 12, time: '2026/06' },
+          { name: '社群投資討論', mono: '社', cred: 'verify', latest: 'ETF、AI 股與高價股成為散戶討論焦點', count: 50, time: '持續更新' }
+        ]
+      },
+      entertainment: {
+        id: 'entertainment', category: '娛樂', themeColor: '#8158B0', status: '典禮前熱議',
+        title: '第 37 屆金曲獎登場前熱議：蔡依林 9 項入圍、台語與樂團作品受關注',
+        shortTitle: '第 37 屆金曲獎', trackingCount: '21,300', mediaCount: 20, reportCount: 156,
+        updatedAt: '更新於 30 分鐘前', summaryMode: 'culture', trendLayout: 'culture-clusters',
+        summaryBlocks: [
+          { label: '發生什麼事', tone: 'neutral', text: '第 37 屆金曲獎將於 2026/06/27 在台北小巨蛋登場，入圍名單於 5 月公布，蔡依林以 9 項入圍成為焦點。' },
+          { label: '為什麼重要', tone: 'green', text: '金曲獎不只是娛樂典禮，也常成為台灣流行音樂、台語創作、獨立樂團與文化認同的討論場。' },
+          { label: '目前討論', tone: 'purple', text: '樂迷關注蔡依林能否大滿貫，也有人討論金曲獎應更重視傳唱度、音樂性，或扶植多語言與獨立音樂。' },
+          { label: '後續觀察', tone: 'gray', text: '典禮得獎結果、表演舞台、得獎感言與社群二創，將在典禮當晚帶動第二波討論。' }
+        ],
+        hashtags: ['#金曲獎', '#蔡依林', '#台灣流行音樂', '#台語音樂', '#獨立樂團'],
+        commonGround: {
+          question: '樂迷共同關注：金曲獎應該獎勵傳唱度、音樂性，還是文化代表性？',
+          clusters: [
+            { label: '典禮與明星', items: ['入圍名單', '得獎預測', '舞台表演'] },
+            { label: '音樂與文化', items: ['音樂性', '台語創作', '獨立樂團'] }
+          ],
+          takeaway: '娛樂討論的分歧不在喜不喜歡金曲獎，而在於大家期待它代表主流流行、專業評選，還是文化多樣性。'
+        },
+        distribution: [
+          { label: '主流歌手與獎項預測', value: 44, color: '#B07A2E' },
+          { label: '音樂性與評審標準', value: 28, color: '#6B7A85' },
+          { label: '台語／獨立音樂能見度', value: 28, color: '#8158B0' }
+        ],
+        trendDashboard: {
+          title: '典禮追蹤',
+          sourceLabel: '依官方入圍名單與新聞整理',
+          cards: [
+            {
+              label: '典禮時間',
+              value: '6/27 19:00',
+              delta: '台北小巨蛋',
+              status: 'info',
+              source: '金曲獎官方'
+            },
+            {
+              label: '目前階段',
+              value: '入圍公布',
+              delta: '頒獎典禮倒數中',
+              status: 'watching',
+              source: '金曲獎官方'
+            },
+            {
+              label: '入圍焦點',
+              value: '蔡依林 9 項',
+              delta: '年度專輯 / 年度歌曲皆入圍',
+              status: 'watching',
+              source: '官方入圍名單'
+            },
+            {
+              label: '主要獎項',
+              value: '4 個重點獎項',
+              delta: '年度專輯、年度歌曲、最佳華語專輯、最佳男女歌手',
+              status: 'info',
+              source: '官方獎項資料'
+            }
+          ]
+        },
+        comments: [
+          { stance: 'support', name: 'Jolin 粉但理性', handle: '@pop_stage', text: '蔡依林 9 項入圍真的不意外，作品完整度跟舞台概念都很強，但也希望其他類型音樂被看見。', likes: 2420, replies: 180 },
+          { stance: 'neutral', name: '耳機派樂評', handle: '@music_review', text: '金曲獎每年都在吵傳唱度和音樂性，其實這也是它有趣的地方：它不是人氣榜，而是文化現場。', likes: 1180, replies: 64 },
+          { stance: 'oppose', name: '獨立場館常客', handle: '@livehouse_kid', text: '希望大家不要只看大咖。台語、樂團、獨立音樂那幾個獎項，常常才是台灣音樂真正有生命力的地方。', likes: 960, replies: 39 }
+        ],
+        timeline: [
+          { date: '2026.04.29', tag: '典禮資訊', title: '金曲獎公布典禮時間、地點與主視覺', desc: '第 37 屆金曲獎確定於台北小巨蛋舉行，主視覺與典禮資訊陸續公開。' },
+          { date: '2026.05.13', tag: '重大事件', title: '第 37 屆金曲獎入圍名單公布', desc: '蔡依林以 9 項入圍成為焦點，Tizzy Bac、告五人、蕭煌奇等音樂人也受關注。' },
+          { date: '2026.06.10', tag: '人物報導', title: '入圍音樂人訪問帶動第二波討論', desc: '多位入圍者受訪，延伸出創作背景、語言文化與音樂產業討論。' },
+          { date: '2026.06.27', tag: '待發生', title: '金曲獎於台北小巨蛋登場', desc: '得獎結果、舞台演出與社群討論將成為典禮當晚焦點。' }
+        ],
+        sources: [
+          { name: '金曲獎官方／文化部', mono: '金', cred: 'official', latest: '第 37 屆金曲獎典禮資訊與入圍名單', count: 5, time: '2026/05–06' },
+          { name: '中央社影劇', mono: '央', latest: '蔡依林 9 項入圍，金曲獎入圍名單公布', count: 10, time: '2026/05/13' },
+          { name: '娛樂媒體／樂評專欄', mono: '評', cred: 'stance', latest: '入圍預測、得獎呼聲與音樂性分析', count: 18, time: '持續更新' },
+          { name: '粉絲社群', mono: '粉', cred: 'verify', latest: '入圍名單、舞台期待與應援討論', count: 80, time: '持續更新' }
+        ]
+      },
+      policy: {
+        id: 'policy', category: '公共政策', themeColor: '#3F6F9F', status: '持續發展',
+        title: '選罷法修正三讀：緩刑者參選限制放寬，引發「高虹安條款」爭議',
+        shortTitle: '選罷法修正爭議', trackingCount: '18,640', mediaCount: 24, reportCount: 186,
+        updatedAt: '更新於 2 小時前', summaryMode: 'policy', trendLayout: 'stance-spectrum',
+        summaryBlocks: [
+          { label: '發生什麼事', tone: 'neutral', text: '立法院於 2026/06/12 三讀修正《公職人員選舉罷免法》，放寬部分遭宣告緩刑或得易服社會勞動者的參選資格限制。' },
+          { label: '為什麼重要', tone: 'green', text: '修法牽涉人民參政權、候選人資格、司法判決與選舉公平性，是制度設計與政治信任問題。' },
+          { label: '目前爭議', tone: 'red', text: '支持者認為應保障參政權；反對者質疑修法時間點敏感，可能是為特定政治人物解套。' },
+          { label: '尚未釐清', tone: 'gray', text: '法案實際適用範圍、是否影響特定個案、未來是否引發釋憲或再次修法，仍待觀察。' }
+        ],
+        hashtags: ['#選罷法', '#參選資格', '#高虹安條款', '#立法院', '#公共政策'],
+        commonGround: {
+          question: '各方都在問：參政權保障與候選人資格限制，界線應該畫在哪裡？',
+          clusters: [
+            { label: '制度原則', items: ['參政權', '比例原則', '法律明確性'] },
+            { label: '政治信任', items: ['修法時機', '個案疑慮', '選舉公平'] }
+          ],
+          takeaway: '分歧不只在法條內容，也在於社會是否相信這不是為特定個案服務。'
+        },
+        distribution: [
+          { label: '支持修法', value: 32, color: '#B07A2E' },
+          { label: '要求補充說明', value: 24, color: '#6B7A85' },
+          { label: '質疑個案修法', value: 44, color: '#8158B0' }
+        ],
+        comments: [
+          { stance: 'support', name: '法律系路人', handle: '@law_citizen', text: '緩刑和重罪不能混在一起看，參政權是基本權利，限制資格應該符合比例原則。', likes: 760, replies: 52 },
+          { stance: 'neutral', name: '法案追蹤器', handle: '@bill_tracker', text: '問題不只在修不修，而是條文適用範圍、修法理由和時間點都要說清楚，不然一定會被政治化。', likes: 980, replies: 48 },
+          { stance: 'oppose', name: '新竹觀察', handle: '@hsinchu_watch', text: '如果不是為特定人，為什麼剛好現在修？公共政策最怕看起來像個案服務。', likes: 1540, replies: 130 }
+        ],
+        timeline: [
+          { date: '2026.06.12', tag: '重大事件', title: '立法院三讀修正選罷法', desc: '修法放寬部分遭宣告緩刑或得易服社會勞動者的候選人資格限制。' },
+          { date: '2026.06.12', tag: '當事人回應', title: '高虹安回應外界質疑', desc: '高虹安受訪時呼籲外界勿過度政治解讀。' }
+        ],
+        sources: [
+          { name: '中央社', mono: '央', cred: 'excellent', latest: '立院三讀選罷法修正案', count: 18, time: '2026/06/12' },
+          { name: '立法院', mono: '立', cred: 'official', latest: '三讀通過法案條文對照表', count: 2, time: '2026/06/12' }
+        ]
+      },
+      weather: {
+        id: 'weather', category: '氣象', themeColor: '#2F8F5B', status: '警戒中',
+        title: '0625 颱風外圍環流與西南風豪雨：高雄多區淹水警戒',
+        shortTitle: '豪雨災情', trackingCount: '4,890', mediaCount: 18, reportCount: 92,
+        updatedAt: '更新於 10 分鐘前', summaryMode: 'disaster', trendLayout: 'default',
+        summaryBlocks: [
+          { label: '最新狀況', tone: 'orange', text: '颱風外圍環流帶來超大豪雨，高雄山區及低窪地區累積雨量突破 1000 毫米，市區多處積淹水。' },
+          { label: '災情統計', tone: 'red', text: '截至今日下午 3 點，已造成 2 死、數百戶停電，多條道路與橋樑預警性封閉。' },
+          { label: '官方應變', tone: 'green', text: '市政府已提升為一級開設，並針對部分低窪地區民眾進行預警性撤離。' },
+          { label: '安全提醒', tone: 'neutral', text: '呼籲市民避免前往山區、河川及海邊，隨時注意沙包與抽水機部署狀況。' }
+        ],
+        hashtags: ['#凱米颱風', '#高雄災情', '#淹水警戒', '#防災應變'],
+        commonGround: null,
+        distribution: [],
+        activeQuestions: [
+          { question: '明天會停班停課嗎？', detail: '最多人追蹤學校、公司與通勤安排是否需要調整。' },
+          { question: '哪些路段已經積淹水或封閉？', detail: '在地回報集中在低窪道路、地下道與山區聯外道路。' },
+          { question: '需要準備撤離或沙包嗎？', detail: '住在河川、山坡地與易淹水區的民眾正在確認避難資訊。' },
+        ],
+        trendDashboard: {
+          title: '官方決策與警戒',
+          sourceLabel: '依官方資料整理 · 10 分鐘前更新',
+          cards: [
+            {
+              label: '停班停課',
+              value: '高雄市：尚未發布',
+              delta: '晚間 20:00 前可能更新',
+              status: 'watching',
+              source: '人事行政總處 / 各縣市政府'
+            },
+            {
+              label: '氣象警戒',
+              value: '超大豪雨特報',
+              delta: '山區累積雨量仍偏高',
+              status: 'alert',
+              source: '中央氣象署'
+            },
+            {
+              label: '水情警戒',
+              value: '低窪地區防積淹水',
+              delta: '河川、水庫警戒同步觀察',
+              status: 'alert',
+              source: '水利署防災資訊服務網'
+            },
+            {
+              label: '道路與撤離',
+              value: '山區道路管制',
+              delta: '河川周邊避免進入',
+              status: 'watching',
+              source: '地方政府公告'
+            }
+          ]
+        },
+        comments: [
+          { stance: 'neutral', name: '防災中心', handle: '@disaster_center', text: '請民眾注意自身安全，避免外出。', likes: 1024, replies: 12 },
+          { stance: 'neutral', name: '在地小農', handle: '@kaohsiung_farmer', text: '雨量真的很大，這幾天採收的心血可能都要泡湯了，希望排水系統能撐住！', likes: 450, replies: 28 },
+          { stance: 'neutral', name: '通勤族日常', handle: '@commuter_life', text: '請問明天停班停課的機率大嗎？有些低窪路段現在已經無法通行了，非常擔心明天的交通狀況。', likes: 890, replies: 156 }
+        ],
+        timeline: [
+          { date: '06.24 10:00', tag: '重大事件', title: '氣象署發布豪雨特報', desc: '針對南部發布超大豪雨特報。' },
+          { date: '06.25 09:00', tag: '重大事件', title: '降雨集中，多區發布淹水一級警戒', desc: '市區時雨量突破 100 毫米，多處道路水深及膝。' }
+        ],
+        sources: [
+          { name: '中央社', mono: '央', latest: '高雄多區發布一級淹水警戒，山區進行預警性撤離', count: 12, time: '5 分鐘前' },
+          { name: '災害應變中心', mono: '消', latest: '最新全台防汛與道路封閉、橋樑預警管制彙整', count: 6, time: '20 分鐘前' }
+        ]
+      }
+    };
+
+    const topic = TOPICS[s.activeTopicId];
+
+    const compactFollowerCount = {
+      sports: '8.4k',
+      finance: '15.9k',
+      entertainment: '21.3k',
+      policy: '18.6k',
+      weather: '4.9k',
+    }[topic.id] || topic.trackingCount;
+
+    const cleanUpdatedAt = topic.updatedAt
+      .replace('更新於 ', '')
+      .replace('前', '前更新');
+
+    const headerMeta = {
+      category: topic.category,
+      status: topic.status,
+      updatedAt: cleanUpdatedAt,
+      sourceCount: topic.mediaCount,
+      reportCount: topic.reportCount,
+      followerCount: compactFollowerCount,
+    };
+
+    const postCtaByTopic = {
+      sports: { title: '你怎麼看這場賽事爭議？', desc: '分享你對平權賽事、報名審查或城市治理的看法。' },
+      finance: { title: '你現在怎麼看台股 AI 行情？', desc: '分享你的投資觀察、風險提醒或市場情緒。' },
+      entertainment: { title: '你心中的金曲獎焦點是誰？', desc: '聊聊你看好的入圍者、表演舞台或台灣音樂觀察。' },
+      policy: { title: '你支持這次選罷法修正嗎？', desc: '分享你對參政權、修法時機或個案疑慮的看法。' },
+      weather: { title: '你所在地的狀況如何？', desc: '回報淹水、交通、停班停課或防災資訊，幫助更多人掌握現況。' },
+    };
+    const currentPostCta = postCtaByTopic[topic.id] || postCtaByTopic.policy;
+
+    const summaryLabelMap = {
+      sports: '爭點摘要', finance: '市場摘要', entertainment: '娛樂摘要', policy: '政策摘要', weather: '災情速報'
+    };
+    const currentSummaryLabel = summaryLabelMap[topic.id] || '爭點摘要';
+
+    const commentSectionTitleMap = {
+      sports: '社群怎麼看', finance: '投資人怎麼看', entertainment: '樂迷怎麼看', policy: '不同立場怎麼說', weather: '現場與提問'
+    };
+    const currentCommentSectionTitle = commentSectionTitleMap[topic.id] || '社群怎麼看';
+
+    const radarByTopic = {
+      sports: {
+        tag: '共識雷達',
+        title: '這場賽事爭議中，大家反覆提到的 6 個關鍵詞',
+        items: [
+          { label: '活動安全', score: 91 },
+          { label: '報名審查', score: 86 },
+          { label: '城市形象', score: 78 },
+          { label: '多元平權', score: 74 },
+          { label: '國安疑慮', score: 70 },
+          { label: '主辦透明', score: 63 },
+        ],
+      },
+      finance: {
+        tag: '市場情緒雷達',
+        title: '台股 AI 行情中，投資人最常討論的 6 個關鍵詞',
+        items: [
+          { label: 'AI 題材', score: 94 },
+          { label: '台積電', score: 89 },
+          { label: 'ETF 資金', score: 81 },
+          { label: '外資動向', score: 77 },
+          { label: '高點風險', score: 72 },
+          { label: '利率變化', score: 65 },
+        ],
+      },
+      entertainment: {
+        tag: '討論熱詞雷達',
+        title: '金曲獎討論中，樂迷反覆提到的 6 個關鍵詞',
+        items: [
+          { label: '蔡依林', score: 95 },
+          { label: '入圍名單', score: 88 },
+          { label: '台語音樂', score: 79 },
+          { label: '獨立樂團', score: 73 },
+          { label: '音樂性', score: 69 },
+          { label: '典禮表演', score: 62 },
+        ],
+      },
+      policy: {
+        tag: '共識雷達',
+        title: '選罷法爭議中，跨立場都反覆提到的 6 個關鍵詞',
+        items: [
+          { label: '參政權', score: 92 },
+          { label: '修法時機', score: 88 },
+          { label: '個案解套', score: 83 },
+          { label: '比例原則', score: 74 },
+          { label: '司法判決', score: 69 },
+          { label: '政黨攻防', score: 64 },
+        ],
+      },
+      weather: {
+        tag: '災情關鍵雷達',
+        title: '豪雨災情中，民眾最關心的 6 個資訊關鍵詞',
+        items: [
+          { label: '停班停課', score: 96 },
+          { label: '淹水路段', score: 92 },
+          { label: '雨量警戒', score: 87 },
+          { label: '交通中斷', score: 79 },
+          { label: '山區撤離', score: 72 },
+          { label: '水庫蓄水', score: 61 },
+        ],
+      },
+    };
+    const currentRadar = radarByTopic[s.activeTopicId] || radarByTopic.policy;
+    const radarRankColors = ['#B79655', '#C5A763', '#D0B982', '#D9C89D', '#E4D8BB', '#EEE8DA'];
+
+    // ---- topic chips ----
+    const topicChips = Object.values(TOPICS).map(t => {
+      const active = t.id === s.activeTopicId;
+      return {
+        id: t.id,
+        label: t.category,
+        onClick: () => component.setState({ activeTopicId: t.id, tab: 'trend' }),
+        style: `flex-shrink:0; border:none; border-radius:20px; padding:6px 14px; cursor:pointer; font-weight:600; font-family:'Noto Sans TC'; font-size:12.5px; transition:all .2s; background: ${active ? t.themeColor : '#F1ECE2'}; color: ${active ? '#FFF' : '#7C7567'}; box-shadow: ${active ? '0 2px 6px rgba(0,0,0,0.1)' : 'none'}`
+      };
+    });
+
+    // ---- tab styles ----
+    const ACTIVE = topic.themeColor;
+    const tabBase = { flex: '1', textAlign: 'center', padding: '14px 4px', fontSize: '13.5px', fontFamily: "'Noto Sans TC'", cursor: 'pointer', transition: 'color .2s', position: 'relative', border: '0', background: 'transparent' };
+    const mkTab = (on) => ({
+      ...tabBase,
+      color: on ? '#17150F' : '#A39C8E',
+      fontWeight: on ? 700 : 400,
+      borderBottom: on ? `2px solid ${ACTIVE}` : '2px solid transparent',
+      marginBottom: '-1px',
+    });
+
+    // ui mapping for block tags
+    const toneMap = {
+      'neutral': { bg: '#EFECE6', color: '#5D5950' },
+      'green': { bg: '#E8F4ED', color: '#2F6B48' },
+      'red': { bg: '#FDEEEF', color: '#A13D3D' },
+      'gray': { bg: '#F5F2EA', color: '#6F6859' },
+      'orange': { bg: '#FBF3E2', color: '#B07A2E' },
+      'purple': { bg: '#F4EEFB', color: '#8158B0' },
+    };
+
+    const processedBlocks = (topic.summaryBlocks || []).map(b => {
+      const tone = toneMap[b.tone] || toneMap.neutral;
+      return {
+        ...b,
+        labelStyle: `font-size:11px; font-weight:600; color:${tone.color}; background:${tone.bg}; border-radius:4px; padding:3px 6px; font-family:'Noto Sans TC';`
+      };
+    });
+
+    // stance colors
+    const stanceMeta = {
+      support: { label: '支持', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
+      neutral: { label: '中立', color: '#6B7A85', bg: '#EEF1F3', bd: '#D9E0E3' },
+      oppose: { label: '反對', color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
+    };
+
+    const processedComments = (topic.comments || []).map(c => {
+      const st = stanceMeta[c.stance] || stanceMeta.neutral;
+      let label = st.label;
+      if (topic.id === 'finance') {
+        if (c.stance === 'support') label = '偏多';
+        else if (c.stance === 'neutral') label = '觀望';
+        else if (c.stance === 'oppose') label = '偏空';
+      } else if (topic.id === 'entertainment') {
+        if (c.stance === 'support') label = '主流焦點';
+        else if (c.stance === 'neutral') label = '評審標準';
+        else if (c.stance === 'oppose') label = '獨立音樂';
+      }
+      return {
+        ...c,
+        hasStance: false,
+        stanceLabel: label,
+        stanceStyle: `color:${st.color}; background:${st.bg}; border:1px solid ${st.bd};`
+      };
+    });
+
+    const isGroupedComments = topic.id === 'sports' || topic.id === 'policy';
+    const isFeedComments = !isGroupedComments;
+
+    const commentGroupConfigByTopic = {
+      sports: [
+        { stance: 'support', label: '重視交流與平權', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
+        { stance: 'neutral', label: '要求補充資訊', color: '#6B7A85', bg: '#EEF3F5', bd: '#D9E0E3' },
+        { stance: 'oppose', label: '主張嚴格審查', color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
+      ],
+      policy: [
+        { stance: 'support', label: '支持修法', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
+        { stance: 'neutral', label: '要求補充說明', color: '#6B7A85', bg: '#EEF3F5', bd: '#D9E0E3' },
+        { stance: 'oppose', label: '質疑個案修法', color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
+      ],
+    };
+
+    const commentGroups = (commentGroupConfigByTopic[topic.id] || []).map(group => ({
+      ...group,
+      comments: processedComments.filter(c => c.stance === group.stance),
+      wrapStyle: `background:${group.bg};`,
+      tagStyle: `color:${group.color}; border-color:${group.bd}; background:rgba(255,255,255,.48);`,
+    })).filter(group => group.comments.length > 0);
+
+    const commentFilterLabelMap = {
+      finance: 'AI 基本面續強',
+      entertainment: '典禮前熱議',
+      weather: '即時災情回報',
+    };
+    const currentCommentFilterLabel = commentFilterLabelMap[topic.id] || '熱門討論';
+
+    const processedTimeline = (topic.timeline || []).map(n => {
+      const isMajor = n.tag === '重大事件' || n.tag === '重大進展';
+      const dotSize = isMajor ? 18 : 12;
+      const dotColor = isMajor ? topic.themeColor : '#CFC8BA';
+      return {
+        ...n,
+        dotStyle: `position:absolute; left:${8 - dotSize/2 + 0.5}px; top:16px; width:${dotSize}px; height:${dotSize}px; border-radius:50%; background:${dotColor}; border:3px solid #FBF9F5; box-shadow:${isMajor ? '0 0 0 2px '+topic.themeColor+'33' : 'none'}`,
+        tagStyle: isMajor ? `font-family:'Noto Sans TC',sans-serif; font-size:9px; font-weight:600; letter-spacing:0.5px; color:${topic.themeColor}; background:${topic.themeColor}15; border:1px solid ${topic.themeColor}33; border-radius:4px; padding:2px 7px;` : `font-family:'Noto Sans TC',sans-serif; font-size:9px; letter-spacing:0.5px; color:#A39C8E; background:#F2EEE4; border-radius:4px; padding:2px 7px;`
+      };
+    });
+
+    const processedSources = (topic.sources || []).map(x => ({
+      ...x,
+      showFactCheckBadge: x.cred === 'excellent',
+    }));
+    const hasExcellentSource = processedSources.some(source => source.cred === 'excellent');
+    function buildSparklinePoints(values) {
+      if (!Array.isArray(values) || values.length < 2) return '';
+
+      const width = 100;
+      const height = 28;
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const range = max - min || 1;
+
+      return values.map((value, index) => {
+        const x = (index / (values.length - 1)) * width;
+        const y = height - ((value - min) / range) * height;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(' ');
+    }
+
+    const hasTrendDashboard = !!(topic.trendDashboard
+      && topic.trendDashboard.cards
+      && topic.trendDashboard.cards.length > 0);
+    const processedTrendDashboard = hasTrendDashboard
+      ? {
+          ...topic.trendDashboard,
+          cards: topic.trendDashboard.cards.map((card) => ({
+            ...card,
+            statusClass: `trend-metric-card--${card.status || 'info'}`,
+            hasSparkline: Array.isArray(card.sparkline) && card.sparkline.length > 1,
+            sparklinePoints: Array.isArray(card.sparkline)
+              ? buildSparklinePoints(card.sparkline)
+              : '',
+          })),
+        }
+      : null;
+    const hasDistribution = !hasTrendDashboard
+      && topic.distribution
+      && topic.distribution.length > 0;
+
+    return {
+      headerMeta,
+      hasExcellentSource,
+      trendDashboard: processedTrendDashboard,
+      hasTrendDashboard,
+      topicChips,
+      topic: {
+        ...topic,
+        summaryBlocks: processedBlocks,
+        comments: processedComments,
+        timeline: processedTimeline,
+        sources: processedSources,
+        trendDashboard: processedTrendDashboard,
+        hasTrendDashboard,
+        statusDotStyle: `background:${topic.themeColor};`,
+        summaryLabel: currentSummaryLabel
+      },
+      postCtaTitle: currentPostCta.title,
+      postCtaDesc: currentPostCta.desc,
+      commentSectionTitle: currentCommentSectionTitle,
+      isGroupedComments,
+      isFeedComments,
+      commentGroups,
+      commentFilterLabel: currentCommentFilterLabel,
+      commentFilterStyle: `border-color:${topic.themeColor}33; color:${topic.themeColor}; background:${topic.themeColor}10;`,
+      hasCommonGround: !!topic.commonGround,
+      hasTrend: topic.trendLayout !== 'none',
+      isStanceSpectrum: topic.trendLayout === 'stance-spectrum',
+      isMarketSentiment: topic.trendLayout === 'market-sentiment',
+      isCultureClusters: topic.trendLayout === 'culture-clusters',
+      isDisasterTrend: topic.id === 'weather',
+      hasDistribution,
+      radarTag: currentRadar.tag,
+      radarTitle: currentRadar.title,
+      radarItems: [...currentRadar.items]
+        .sort((a, b) => b.score - a.score)
+        .map((item, index) => ({
+          ...item,
+          fillStyle: `width: ${item.score}%; background:${radarRankColors[index] || radarRankColors[radarRankColors.length - 1]};`,
+        })),
+      showRadarInTrend: true,
+      showRadarInTimeline: false,
+      isTrend: s.tab === 'trend',
+      isTimeline: s.tab === 'timeline',
+      isSources: s.tab === 'sources',
+      setTrend: () => component.setState({ tab: 'trend' }),
+      setTimeline: () => component.setState({ tab: 'timeline' }),
+      setSources: () => component.setState({ tab: 'sources' }),
+      tabTrendStyle: mkTab(s.tab === 'trend'),
+      tabTimelineStyle: mkTab(s.tab === 'timeline'),
+      tabSourcesStyle: mkTab(s.tab === 'sources'),
+      toggleBookmark: () => component.setState((st) => ({ bookmarked: !st.bookmarked })),
+      bmFill: s.bookmarked ? topic.themeColor : 'none',
+    };
+  }
+
+  return { createRenderVals };
+})();
+
+  </script>
+<script type="text/x-dc" data-dc-script=""
+    data-props="{&quot;$preview&quot;: {&quot;width&quot;: 440, &quot;height&quot;: 924}}">
+class Component extends DCLogic {
+  state = {
+    activeTopicId: 'sports',
+    tab: 'trend',
+    bookmarked: false,
+  };
+
+  renderVals() {
+    return window.OursMockup.createRenderVals(this, this.state);
+  }
+}</script>
+</body>
+
+</html>

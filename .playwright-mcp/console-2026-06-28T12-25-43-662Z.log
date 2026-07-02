@@ -1,0 +1,112 @@
+[     884ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[     973ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-width strokeWidth 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[     973ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-linecap strokeLinecap 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[     973ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-linejoin strokeLinejoin 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[    1316ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:3001/favicon.ico:0
+[  666998ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[  667041ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-width strokeWidth 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[  667041ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-linecap strokeLinecap 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[  667041ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-linejoin strokeLinejoin 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[  781548ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904
+[  781629ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-width strokeWidth 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[  781629ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-linecap strokeLinecap 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72
+[  781629ms] [ERROR] Warning: Invalid DOM property `%s`. Did you mean `%s`?%s stroke-linejoin strokeLinejoin 
+    at path
+    at svg
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at StreamableComponent (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:738:9)
+    at Dispatcher (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:955:35)
+    at StandaloneRoot (http://localhost:3001/mockups-antigravity/js/dc-runtime.js:172:33) @ https://unpkg.com/react-dom@18/umd/react-dom.development.js:72

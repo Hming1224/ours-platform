@@ -1,0 +1,856 @@
+/* Ours mockup shared styles. Keep layout-specific one-off styles inline until this prototype graduates. */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #E9E4DA;
+  font-family: "Noto Sans TC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #1D1B17;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+@keyframes ourFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ourGrow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.shared-concerns {
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid #E8DFCF;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(251, 246, 235, .95) 0%, rgba(255, 253, 248, .96) 58%, rgba(244, 250, 248, .88) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+
+.shared-concerns__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.shared-concerns__eyebrow {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #A39C8E;
+  text-transform: uppercase;
+}
+
+.shared-concerns__badge {
+  flex: 0 0 auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .7px;
+  color: #3F7D63;
+  background: #E7F4EC;
+  border: 1px solid #CBE5D5;
+  border-radius: 999px;
+  padding: 3px 7px;
+}
+
+.shared-concerns__question {
+  margin: 0 0 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #242019;
+}
+
+.shared-concerns__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-bottom: 11px;
+}
+
+.concern-cluster {
+  min-height: 122px;
+  padding: 11px;
+  border: 1px solid rgba(222, 213, 195, .9);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .58);
+}
+
+.concern-cluster__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 9px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4A4438;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-cluster__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #B88A3C;
+  box-shadow: 0 0 0 3px rgba(184, 138, 60, .12);
+}
+
+.concern-cluster__dot--green {
+  background: #5B9071;
+  box-shadow: 0 0 0 3px rgba(91, 144, 113, .12);
+}
+
+.concern-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(232, 223, 207, .7);
+  font-size: 12px;
+  color: #514B40;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-item:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.concern-item__rank {
+  flex: 0 0 auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: #AEA493;
+}
+
+.shared-concerns__takeaway {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 11px;
+  border-radius: 12px;
+  background: #FFF8E8;
+  border: 1px solid #EBDDBE;
+}
+
+.shared-concerns__mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #17150F;
+  color: #F2CF66;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.shared-concerns__copy {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #5B5242;
+  font-family: 'Noto Sans TC';
+}
+
+.summary-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.summary-block-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: flex-start;
+}
+
+.summary-block-label {
+  justify-self: start;
+}
+
+.summary-block-text {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #3D392F;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+.concern-proposals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trend-dashboard {
+  margin: 0 14px 16px;
+  padding: 14px;
+  border: 1px solid #E8DFCF;
+  border-radius: 18px;
+  background: #FFFDF8;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.trend-dashboard__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.trend-dashboard__head h2 {
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.trend-dashboard__head h2 span {
+  font: inherit;
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+.trend-dashboard__head > span {
+  flex: 0 0 auto;
+  max-width: 150px;
+  text-align: right;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  line-height: 1.45;
+  color: #A39C8E;
+}
+
+.trend-dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+}
+
+.trend-metric-card {
+  min-height: 132px;
+  padding: 11px;
+  border-radius: 14px;
+  border: 1px solid #E8DFCF;
+  background: rgba(255, 255, 255, .72);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trend-metric-card__label {
+  display: block;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #7C7567;
+}
+
+.trend-metric-card__value {
+  display: block;
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #17150F;
+}
+
+.trend-metric-card__delta {
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #5D5950;
+}
+
+.trend-metric-card__source {
+  display: block;
+  margin-top: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #9B9385;
+}
+
+.trend-sparkline {
+  width: 100%;
+  height: 28px;
+  margin: 2px 0 0;
+  overflow: visible;
+}
+
+.trend-sparkline polyline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trend-metric-card--info {
+  border-color: #D9E0E3;
+  background: #EEF3F5;
+  color: #4A6B82;
+}
+
+.trend-metric-card--watching {
+  border-color: #EAD9B8;
+  background: #FBF3E2;
+  color: #B07A2E;
+}
+
+.trend-metric-card--alert {
+  border-color: #F2C4C1;
+  background: #FCECEB;
+  color: #B84A42;
+}
+
+.trend-metric-card--safe {
+  border-color: #B8E0CA;
+  background: #E8F4ED;
+  color: #2F8F5B;
+}
+
+.disaster-question-section {
+  padding: 0 14px 16px;
+}
+
+.disaster-question-title {
+  margin: 0 0 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.disaster-question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.disaster-question-card {
+  border: 1px solid #E4DDD0;
+  border-radius: 14px;
+  background: #FFFFFF;
+  padding: 13px 14px;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.disaster-question-card h3 {
+  margin: 0 0 5px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.disaster-question-card p {
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #6B6353;
+}
+
+.concern-proposal-tag {
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #17150F;
+}
+
+.concern-radar {
+  padding: 14px;
+  border: 1px solid #E6DDCE;
+  border-radius: 16px;
+  background: #FFFDF8;
+}
+
+.concern-radar__title,
+.concern-bridge__title {
+  margin: 0 0 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #242019;
+}
+
+.concern-radar__row {
+  display: grid;
+  grid-template-columns: 76px 1fr 30px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid #F0E9DD;
+  font-family: 'Noto Sans TC';
+  font-size: 12px;
+  color: #514B40;
+}
+
+.concern-radar__row:first-of-type {
+  border-top: 0;
+}
+
+.concern-radar__track {
+  height: 7px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.concern-radar__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.concern-radar__score {
+  text-align: right;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  color: #8A8377;
+}
+
+.concern-bridge {
+  padding: 14px;
+  border: 1px solid #E8DFCF;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9F5EC 100%);
+}
+
+.concern-bridge__flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.concern-bridge__side {
+  padding: 10px;
+  border: 1px solid #E8DFCF;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .65);
+}
+
+.concern-bridge__side b {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #2F2A22;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-bridge__side span {
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #6B6353;
+  font-family: 'Noto Sans TC';
+}
+
+.concern-bridge__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B0A899;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.concern-bridge__common {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed #E4DDCE;
+}
+
+.concern-bridge__chip {
+  font-size: 11.5px;
+  color: #4A463D;
+  background: #F4EFE4;
+  border: 1px solid #E8DFCF;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-family: 'Noto Sans TC';
+}
+
+.topic-header {
+  padding: 22px 20px 18px;
+}
+
+.topic-kicker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 13px;
+  flex-wrap: wrap;
+}
+
+.topic-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  color: #23855A;
+  background: #F2FFF7;
+  border: 1px solid #8CCFA9;
+  border-radius: 999px;
+  padding: 5px 9px;
+}
+
+.topic-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: .5px;
+  color: #7C7567;
+  background: #FFFDF8;
+  border: 1px solid #E8DFCF;
+  border-radius: 999px;
+  padding: 5px 9px;
+}
+
+.topic-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.topic-title {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  line-height: 1.32;
+  letter-spacing: -0.3px;
+  margin: 0 0 14px;
+  color: #17150F;
+  text-wrap: balance;
+}
+
+.topic-stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  color: #7C7567;
+}
+
+.topic-stats-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  min-width: 0;
+}
+
+.topic-stats-row b {
+  color: #17150F;
+  font-weight: 600;
+}
+
+.topic-updated-at {
+  flex: 0 0 auto;
+  color: #7C7567;
+  white-space: nowrap;
+}
+
+.dot-separator {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #CFC8BA;
+}
+
+.post-cta-card {
+  margin-top: 2px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid #E8DFCF;
+  background: linear-gradient(135deg, #FFFDF8 0%, #F7F1E7 100%);
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.post-cta-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+  color: #A39C8E;
+}
+
+.post-cta-title {
+  margin: 0 0 6px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.post-cta-desc {
+  margin: 0 0 12px;
+  font-family: 'Noto Sans TC';
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #6B6353;
+}
+
+.post-cta-button {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 999px;
+  background: #3A2A1D;
+  color: #FFFFFF;
+  font-family: 'Noto Sans TC';
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(40, 35, 28, 0.12);
+}
+
+.comment-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 14px;
+  margin-bottom: 10px;
+}
+
+.comment-section-title {
+  display: block;
+  margin: 0;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #17150F;
+}
+
+.comment-section-title span {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.comment-section-head > span {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 9px;
+  letter-spacing: .8px;
+  color: #A39C8E;
+}
+
+.grouped-comment-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.post-cta-wrap {
+  padding: 0 14px 10px;
+}
+
+.comment-filter-chip {
+  flex: 0 0 auto;
+  border: 1px solid #E8DFCF;
+  border-radius: 9px;
+  background: #F9F5EC;
+  color: #5D5950;
+  padding: 7px 10px;
+  font-family: 'Noto Sans TC';
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65);
+}
+
+.comment-group-wrap {
+  width: 100%;
+  border-radius: 0;
+  padding: 14px 14px 20px;
+  border: 0;
+  box-shadow: none;
+}
+
+.comment-group-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 4px 9px;
+  font-family: 'Noto Sans TC';
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, .35);
+}
+
+.comment-card {
+  background: #FFFFFF;
+  border: 1px solid #ECE6DA;
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.comment-card+.comment-card {
+  margin-top: 10px;
+}
+
+.source-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.source-card {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+  min-height: 118px;
+  background: #FFFFFF;
+  border: 1px solid #ECE6DA;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(40, 35, 28, 0.03);
+}
+
+.source-card__thumb {
+  width: 76px;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #EDE6D8;
+  color: #A89F8E;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.source-card__body {
+  min-width: 0;
+}
+
+.source-card__fact-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 7px;
+  padding: 2px 7px;
+  border: 1px solid #B8E0CA;
+  border-radius: 5px;
+  background: #E8F4ED;
+  color: #2F8F5B;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.source-card__title {
+  margin: 0 0 7px;
+  color: #17150F;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.source-card__media {
+  margin: 0 0 8px;
+  color: #5D5950;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.source-card__date {
+  display: block;
+  color: #A39C8E;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.comment-avatar-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

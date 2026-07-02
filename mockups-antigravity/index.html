@@ -1,2325 +1,513 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ours 議題頁 — 定版 Mockup Prototype</title>
-  
+
   <!-- 引入 Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&display=swap"
+    rel="stylesheet">
 
-  <style>
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body { background: #E9E4DA; font-family: "Noto Sans TC", sans-serif; -webkit-font-smoothing: antialiased; color: #1D1B17; }
-    ::-webkit-scrollbar { width: 0; height: 0; }
-    @keyframes ourFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes ourGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-    .shared-concerns {
-      margin-bottom: 16px;
-      padding: 14px;
-      border: 1px solid #E8DFCF;
-      border-radius: 16px;
-      background: linear-gradient(135deg, rgba(251,246,235,.95) 0%, rgba(255,253,248,.96) 58%, rgba(244,250,248,.88) 100%);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.75);
-    }
-    .shared-concerns__head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .shared-concerns__eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      color: #A39C8E;
-      text-transform: uppercase;
-    }
-    .shared-concerns__badge {
-      flex: 0 0 auto;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .7px;
-      color: #3F7D63;
-      background: #E7F4EC;
-      border: 1px solid #CBE5D5;
-      border-radius: 999px;
-      padding: 3px 7px;
-    }
-    .shared-concerns__question {
-      margin: 0 0 12px;
-      font-family: 'Noto Serif TC', serif;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.5;
-      color: #242019;
-    }
-    .shared-concerns__grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
-      margin-bottom: 11px;
-    }
-    .concern-cluster {
-      min-height: 122px;
-      padding: 11px;
-      border: 1px solid rgba(222,213,195,.9);
-      border-radius: 12px;
-      background: rgba(255,255,255,.58);
-    }
-    .concern-cluster__label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 9px;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #4A4438;
-      font-family: 'Noto Sans TC';
-    }
-    .concern-cluster__dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #B88A3C;
-      box-shadow: 0 0 0 3px rgba(184,138,60,.12);
-    }
-    .concern-cluster__dot--green {
-      background: #5B9071;
-      box-shadow: 0 0 0 3px rgba(91,144,113,.12);
-    }
-    .concern-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 6px 0;
-      border-top: 1px solid rgba(232,223,207,.7);
-      font-size: 12px;
-      color: #514B40;
-      font-family: 'Noto Sans TC';
-    }
-    .concern-item:first-of-type { border-top: 0; padding-top: 0; }
-    .concern-item__rank {
-      flex: 0 0 auto;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      font-weight: 600;
-      color: #AEA493;
-    }
-    .shared-concerns__takeaway {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 11px;
-      border-radius: 12px;
-      background: #FFF8E8;
-      border: 1px solid #EBDDBE;
-    }
-    .shared-concerns__mark {
-      width: 28px;
-      height: 28px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #17150F;
-      color: #F2CF66;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .shared-concerns__copy {
-      margin: 0;
-      font-size: 12.5px;
-      line-height: 1.55;
-      color: #5B5242;
-      font-family: 'Noto Sans TC';
-    }
-    .concern-proposals {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .concern-proposal-tag {
-      display: block;
-      margin-bottom: 8px;
-      font-family: 'Noto Serif TC', serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: #17150F;
-    }
-    .concern-radar {
-      padding: 14px;
-      border: 1px solid #E6DDCE;
-      border-radius: 16px;
-      background: #FFFDF8;
-    }
-    .concern-radar__title,
-    .concern-bridge__title {
-      margin: 0 0 10px;
-      font-family: 'Noto Serif TC', serif;
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.45;
-      color: #242019;
-    }
-    .concern-radar__row {
-      display: grid;
-      grid-template-columns: 72px 1fr 36px;
-      align-items: center;
-      gap: 9px;
-      padding: 7px 0;
-      border-top: 1px solid #F0E9DD;
-      font-family: 'Noto Sans TC';
-      font-size: 12px;
-      color: #514B40;
-    }
-    .concern-radar__row:first-of-type { border-top: 0; }
-    .concern-radar__track {
-      height: 7px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: #EFE9DD;
-    }
-    .concern-radar__fill {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #B88A3C, #5B9071);
-    }
-    .concern-radar__score {
-      text-align: right;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      color: #8A8377;
-    }
-    .concern-bridge {
-      padding: 14px;
-      border: 1px solid #E8DFCF;
-      border-radius: 16px;
-      background: linear-gradient(180deg, #FFFFFF 0%, #F9F5EC 100%);
-    }
-    .concern-bridge__flow {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: stretch;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .concern-bridge__side {
-      padding: 10px;
-      border: 1px solid #E8DFCF;
-      border-radius: 12px;
-      background: rgba(255,255,255,.65);
-    }
-    .concern-bridge__side b {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 12px;
-      color: #2F2A22;
-      font-family: 'Noto Sans TC';
-    }
-    .concern-bridge__side span {
-      font-size: 11.5px;
-      line-height: 1.55;
-      color: #6B6353;
-      font-family: 'Noto Sans TC';
-    }
-    .concern-bridge__arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #B0A899;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .concern-bridge__common {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      padding-top: 10px;
-      border-top: 1px dashed #E4DDCE;
-    }
-    .concern-bridge__chip {
-      font-size: 11.5px;
-      color: #4A463D;
-      background: #F4EFE4;
-      border: 1px solid #E8DFCF;
-      border-radius: 999px;
-      padding: 4px 8px;
-      font-family: 'Noto Sans TC';
-    }
-  </style>
+  <link rel="stylesheet" href="css/mockup.css">
+
 
   <!-- 引入 React 和 ReactDOM -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  
+
   <!-- 引入 dc-runtime -->
   <script src="js/dc-runtime.js"></script>
 </head>
+
 <body>
-<!-- Back to Home Button -->
-<a href="../index.html" style="position:fixed; bottom:24px; right:24px; z-index:99999; background:#1D1B17; color:#FFF; padding:12px 18px; border-radius:99px; text-decoration:none; font-family:'Noto Sans TC',sans-serif; font-size:14px; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,0.2); display:flex; align-items:center; gap:8px; transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  返回首頁
-</a>
-<x-dc>
-<helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<style>/* cyrillic-ext */
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-/* cyrillic-ext */
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-/* cyrillic-ext */
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* cyrillic */
-
-/* vietnamese */
-
-/* latin-ext */
-
-/* latin */
-
-</style>
-<style>
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body { background: #E9E4DA; font-family: "Noto Sans TC", sans-serif; -webkit-font-smoothing: antialiased; color: #1D1B17; }
-  ::-webkit-scrollbar { width: 0; height: 0; }
-  @keyframes ourFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes ourGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.topic-header {
-  padding: 22px 20px 18px;
-}
-.topic-kicker-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 13px;
-  flex-wrap: wrap;
-}
-.topic-category-badge {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 3px 8px;
-  border-radius: 3px;
-}
-.topic-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: .5px;
-  color: #7C7567;
-  background: #F4F1EA;
-  border: 1px solid #E8DFCF;
-  border-radius: 999px;
-  padding: 3px 8px;
-}
-.topic-status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  display: inline-block;
-}
-.topic-title {
-  font-family: 'Noto Serif TC', serif;
-  font-weight: 900;
-  font-size: 28px;
-  line-height: 1.32;
-  letter-spacing: -0.3px;
-  margin: 0 0 14px;
-  color: #17150F;
-  text-wrap: balance;
-}
-.topic-stats-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #7C7567;
-}
-.topic-stats-row b {
-  color: #17150F;
-  font-weight: 600;
-}
-.dot-separator {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: #CFC8BA;
-}
-.post-cta-card {
-  margin-top: 2px;
-  padding: 16px;
-  border-radius: 18px;
-  border: 1px solid #E8DFCF;
-  background: linear-gradient(135deg, #FFFDF8 0%, #F7F1E7 100%);
-  box-shadow: 0 1px 3px rgba(40,35,28,0.03);
-}
-.post-cta-eyebrow {
-  display: block;
-  margin-bottom: 6px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.1px;
-  color: #A39C8E;
-}
-.post-cta-title {
-  margin: 0 0 6px;
-  font-family: 'Noto Serif TC', serif;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.45;
-  color: #17150F;
-}
-.post-cta-desc {
-  margin: 0 0 12px;
-  font-family: 'Noto Sans TC';
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: #6B6353;
-}
-.post-cta-button {
-  width: 100%;
-  height: 42px;
-  border: none;
-  border-radius: 999px;
-  color: #FFFFFF;
-  font-family: 'Noto Sans TC';
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(40,35,28,0.12);
-}
-.comment-section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 0 14px;
-  margin-bottom: 10px;
-}
-.comment-section-head h3 {
-  margin: 0;
-  font-family: 'Noto Serif TC', serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #17150F;
-}
-.comment-section-head span {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  letter-spacing: .8px;
-  color: #A39C8E;
-}
-
-.comment-filter-chip {
-  flex: 0 0 auto;
-  border: 1px solid #E8DFCF;
-  border-radius: 9px;
-  background: #F9F5EC;
-  color: #5D5950;
-  padding: 7px 10px;
-  font-family: 'Noto Sans TC';
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
-}
-.comment-group-wrap {
-  border-radius: 20px;
-  padding: 12px;
-  border: 1px solid rgba(232,223,207,.9);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
-}
-.comment-group-tag {
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  padding: 4px 9px;
-  font-family: 'Noto Sans TC';
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid currentColor;
-  background: rgba(255,255,255,.35);
-}
-.comment-card {
-  background: #FFFFFF;
-  border: 1px solid #ECE6DA;
-  border-radius: 18px;
-  padding: 16px 16px 14px;
-  box-shadow: 0 1px 3px rgba(40,35,28,0.03);
-}
-.comment-card + .comment-card {
-  margin-top: 10px;
-}
-.comment-avatar-x {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #000000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-</style>
-</helmet>
-
-<div style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#E9E4DA; padding:20px 0;">
-  
-  <!-- ░░ DEMO CONTROLLER ░░ -->
-  <div style="width:min(440px,100%); margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:10px 16px; box-shadow:0 4px 20px rgba(40,35,28,0.06); z-index:100;">
-    <span style="font-size:12.5px; font-weight:700; color:#5D5950; font-family:'Noto Sans TC'; white-space:nowrap; margin-right:10px;">Demo 切換：</span>
-    <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none;">
-      <sc-for list="{{ topicChips }}" as="chip">
-        <button onclick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
-      </sc-for>
-    </div>
-  </div>
-
-  <!-- ░░ PHONE LAYOUT CONTAINER ░░ -->
-  <div style="width:min(440px,100%); background:#FBF9F5; min-height:85vh; border-radius:24px; position:relative; box-shadow:0 0 60px rgba(40,35,28,0.16); overflow:hidden; display:flex; flex-direction:column;">
-
-    <!-- ░░ TOP BAR ░░ -->
-    <div style="position:sticky; top:0; z-index:30; height:54px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; background:rgba(251,249,245,0.86); backdrop-filter:blur(12px); border-bottom:1px solid #ECE6DA;">
-      <div style="display:flex; align-items:center; gap:10px;">
-        <div style="width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2;">
-          <svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M12.5 4.5 L7 10 L12.5 15.5" stroke="#1D1B17" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        </div>
-        <div style="display:flex; flex-direction:column; line-height:1;">
-          <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:2px; color:#A39C8E; text-transform:uppercase;">Ours · 議題</span>
-          <span style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:15px; color:#1D1B17; margin-top:3px;">{{ topic.category }}</span>
-        </div>
-      </div>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <div onclick="{{ toggleBookmark }}" style="width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2; cursor:pointer;">
-          <svg width="15" height="15" viewBox="0 0 20 20" fill="{{ bmFill }}"><path d="M5 3.5 h10 v14 l-5 -3.6 l-5 3.6 z" stroke="#1D1B17" stroke-width="1.5" stroke-linejoin="round"></path></svg>
-        </div>
-        <div style="width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2; cursor:pointer;">
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="5.5" cy="10" r="1.6" fill="#1D1B17"></circle><circle cx="10" cy="10" r="1.6" fill="#1D1B17"></circle><circle cx="14.5" cy="10" r="1.6" fill="#1D1B17"></circle></svg>
-        </div>
-      </div>
-    </div>
-
-    <div style="flex:1; padding-bottom:86px;">
-
-      <!-- ░░ TOPIC HEADER ░░ -->
-      <div class="topic-header">
-        <div class="topic-kicker-row">
-          <span class="topic-category-badge" style="{{ topic.catBadgeStyle }}">{{ topic.category }}</span>
-          <span class="topic-status-pill">
-            <span class="topic-status-dot" style="{{ topic.statusDotStyle }}"></span>
-            {{ topic.status }}
-          </span>
-          <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:1px; color:#A39C8E;">
-            {{ headerMeta.updatedAt }}
-          </span>
-        </div>
-
-        <h1 class="topic-title">{{ topic.title }}</h1>
-
-        <div class="topic-stats-row">
-          <sc-if value="{{ isHeaderVariantA }}" hint-placeholder-val="{{ false }}">
-            <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
-            <span class="dot-separator"></span>
-            <span><b>{{ headerMeta.reportCount }}</b> 篇報導</span>
-            <span class="dot-separator"></span>
-            <span>高可信來源已標註</span>
-          </sc-if>
-
-          <sc-if value="{{ isHeaderVariantB }}" hint-placeholder-val="{{ false }}">
-            <span><b>{{ headerMeta.followerCount }}</b> 人追蹤</span>
-            <span class="dot-separator"></span>
-            <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
-            <span class="dot-separator"></span>
-            <span><b>{{ headerMeta.reportCount }}</b> 篇報導</span>
-          </sc-if>
-
-          <sc-if value="{{ isHeaderVariantC }}" hint-placeholder-val="{{ true }}">
-            <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
-            <span class="dot-separator"></span>
-            <span><b>{{ headerMeta.followerCount }}</b> 人追蹤</span>
-          </sc-if>
+  <!-- Back to Home Button -->
+  <a href="../index.html"
+    style="position:fixed; bottom:24px; right:24px; z-index:99999; background:#1D1B17; color:#FFF; padding:12px 18px; border-radius:99px; text-decoration:none; font-family:'Noto Sans TC',sans-serif; font-size:14px; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,0.2); display:flex; align-items:center; gap:8px; transition:transform 0.2s;"
+    onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </svg>
+    返回首頁
+  </a>
+  <x-dc>
+    <helmet>
+      <link rel="stylesheet" href="css/mockup.css">
+    </helmet>
+
+    <div
+      style="min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#E9E4DA; padding:20px 0;">
+
+      <!-- ░░ DEMO CONTROLLER ░░ -->
+      <div
+        style="width:min(440px,100%); margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:10px 16px; box-shadow:0 4px 20px rgba(40,35,28,0.06); z-index:100;">
+        <span
+          style="font-size:12.5px; font-weight:700; color:#5D5950; font-family:'Noto Sans TC'; white-space:nowrap; margin-right:10px;">Demo
+          切換：</span>
+        <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none;">
+          <sc-for list="{{ topicChips }}" as="chip">
+            <button onclick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+          </sc-for>
         </div>
       </div>
 
-      <!-- ░░ AI SUMMARY CARD ░░ -->
-      <div style="margin:0 14px 16px; background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:18px 18px 20px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px;">
+      <!-- ░░ PHONE LAYOUT CONTAINER ░░ -->
+      <div
+        style="width:min(440px,100%); background:#FBF9F5; min-height:85vh; border-radius:24px; position:relative; box-shadow:0 0 60px rgba(40,35,28,0.16); overflow:hidden; display:flex; flex-direction:column;">
+
+        <!-- ░░ TOP BAR ░░ -->
+        <div
+          style="position:sticky; top:0; z-index:30; height:54px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; background:rgba(251,249,245,0.86); backdrop-filter:blur(12px); border-bottom:1px solid #ECE6DA;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div
+              style="width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2;">
+              <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
+                <path d="M12.5 4.5 L7 10 L12.5 15.5" stroke="#1D1B17" stroke-width="1.7" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div style="display:flex; flex-direction:column; line-height:1;">
+              <span
+                style="font-family:'Noto Sans TC',sans-serif; font-size:9px; letter-spacing:2px; color:#A39C8E; text-transform:uppercase;">Ours
+                · 議題</span>
+              <span
+                style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:15px; color:#1D1B17; margin-top:3px;">{{
+                topic.category }}</span>
+            </div>
+          </div>
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="width:26px; height:26px; border-radius:8px; background:#17150F; display:flex; align-items:center; justify-content:center;">
-              <svg width="14" height="14" viewBox="0 0 20 20" fill="#FBD24B"><path d="M10 1.5 L11.6 7.2 L17.5 8 L13 11.6 L14.4 17.5 L10 14.2 L5.6 17.5 L7 11.6 L2.5 8 L8.4 7.2 Z"></path></svg>
-            </span>
-            <span style="font-family:'Noto Sans TC'; font-weight:700; font-size:15px; color:#17150F;">30 秒快速看懂</span>
+            <button type="button" aria-label="收藏議題" onclick="{{ toggleBookmark }}"
+              style="width:34px; height:34px; border:0; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2; cursor:pointer; padding:0;">
+              <svg width="15" height="15" viewBox="0 0 20 20" fill="{{ bmFill }}">
+                <path d="M5 3.5 h10 v14 l-5 -3.6 l-5 3.6 z" stroke="#1D1B17" stroke-width="1.5" stroke-linejoin="round">
+                </path>
+              </svg>
+            </button>
+            <button type="button" aria-label="更多操作"
+              style="width:34px; height:34px; border:0; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#F1ECE2; cursor:pointer; padding:0;">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <circle cx="5.5" cy="10" r="1.6" fill="#1D1B17"></circle>
+                <circle cx="10" cy="10" r="1.6" fill="#1D1B17"></circle>
+                <circle cx="14.5" cy="10" r="1.6" fill="#1D1B17"></circle>
+              </svg>
+            </button>
           </div>
-          <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.5px; color:#B0A899;">由 AI 整理 · {{ topic.summaryLabel }}</span>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:15px;">
-          <sc-for list="{{ topic.summaryBlocks }}" as="block">
-            <div style="display:flex; gap:10px; align-items:flex-start;">
-              <span style="{{ block.labelStyle }}">{{ block.label }}</span>
-              <span style="font-size:13.5px; line-height:1.65; color:#3D392F; font-family:'Noto Sans TC';">{{ block.text }}</span>
+        <div style="flex:1; padding-bottom:86px;">
+
+          <!-- ░░ TOPIC HEADER ░░ -->
+          <div class="topic-header">
+            <div class="topic-kicker-row">
+              <sc-if value="{{ hasExcellentSource }}" hint-placeholder-val="{{ true }}">
+                <span class="topic-trust-badge">具事實查核優良報導</span>
+              </sc-if>
+              <span class="topic-status-pill">
+                <span class="topic-status-dot" style="{{ topic.statusDotStyle }}"></span>
+                {{ topic.status }}
+              </span>
             </div>
-          </sc-for>
-        </div>
 
-        <!-- Hashtags -->
-        <div style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-top:12px;">
-          <sc-for list="{{ topic.hashtags }}" as="tag" hint-placeholder-count="4">
-            <span style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">{{ tag }}</span>
-          </sc-for>
-        </div>
-      </div>
+            <h1 class="topic-title">{{ topic.title }}</h1>
 
-      <!-- ░░ TAB BAR ░░ -->
-      <div style="position:sticky; top:54px; z-index:20; background:rgba(251,249,245,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #ECE6DA; display:flex; padding:0 14px;">
-        <sc-if value="{{ hasTrend }}" hint-placeholder-val="{{ true }}">
-          <div onclick="{{ setTrend }}" style="{{ tabTrendStyle }}">
-            <span>話題趨勢</span>
+            <div class="topic-stats-row">
+              <div class="topic-stats-main">
+                <span><b>{{ headerMeta.followerCount }}</b> 人追蹤</span>
+                <span class="dot-separator"></span>
+                <span><b>{{ headerMeta.sourceCount }}</b> 家來源</span>
+                <span class="dot-separator"></span>
+                <span><b>{{ headerMeta.reportCount }}</b> 篇報導</span>
+              </div>
+              <span class="topic-updated-at">{{ headerMeta.updatedAt }}</span>
+            </div>
           </div>
-        </sc-if>
-        <div onclick="{{ setTimeline }}" style="{{ tabTimelineStyle }}">
-          <span>議題時間軸</span>
-        </div>
-        <div onclick="{{ setSources }}" style="{{ tabSourcesStyle }}">
-          <span>新聞來源</span>
-        </div>
-      </div>
 
-      <!-- ░░ TAB: TREND ░░ -->
-      <sc-if value="{{ isTrend }}" hint-placeholder-val="{{ true }}">
-        <div style="animation:ourFade .35s ease both; padding:20px 0 8px;">
-          
-          <sc-if value="{{ hasDistribution }}" hint-placeholder-val="{{ true }}">
-            <div style="padding:0 20px 14px;">
-              <h2 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:18px; margin:0 0 12px; color:#17150F;">
-                <sc-if value="{{ isStanceSpectrum }}" hint-placeholder-val="{{ true }}">立場分布</sc-if>
-                <sc-if value="{{ isMarketSentiment }}" hint-placeholder-val="{{ false }}">市場情緒</sc-if>
-                <sc-if value="{{ isCultureClusters }}" hint-placeholder-val="{{ false }}">討論面向</sc-if>
-              </h2>
-              
-              <!-- distribution bar -->
-              <div style="display:flex; height:36px; border-radius:8px; overflow:hidden; margin-bottom:10px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.03);">
-                <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
-                  <div style="width:{{ dist.value }}%; background:{{ dist.color }}; display:flex; align-items:center; justify-content:center; color:#FFF; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:13.5px;">{{ dist.value }}%</div>
-                </sc-for>
+          <!-- ░░ AI SUMMARY CARD ░░ -->
+          <div
+            style="margin:0 14px 16px; background:#FFFFFF; border:1px solid #ECE6DA; border-radius:18px; padding:18px 18px 20px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:15px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span
+                  style="width:26px; height:26px; border-radius:8px; background:#17150F; display:flex; align-items:center; justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="#FBD24B">
+                    <path
+                      d="M10 1.5 L11.6 7.2 L17.5 8 L13 11.6 L14.4 17.5 L10 14.2 L5.6 17.5 L7 11.6 L2.5 8 L8.4 7.2 Z">
+                    </path>
+                  </svg>
+                </span>
+                <span style="font-family:'Noto Sans TC'; font-weight:700; font-size:15px; color:#17150F;">30
+                  秒快速看懂</span>
               </div>
-              
-              <div style="display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:12px; font-family:'Noto Sans TC';">
-                <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
-                  <span style="display:flex; align-items:center; gap:5px; color:#6F6859;"><span style="width:8px; height:8px; border-radius:50%; background:{{ dist.color }};"></span>{{ dist.label }}</span>
-                </sc-for>
-              </div>
+              <span style="font-family:'Noto Sans TC',sans-serif; font-size:9px; letter-spacing:0.5px; color:#B0A899;">由
+                AI 整理 · {{ topic.summaryLabel }}</span>
             </div>
-          </sc-if>
 
-          <!-- 雷達區塊 (Trend) -->
-          <sc-if value="{{ showRadarInTrend }}" hint-placeholder-val="{{ true }}">
-            <div style="padding:0 14px 16px;">
-              <div class="concern-proposal-tag">{{ radarTag }}</div>
-              <div class="concern-radar">
-                <p class="concern-radar__title">{{ radarTitle }}</p>
-                <sc-for list="{{ radarItems }}" as="item" hint-placeholder-count="6">
-                  <div class="concern-radar__row">
-                    <span>{{ item.label }}</span>
-                    <span class="concern-radar__track">
-                      <span class="concern-radar__fill" style="{{ item.fillStyle }}"></span>
-                    </span>
-                    <span class="concern-radar__score">{{ item.score }}</span>
+            <div class="summary-block-list">
+              <sc-for list="{{ topic.summaryBlocks }}" as="block">
+                <div class="summary-block-row">
+                  <span class="summary-block-label" style="{{ block.labelStyle }}">{{ block.label }}</span>
+                  <span class="summary-block-text">{{ block.text }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- Hashtags -->
+            <div
+              style="display:flex; flex-wrap:wrap; gap:6px; border-top:1px solid #F0ECE2; padding-top:12px; margin-top:12px;">
+              <sc-for list="{{ topic.hashtags }}" as="tag" hint-placeholder-count="4">
+                <span
+                  style="font-size:12px; color:#4A6B82; background:#EDF4F9; padding:4px 10px; border-radius:20px; font-family:'Noto Sans TC';">{{
+                  tag }}</span>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- ░░ TAB BAR ░░ -->
+          <div role="tablist" aria-label="議題內容切換"
+            style="position:sticky; top:54px; z-index:20; background:rgba(251,249,245,0.92); backdrop-filter:blur(12px); border-bottom:1px solid #ECE6DA; display:flex; padding:0 14px;">
+            <sc-if value="{{ hasTrend }}" hint-placeholder-val="{{ true }}">
+              <button type="button" role="tab" aria-selected="{{ isTrend }}" onclick="{{ setTrend }}"
+                style="{{ tabTrendStyle }}">
+                <span>話題趨勢</span>
+              </button>
+            </sc-if>
+            <button type="button" role="tab" aria-selected="{{ isTimeline }}" onclick="{{ setTimeline }}"
+              style="{{ tabTimelineStyle }}">
+              <span>議題時間軸</span>
+            </button>
+            <button type="button" role="tab" aria-selected="{{ isSources }}" onclick="{{ setSources }}"
+              style="{{ tabSourcesStyle }}">
+              <span>新聞來源</span>
+            </button>
+          </div>
+
+          <!-- ░░ TAB: TREND ░░ -->
+          <sc-if value="{{ isTrend }}" hint-placeholder-val="{{ true }}">
+            <div style="animation:ourFade .35s ease both; padding:20px 0 8px;">
+
+              <!-- 雷達區塊 (Trend) -->
+              <sc-if value="{{ showRadarInTrend }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:0 14px 16px;">
+                  <div class="concern-proposal-tag">{{ radarTag }}</div>
+                  <div class="concern-radar">
+                    <p class="concern-radar__title">{{ radarTitle }}</p>
+                    <sc-for list="{{ radarItems }}" as="item" hint-placeholder-count="6">
+                      <div class="concern-radar__row">
+                        <span>{{ item.label }}</span>
+                        <span class="concern-radar__track">
+                          <span class="concern-radar__fill" style="{{ item.fillStyle }}"></span>
+                        </span>
+                        <span class="concern-radar__score">{{ item.score }}</span>
+                      </div>
+                    </sc-for>
                   </div>
-                </sc-for>
-              </div>
-            </div>
-          </sc-if>
+                </div>
+              </sc-if>
 
-          <!-- 留言列表 -->
-          <sc-if value="{{ isGroupedComments }}" hint-placeholder-val="true">
-            <div class="comment-section-head">
-              <h3>{{ commentSectionTitle }}</h3>
-              <span>依主要立場分組</span>
-            </div>
-            <div style="padding:0 14px 10px; display:flex; flex-direction:column; gap:12px;">
-              <sc-for list="{{ commentGroups }}" as="group" hint-placeholder-count="3">
-                <section class="comment-group-wrap" style="{{ group.wrapStyle }}">
-                  <div class="comment-group-tag" style="{{ group.tagStyle }}">{{ group.label }}</div>
-                  <sc-for list="{{ group.comments }}" as="c" hint-placeholder-count="1">
+              <sc-if value="{{ topic.hasTrendDashboard }}" hint-placeholder-val="{{ false }}">
+                <section class="trend-dashboard">
+                  <div class="trend-dashboard__head">
+                    <h2>{{ topic.trendDashboard.title }}</h2>
+                    <span>{{ topic.trendDashboard.sourceLabel }}</span>
+                  </div>
+
+                  <div class="trend-dashboard__grid">
+                    <sc-for list="{{ topic.trendDashboard.cards }}" as="card" hint-placeholder-count="4">
+                      <article class="trend-metric-card {{ card.statusClass }}">
+                        <span class="trend-metric-card__label">{{ card.label }}</span>
+                        <strong class="trend-metric-card__value">{{ card.value }}</strong>
+                        <p class="trend-metric-card__delta">{{ card.delta }}</p>
+                        <sc-if value="{{ card.hasSparkline }}" hint-placeholder-val="{{ false }}">
+                          <svg class="trend-sparkline" viewBox="0 0 100 28" preserveAspectRatio="none">
+                            <polyline points="{{ card.sparklinePoints }}"></polyline>
+                          </svg>
+                        </sc-if>
+                        <span class="trend-metric-card__source">來源：{{ card.source }}</span>
+                      </article>
+                    </sc-for>
+                  </div>
+                </section>
+              </sc-if>
+
+              <sc-if value="{{ hasDistribution }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:0 14px 14px;">
+                  <h2
+                    style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:16px; margin:0 0 12px; color:#17150F;">
+                    <sc-if value="{{ isStanceSpectrum }}" hint-placeholder-val="{{ true }}">立場分布</sc-if>
+                    <sc-if value="{{ isMarketSentiment }}" hint-placeholder-val="{{ false }}">市場情緒</sc-if>
+                    <sc-if value="{{ isCultureClusters }}" hint-placeholder-val="{{ false }}">討論面向</sc-if>
+                  </h2>
+
+                  <!-- distribution bar -->
+                  <div
+                    style="display:flex; height:36px; border-radius:8px; overflow:hidden; margin-bottom:10px; box-shadow:inset 0 0 0 1px rgba(0,0,0,0.03);">
+                    <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
+                      <div
+                        style="width:{{ dist.value }}%; background:{{ dist.color }}; display:flex; align-items:center; justify-content:center; color:#FFF; font-family:'Noto Sans TC',sans-serif; font-weight:600; font-size:13.5px;">
+                        {{ dist.value }}%</div>
+                    </sc-for>
+                  </div>
+
+                  <div
+                    style="display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:12px; font-family:'Noto Sans TC';">
+                    <sc-for list="{{ topic.distribution }}" as="dist" hint-placeholder-count="3">
+                      <span style="display:flex; align-items:center; gap:5px; color:#6F6859;"><span
+                          style="width:8px; height:8px; border-radius:50%; background:{{ dist.color }};"></span>{{
+                        dist.label }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <!-- 留言列表 -->
+              <sc-if value="{{ isGroupedComments }}" hint-placeholder-val="{{ true }}">
+                <div class="comment-section-head">
+                  <div class="comment-section-title">
+                    {{ commentSectionTitle }}</div>
+                  <span>依主要立場分組</span>
+                </div>
+                <div class="grouped-comment-stack">
+                  <sc-for list="{{ commentGroups }}" as="group" hint-placeholder-count="3">
+                    <section class="comment-group-wrap" style="{{ group.wrapStyle }}">
+                      <div class="comment-group-tag" style="{{ group.tagStyle }}">{{ group.label }}</div>
+                      <sc-for list="{{ group.comments }}" as="c" hint-placeholder-count="1">
+                        <article class="comment-card">
+                          <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                            <div class="comment-avatar-x">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF">
+                                <path
+                                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                                </path>
+                              </svg>
+                            </div>
+                            <div style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
+                              <span
+                                style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">{{
+                                c.name }}</span>
+                              <span style="font-size:12px; color:#6B6353; font-family:'Noto Sans TC',sans-serif;">{{
+                                c.handle }}</span>
+                            </div>
+                          </div>
+                          <p
+                            style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">
+                            {{ c.text }}</p>
+                          <div
+                            style="display:flex; align-items:center; gap:16px; font-family:'Noto Sans TC',sans-serif; font-size:11px; color:#7C7567; padding:2px 4px 0;">
+                            <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                              </svg> {{ c.replies }}</span>
+                            <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path
+                                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                </path>
+                              </svg> {{ c.likes }}</span>
+                          </div>
+                        </article>
+                      </sc-for>
+                    </section>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isFeedComments }}" hint-placeholder-val="{{ false }}">
+                <div class="comment-section-head">
+                  <div class="comment-section-title">
+                    {{ commentSectionTitle }}</div>
+                  <button class="comment-filter-chip" style="{{ commentFilterStyle }}">{{ commentFilterLabel }} <span
+                      style="font-size:10px; color:#8A8377;">▾</span></button>
+                </div>
+                <div style="padding:0 14px 10px; display:flex; flex-direction:column; gap:12px;">
+                  <sc-for list="{{ topic.comments }}" as="c" hint-placeholder-count="3">
                     <article class="comment-card">
                       <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
                         <div class="comment-avatar-x">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF">
+                            <path
+                              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                            </path>
+                          </svg>
                         </div>
                         <div style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
-                          <span style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">{{ c.name }}</span>
-                          <span style="font-size:12px; color:#6B6353; font-family:'IBM Plex Mono',monospace;">{{ c.handle }}</span>
+                          <span style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">{{
+                            c.name }}</span>
+                          <span style="font-size:12px; color:#6B6353; font-family:'Noto Sans TC',sans-serif;">{{
+                            c.handle }}</span>
                         </div>
                       </div>
-                      <p style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">{{ c.text }}</p>
-                      <div style="display:flex; align-items:center; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7C7567; padding:2px 4px 0;">
-                        <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> {{ c.replies }}</span>
-                        <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> {{ c.likes }}</span>
+                      <p
+                        style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">
+                        {{ c.text }}</p>
+                      <div
+                        style="display:flex; align-items:center; gap:16px; font-family:'Noto Sans TC',sans-serif; font-size:11px; color:#7C7567; padding:2px 4px 0;">
+                        <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                          </svg> {{ c.replies }}</span>
+                        <span style="display:flex; align-items:center; gap:4px;"><svg width="13" height="13"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path
+                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                          </svg> {{ c.likes }}</span>
                       </div>
                     </article>
                   </sc-for>
-                </section>
-              </sc-for>
-            </div>
-          </sc-if>
+                </div>
+              </sc-if>
 
-          <sc-if value="{{ isFeedComments }}" hint-placeholder-val="false">
-            <div class="comment-section-head">
-              <h3>{{ commentSectionTitle }}</h3>
-              <button class="comment-filter-chip" style="{{ commentFilterStyle }}">{{ commentFilterLabel }} <span style="font-size:10px; color:#8A8377;">▾</span></button>
-            </div>
-            <div style="padding:0 14px 10px; display:flex; flex-direction:column; gap:12px;">
-              <sc-for list="{{ topic.comments }}" as="c" hint-placeholder-count="3">
-                <article class="comment-card">
-                  <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
-                    <div class="comment-avatar-x">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-                    </div>
-                    <div style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
-                      <span style="font-weight:700; font-size:14px; color:#17150F; font-family:'Noto Sans TC';">{{ c.name }}</span>
-                      <span style="font-size:12px; color:#6B6353; font-family:'IBM Plex Mono',monospace;">{{ c.handle }}</span>
-                    </div>
+              <!-- 發 Post CTA -->
+              <div class="post-cta-wrap">
+                <div class="post-cta-card">
+                  <div class="post-cta-copy">
+                    <span class="post-cta-eyebrow">JOIN THE DISCUSSION</span>
+                    <p class="post-cta-title">{{ postCtaTitle }}</p>
+                    <p class="post-cta-desc">{{ postCtaDesc }}</p>
                   </div>
-                  <p style="margin:0 0 10px; font-size:13.5px; line-height:1.65; color:#2D2821; font-family:'Noto Sans TC';">{{ c.text }}</p>
-                  <div style="display:flex; align-items:center; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7C7567; padding:2px 4px 0;">
-                    <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> {{ c.replies }}</span>
-                    <span style="display:flex; align-items:center; gap:4px; cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> {{ c.likes }}</span>
-                  </div>
-                </article>
-              </sc-for>
-            </div>
-          </sc-if>
-
-          <!-- 發 Post CTA -->
-          <div style="padding:0 14px 10px;">
-            <div class="post-cta-card">
-              <div class="post-cta-copy">
-                <span class="post-cta-eyebrow">JOIN THE DISCUSSION</span>
-                <p class="post-cta-title">{{ postCtaTitle }}</p>
-                <p class="post-cta-desc">{{ postCtaDesc }}</p>
+                  <button class="post-cta-button">
+                    發表看法
+                  </button>
+                </div>
               </div>
-              <button class="post-cta-button" style="{{ postCtaButtonStyle }}">
-                發表看法
-              </button>
             </div>
-          </div>
-        </div>
-      </sc-if>
+          </sc-if>
 
-      <!-- ░░ TAB: TIMELINE ░░ -->
-      <sc-if value="{{ isTimeline }}" hint-placeholder-val="{{ false }}">
-        <div style="animation:ourFade .35s ease both; padding:20px 20px 8px;">
-          
-          <!-- 雷達區塊 (Timeline / Weather) -->
-          <sc-if value="{{ showRadarInTimeline }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:0 0 16px;">
-              <div class="concern-proposal-tag">{{ radarTag }}</div>
-              <div class="concern-radar">
-                <p class="concern-radar__title">{{ radarTitle }}</p>
-                <sc-for list="{{ radarItems }}" as="item" hint-placeholder-count="6">
-                  <div class="concern-radar__row">
-                    <span>{{ item.label }}</span>
-                    <span class="concern-radar__track">
-                      <span class="concern-radar__fill" style="{{ item.fillStyle }}"></span>
-                    </span>
-                    <span class="concern-radar__score">{{ item.score }}</span>
+          <!-- ░░ TAB: TIMELINE ░░ -->
+          <sc-if value="{{ isTimeline }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:ourFade .35s ease both; padding:20px 20px 8px;">
+
+              <!-- 雷達區塊 (Timeline / Weather) -->
+              <sc-if value="{{ showRadarInTimeline }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:0 0 16px;">
+                  <div class="concern-proposal-tag">{{ radarTag }}</div>
+                  <div class="concern-radar">
+                    <p class="concern-radar__title">{{ radarTitle }}</p>
+                    <sc-for list="{{ radarItems }}" as="item" hint-placeholder-count="6">
+                      <div class="concern-radar__row">
+                        <span>{{ item.label }}</span>
+                        <span class="concern-radar__track">
+                          <span class="concern-radar__fill" style="{{ item.fillStyle }}"></span>
+                        </span>
+                        <span class="concern-radar__score">{{ item.score }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <h2
+                style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:19px; margin:0 0 4px; color:#17150F;">
+                議題怎麼走到今天</h2>
+              <div style="position:relative;">
+                <div
+                  style="position:absolute; left:7px; top:6px; bottom:6px; width:2px; background:linear-gradient(180deg,#E4DDCE,#E4DDCE 92%,transparent);">
+                </div>
+                <sc-for list="{{ topic.timeline }}" as="node" hint-placeholder-count="3">
+                  <div style="position:relative; padding-left:34px; padding-bottom:18px;">
+                    <div style="{{ node.dotStyle }}"></div>
+                    <div
+                      style="background:#FFF; border:1px solid #ECE6DA; border-radius:13px; padding:13px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
+                      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                        <span
+                          style="font-family:'Noto Sans TC',sans-serif; font-size:11px; font-weight:600; color:{{ topic.themeColor }};">{{
+                          node.date }}</span>
+                        <span style="{{ node.tagStyle }}">{{ node.tag }}</span>
+                      </div>
+                      <div
+                        style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:15.5px; line-height:1.45; color:#17150F; margin-bottom:4px;">
+                        {{ node.title }}</div>
+                      <div style="font-size:12.5px; line-height:1.65; color:#6B6353;">{{ node.desc }}</div>
+                    </div>
                   </div>
                 </sc-for>
               </div>
             </div>
           </sc-if>
 
-          <h2 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:19px; margin:0 0 4px; color:#17150F;">議題怎麼走到今天</h2>
-          <div style="position:relative;">
-            <div style="position:absolute; left:7px; top:6px; bottom:6px; width:2px; background:linear-gradient(180deg,#E4DDCE,#E4DDCE 92%,transparent);"></div>
-            <sc-for list="{{ topic.timeline }}" as="node" hint-placeholder-count="3">
-              <div style="position:relative; padding-left:34px; padding-bottom:18px;">
-                <div style="{{ node.dotStyle }}"></div>
-                <div style="background:#FFF; border:1px solid #ECE6DA; border-radius:13px; padding:13px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.03);">
-                  <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                    <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:{{ topic.themeColor }};">{{ node.date }}</span>
-                    <span style="{{ node.tagStyle }}">{{ node.tag }}</span>
+          <!-- ░░ TAB: SOURCES ░░ -->
+          <sc-if value="{{ isSources }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:ourFade .35s ease both; padding:20px 20px 8px;">
+              <h2
+                style="font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:19px; margin:0 0 4px; color:#17150F;">
+                相關新聞來源</h2>
+
+              <div class="source-card-list">
+                <sc-for list="{{ topic.sources }}" as="src" hint-placeholder-count="3">
+                  <div class="source-card">
+                    <span class="source-card__thumb">示意圖</span>
+                    <div class="source-card__body">
+                      <sc-if value="{{ src.showFactCheckBadge }}" hint-placeholder-val="{{ true }}">
+                        <span class="source-card__fact-badge">事實查核優良</span>
+                      </sc-if>
+                      <h3 class="source-card__title">{{ src.latest }}</h3>
+                      <p class="source-card__media">{{ src.name }}</p>
+                      <time class="source-card__date">{{ src.time }}</time>
+                    </div>
                   </div>
-                  <div style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:15.5px; line-height:1.45; color:#17150F; margin-bottom:4px;">{{ node.title }}</div>
-                  <div style="font-size:12.5px; line-height:1.65; color:#6B6353;">{{ node.desc }}</div>
-                </div>
+                </sc-for>
               </div>
-            </sc-for>
+            </div>
+          </sc-if>
+
+        </div>
+
+        <!-- ░░ BOTTOM NAV ░░ -->
+        <div
+          style="position:sticky; bottom:0; z-index:30; height:62px; display:flex; align-items:stretch; background:rgba(251,249,245,0.92); backdrop-filter:blur(12px); border-top:1px solid #ECE6DA; margin-top:auto;">
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="6.5" stroke="#A39C8E" stroke-width="1.8"></circle>
+              <path d="M16 16 L20 20" stroke="#A39C8E" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg><span style="font-size:9px;">探索</span>
+          </div>
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:{{ topic.themeColor }};">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect x="4" y="4" width="16" height="16" rx="3" stroke="{{ topic.themeColor }}" stroke-width="1.8"></rect>
+              <path d="M8 9 H16 M8 12.5 H16 M8 16 H12.5" stroke="{{ topic.themeColor }}" stroke-width="1.8"
+                stroke-linecap="round"></path>
+            </svg><span style="font-size:9px; font-weight:600;">議題</span>
+          </div>
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 4 C8 4 6 6.5 6 10 v4 l-2 3 h16 l-2 -3 v-4 c0 -3.5 -2 -6 -6 -6 z" stroke="#A39C8E"
+                stroke-width="1.8" stroke-linejoin="round"></path>
+            </svg><span style="font-size:9px;">通知</span>
+          </div>
+          <div
+            style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="8.5" r="3.5" stroke="#A39C8E" stroke-width="1.8"></circle>
+              <path d="M5.5 19 c0 -3.6 2.9 -5.5 6.5 -5.5 s6.5 1.9 6.5 5.5" stroke="#A39C8E" stroke-width="1.8"
+                stroke-linecap="round"></path>
+            </svg><span style="font-size:9px;">我的</span>
           </div>
         </div>
-      </sc-if>
-
-      <!-- ░░ TAB: SOURCES ░░ -->
-      <sc-if value="{{ isSources }}" hint-placeholder-val="{{ false }}">
-        <div style="animation:ourFade .35s ease both; padding:20px 20px 8px;">
-          <h2 style="font-family:'Noto Serif TC',serif; font-weight:700; font-size:19px; margin:0 0 4px; color:#17150F;">相關新聞來源</h2>
-          
-          <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
-            <sc-for list="{{ topic.sources }}" as="src" hint-placeholder-count="3">
-              <div style="display:flex; gap:12px; align-items:flex-start; background:#FFF; border:1px solid #ECE6DA; border-radius:13px; padding:13px 14px; box-shadow:0 1px 3px rgba(40,35,28,0.02);">
-                <span style="{{ src.logoStyle }}">{{ src.mono }}</span>
-                <div style="flex:1; min-width:0;">
-                  <div style="display:flex; align-items:center; gap:7px; margin-bottom:5px; flex-wrap:wrap;">
-                    <span style="font-weight:700; font-size:14px; color:#17150F;">{{ src.name }}</span>
-                  <sc-if value="{{ src.showCredBadge }}" hint-placeholder-val="{{ true }}">
-                    <span style="{{ src.credStyle }}">{{ src.credLabel }}</span>
-                  </sc-if>
-                  </div>
-                  <div style="font-size:12.5px; line-height:1.55; color:#5A554A; margin-bottom:6px; word-break:break-word;">{{ src.latest }}</div>
-                  <div style="display:flex; align-items:center; gap:9px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#A39C8E;">
-                    <span>{{ src.count }} 篇報導</span>
-                    <span style="width:3px; height:3px; border-radius:50%; background:#D3CCBE;"></span>
-                    <span>{{ src.time }}</span>
-                  </div>
-                </div>
-              </div>
-            </sc-for>
-          </div>
-        </div>
-      </sc-if>
-
+      </div>
     </div>
-
-    <!-- ░░ BOTTOM NAV ░░ -->
-    <div style="position:sticky; bottom:0; z-index:30; height:62px; display:flex; align-items:stretch; background:rgba(251,249,245,0.92); backdrop-filter:blur(12px); border-top:1px solid #ECE6DA; margin-top:auto;">
-      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="#A39C8E" stroke-width="1.8"></circle><path d="M16 16 L20 20" stroke="#A39C8E" stroke-width="1.8" stroke-linecap="round"></path></svg><span style="font-size:9px;">探索</span></div>
-      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:{{ topic.themeColor }};"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="{{ topic.themeColor }}" stroke-width="1.8"></rect><path d="M8 9 H16 M8 12.5 H16 M8 16 H12.5" stroke="{{ topic.themeColor }}" stroke-width="1.8" stroke-linecap="round"></path></svg><span style="font-size:9px; font-weight:600;">議題</span></div>
-      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 4 C8 4 6 6.5 6 10 v4 l-2 3 h16 l-2 -3 v-4 c0 -3.5 -2 -6 -6 -6 z" stroke="#A39C8E" stroke-width="1.8" stroke-linejoin="round"></path></svg><span style="font-size:9px;">通知</span></div>
-      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#A39C8E;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.5" r="3.5" stroke="#A39C8E" stroke-width="1.8"></circle><path d="M5.5 19 c0 -3.6 2.9 -5.5 6.5 -5.5 s6.5 1.9 6.5 5.5" stroke="#A39C8E" stroke-width="1.8" stroke-linecap="round"></path></svg><span style="font-size:9px;">我的</span></div>
-    </div>
-  </div>
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;: {&quot;width&quot;: 440, &quot;height&quot;: 924}}">
+  </x-dc>
+  <script src="js/mockup-data.js"></script>
+  <script type="text/x-dc" data-dc-script=""
+    data-props="{&quot;$preview&quot;: {&quot;width&quot;: 440, &quot;height&quot;: 924}}">
 class Component extends DCLogic {
   state = {
     activeTopicId: 'sports',
     tab: 'trend',
-    sourceFilter: 'all',
-    open: {},
     bookmarked: false,
-    following: false,
   };
 
   renderVals() {
-    const s = this.state;
-    const TOPICS = {
-      sports: {
-        id: 'sports', headerVariant: 'C', category: '運動', themeColor: '#C0432B', status: '後續觀察',
-        title: '高雄亞洲同志運動會爭議：運動賽事、國安疑慮與城市治理交會',
-        shortTitle: '亞洲同志運動會爭議', trackingCount: '8,420', mediaCount: 12, reportCount: 68,
-        updatedAt: '更新於 2 小時前', summaryMode: 'debate', trendLayout: 'stance-spectrum',
-        summaryBlocks: [
-          { label: '發生什麼事', tone: 'neutral', text: '2026 亞洲同志運動會於 4/30–5/4 在高雄舉行，賽前爆出中國選手報名人數暴增，並傳出部分資料疑似異常。' },
-          { label: '為什麼重要', tone: 'green', text: '原本屬於多元平權與運動交流的賽事，延伸成國安、入境審查、城市治理與活動透明度的討論。' },
-          { label: '目前爭議', tone: 'red', text: '支持者擔心政治疑慮蓋過平權與體育交流；質疑方則認為大量報名與資料異常必須被嚴格審查。' },
-          { label: '尚未釐清', tone: 'gray', text: '報名資料異常的實際比例、主辦單位審核流程、入境登錄暫緩後的後續處理仍需說明。' }
-        ],
-        hashtags: ['#亞洲同志運動會', '#高雄', '#運動賽事治理', '#國安疑慮', '#多元平權'],
-        commonGround: {
-          question: '各方都在問：如何在開放交流、賽事安全與城市治理之間取得平衡？',
-          clusters: [
-            { label: '賽事與城市形象', items: ['多元平權', '國際交流', '高雄城市品牌'] },
-            { label: '安全與治理', items: ['入境審查', '報名資料真實性', '主辦透明度'] }
-          ],
-          takeaway: '分歧不在於是否支持運動和平權，而在於活動治理與安全審查是否足夠透明。'
-        },
-        distribution: [
-          { label: '重視交流與平權', value: 38, color: '#B07A2E' },
-          { label: '要求補充資訊', value: 27, color: '#6B7A85' },
-          { label: '主張嚴格審查', value: 35, color: '#8158B0' }
-        ],
-        comments: [
-          { stance: 'support', name: '高雄活動志工', handle: '@kaohsiung_vol', text: '支持平權賽事，也希望外界不要只用政治角度看待所有參賽者。但主辦單位確實要把報名審查說清楚。', likes: 824, replies: 36 },
-          { stance: 'neutral', name: '城市觀察筆記', handle: '@city_note', text: '這件事真正需要討論的是大型活動治理：報名、身份確認、入境流程、地方政府監督，不能只停在口水戰。', likes: 512, replies: 18 },
-          { stance: 'oppose', name: '資安小編', handle: '@sec_watch', text: '如果真的有大量資料異常，暫緩登錄是合理的。國際活動越開放，審核機制就越要可信。', likes: 690, replies: 44 }
-        ],
-        timeline: [
-          { date: '2026.04.27', tag: '重大事件', title: '媒體報導中國選手報名人數暴增', desc: '報導指出中國選手報名達 834 人，約占總報名數四成以上，並傳出部分資料疑似異常。' },
-          { date: '2026.04.27', tag: '政府回應', title: '高雄市運發局要求主辦單位說明', desc: '市府表示已要求主辦單位補充說明，並暫緩相關移民署登錄作業。' },
-          { date: '2026.04.30', tag: '賽事開始', title: '亞洲同志運動會於高雄登場', desc: '賽事於 4/30–5/4 舉行，活動本身仍以多元平權與運動交流為主軸。' },
-          { date: '後續觀察', tag: '待追蹤', title: '活動治理與入境審查流程檢討', desc: '後續可追蹤主辦單位報告、地方政府檢討與未來大型活動審核機制。' }
-        ],
-        sources: [
-          { name: '中央社', mono: '央', cred: 'excellent', latest: '中國選手報名暴增，高雄市府要求主辦說明', count: 3, time: '2026/04/27' },
-          { name: '高雄市政府／運發局', mono: '高', cred: 'official', latest: '市府說明活動審查與暫緩登錄作業', count: 1, time: '2026/04/27' },
-          { name: '社群討論／Threads', mono: '社', cred: 'verify', latest: '網友討論活動治理、平權與國安疑慮', count: 20, time: '持續更新' }
-        ]
-      },
-      finance: {
-        id: 'finance', headerVariant: 'A', category: '財經', themeColor: '#B07A2E', status: '持續發展',
-        title: '台股 AI 熱潮與劇烈波動：一年飆漲後挑戰 4 萬點',
-        shortTitle: '台股 AI 行情', trackingCount: '15,860', mediaCount: 16, reportCount: 142,
-        updatedAt: '更新於 1 小時前', summaryMode: 'market', trendLayout: 'market-sentiment',
-        summaryBlocks: [
-          { label: '發生什麼事', tone: 'neutral', text: '台股自 2025 年 4 月低點反彈至 2026 年 4 月高點，一年大漲超過 2 萬點，AI 供應鏈與 ETF 資金成為市場焦點。' },
-          { label: '為什麼重要', tone: 'green', text: '台灣資本市場與半導體、AI 伺服器供應鏈高度連動，股市行情也影響散戶投資、退休金與 ETF 熱潮。' },
-          { label: '目前爭議', tone: 'red', text: '樂觀派認為 AI 基本面仍強；保守派擔心漲幅過快、估值偏高，國際利率與地緣風險可能引發修正。' },
-          { label: '尚未釐清', tone: 'gray', text: 'AI 需求能否持續、外資是否續買、Fed 利率政策與國際情勢，都會影響下半年走勢。' }
-        ],
-        hashtags: ['#台股', '#AI行情', '#主動式ETF', '#資金行情', '#投資風險'],
-        commonGround: {
-          question: '市場共同關注：AI 成長是真需求，還是資金行情推高估值？',
-          clusters: [
-            { label: '基本面', items: ['AI 伺服器需求', '半導體供應鏈', '企業財報'] },
-            { label: '市場風險', items: ['外資動向', '利率政策', '地緣政治'] }
-          ],
-          takeaway: '分歧不在是否看好 AI，而在於目前價格是否已經提前反映太多樂觀預期。'
-        },
-        distribution: [
-          { label: '偏多：AI 基本面續強', value: 46, color: '#B07A2E' },
-          { label: '觀望：等財報與利率', value: 31, color: '#6B7A85' },
-          { label: '偏空：估值與風險升高', value: 23, color: '#8158B0' }
-        ],
-        comments: [
-          { stance: 'support', name: 'ETF 定期定額派', handle: '@etf_monthly', text: 'AI 不是短線題材，台灣供應鏈真的吃得到訂單。只是現在追高要分批，不要一次 all in。', likes: 1320, replies: 58 },
-          { stance: 'neutral', name: '財報派觀察', handle: '@earnings_watch', text: '先看下季財報和外資動向。現在市場太容易被一句利率或一則國際新聞影響。', likes: 746, replies: 22 },
-          { stance: 'oppose', name: '韭菜保護協會', handle: '@risk_first', text: '一年漲一倍多，大家都說這次不一樣，但風險永遠都是在最熱的時候被忽略。', likes: 980, replies: 73 }
-        ],
-        timeline: [
-          { date: '2025.04', tag: '市場低點', title: '台股受對等關稅衝擊回落', desc: '台股低點落在 17306.97 點，成為後續一年反彈的比較基準。' },
-          { date: '2026.04.23', tag: '重大事件', title: '台股高點來到 38921.95 點', desc: '一年大漲超過 2 萬點，AI 供應鏈、ETF 資金與外資買盤成為市場主因。' },
-          { date: '2026.06.12', tag: '市場波動', title: '台股單日大漲逾千點', desc: '受國際情勢與美股反彈激勵，台股終場大漲 1019.58 點。' },
-          { date: '後續觀察', tag: '待追蹤', title: 'AI 財報、Fed 利率與地緣政治', desc: '下半年市場將持續關注 AI 需求能否支撐高估值。' }
-        ],
-        sources: [
-          { name: '中央社財經', mono: '央', cred: 'excellent', latest: '台股一年大漲逾 2 萬點，AI 與資金行情推升', count: 8, time: '2026/04/23' },
-          { name: '證交所／櫃買中心', mono: '證', cred: 'official', latest: '市場成交量、指數與類股資料', count: 4, time: '持續更新' },
-          { name: '法人投顧分析', mono: '法', cred: 'stance', latest: 'AI 供應鏈仍具長期成長動能', count: 12, time: '2026/06' },
-          { name: '社群投資討論', mono: '社', cred: 'verify', latest: 'ETF、AI 股與高價股成為散戶討論焦點', count: 50, time: '持續更新' }
-        ]
-      },
-      entertainment: {
-        id: 'entertainment', headerVariant: 'B', category: '娛樂', themeColor: '#8158B0', status: '典禮前熱議',
-        title: '第 37 屆金曲獎登場前熱議：蔡依林 9 項入圍、台語與樂團作品受關注',
-        shortTitle: '第 37 屆金曲獎', trackingCount: '21,300', mediaCount: 20, reportCount: 156,
-        updatedAt: '更新於 30 分鐘前', summaryMode: 'culture', trendLayout: 'culture-clusters',
-        summaryBlocks: [
-          { label: '發生什麼事', tone: 'neutral', text: '第 37 屆金曲獎將於 2026/06/27 在台北小巨蛋登場，入圍名單於 5 月公布，蔡依林以 9 項入圍成為焦點。' },
-          { label: '為什麼重要', tone: 'green', text: '金曲獎不只是娛樂典禮，也常成為台灣流行音樂、台語創作、獨立樂團與文化認同的討論場。' },
-          { label: '目前討論', tone: 'purple', text: '樂迷關注蔡依林能否大滿貫，也有人討論金曲獎應更重視傳唱度、音樂性，或扶植多語言與獨立音樂。' },
-          { label: '後續觀察', tone: 'gray', text: '典禮得獎結果、表演舞台、得獎感言與社群二創，將在典禮當晚帶動第二波討論。' }
-        ],
-        hashtags: ['#金曲獎', '#蔡依林', '#台灣流行音樂', '#台語音樂', '#獨立樂團'],
-        commonGround: {
-          question: '樂迷共同關注：金曲獎應該獎勵傳唱度、音樂性，還是文化代表性？',
-          clusters: [
-            { label: '典禮與明星', items: ['入圍名單', '得獎預測', '舞台表演'] },
-            { label: '音樂與文化', items: ['音樂性', '台語創作', '獨立樂團'] }
-          ],
-          takeaway: '娛樂討論的分歧不在喜不喜歡金曲獎，而在於大家期待它代表主流流行、專業評選，還是文化多樣性。'
-        },
-        distribution: [
-          { label: '主流歌手與獎項預測', value: 44, color: '#B07A2E' },
-          { label: '音樂性與評審標準', value: 28, color: '#6B7A85' },
-          { label: '台語／獨立音樂能見度', value: 28, color: '#8158B0' }
-        ],
-        comments: [
-          { stance: 'support', name: 'Jolin 粉但理性', handle: '@pop_stage', text: '蔡依林 9 項入圍真的不意外，作品完整度跟舞台概念都很強，但也希望其他類型音樂被看見。', likes: 2420, replies: 180 },
-          { stance: 'neutral', name: '耳機派樂評', handle: '@music_review', text: '金曲獎每年都在吵傳唱度和音樂性，其實這也是它有趣的地方：它不是人氣榜，而是文化現場。', likes: 1180, replies: 64 },
-          { stance: 'oppose', name: '獨立場館常客', handle: '@livehouse_kid', text: '希望大家不要只看大咖。台語、樂團、獨立音樂那幾個獎項，常常才是台灣音樂真正有生命力的地方。', likes: 960, replies: 39 }
-        ],
-        timeline: [
-          { date: '2026.04.29', tag: '典禮資訊', title: '金曲獎公布典禮時間、地點與主視覺', desc: '第 37 屆金曲獎確定於台北小巨蛋舉行，主視覺與典禮資訊陸續公開。' },
-          { date: '2026.05.13', tag: '重大事件', title: '第 37 屆金曲獎入圍名單公布', desc: '蔡依林以 9 項入圍成為焦點，Tizzy Bac、告五人、蕭煌奇等音樂人也受關注。' },
-          { date: '2026.06.10', tag: '人物報導', title: '入圍音樂人訪問帶動第二波討論', desc: '多位入圍者受訪，延伸出創作背景、語言文化與音樂產業討論。' },
-          { date: '2026.06.27', tag: '待發生', title: '金曲獎於台北小巨蛋登場', desc: '得獎結果、舞台演出與社群討論將成為典禮當晚焦點。' }
-        ],
-        sources: [
-          { name: '金曲獎官方／文化部', mono: '金', cred: 'official', latest: '第 37 屆金曲獎典禮資訊與入圍名單', count: 5, time: '2026/05–06' },
-          { name: '中央社影劇', mono: '央', cred: 'excellent', latest: '蔡依林 9 項入圍，金曲獎入圍名單公布', count: 10, time: '2026/05/13' },
-          { name: '娛樂媒體／樂評專欄', mono: '評', cred: 'stance', latest: '入圍預測、得獎呼聲與音樂性分析', count: 18, time: '持續更新' },
-          { name: '粉絲社群', mono: '粉', cred: 'verify', latest: '入圍名單、舞台期待與應援討論', count: 80, time: '持續更新' }
-        ]
-      },
-      policy: {
-        id: 'policy', headerVariant: 'A', category: '公共政策', themeColor: '#3F6F9F', status: '持續發展',
-        title: '選罷法修正三讀：緩刑者參選限制放寬，引發「高虹安條款」爭議',
-        shortTitle: '選罷法修正爭議', trackingCount: '18,640', mediaCount: 24, reportCount: 186,
-        updatedAt: '更新於 2 小時前', summaryMode: 'policy', trendLayout: 'stance-spectrum',
-        summaryBlocks: [
-          { label: '發生什麼事', tone: 'neutral', text: '立法院於 2026/06/12 三讀修正《公職人員選舉罷免法》，放寬部分遭宣告緩刑或得易服社會勞動者的參選資格限制。' },
-          { label: '為什麼重要', tone: 'green', text: '修法牽涉人民參政權、候選人資格、司法判決與選舉公平性，是制度設計與政治信任問題。' },
-          { label: '目前爭議', tone: 'red', text: '支持者認為應保障參政權；反對者質疑修法時間點敏感，可能是為特定政治人物解套。' },
-          { label: '尚未釐清', tone: 'gray', text: '法案實際適用範圍、是否影響特定個案、未來是否引發釋憲或再次修法，仍待觀察。' }
-        ],
-        hashtags: ['#選罷法', '#參選資格', '#高虹安條款', '#立法院', '#公共政策'],
-        commonGround: {
-          question: '各方都在問：參政權保障與候選人資格限制，界線應該畫在哪裡？',
-          clusters: [
-            { label: '制度原則', items: ['參政權', '比例原則', '法律明確性'] },
-            { label: '政治信任', items: ['修法時機', '個案疑慮', '選舉公平'] }
-          ],
-          takeaway: '分歧不只在法條內容，也在於社會是否相信這不是為特定個案服務。'
-        },
-        distribution: [
-          { label: '支持修法', value: 32, color: '#B07A2E' },
-          { label: '要求補充說明', value: 24, color: '#6B7A85' },
-          { label: '質疑個案修法', value: 44, color: '#8158B0' }
-        ],
-        comments: [
-          { stance: 'support', name: '法律系路人', handle: '@law_citizen', text: '緩刑和重罪不能混在一起看，參政權是基本權利，限制資格應該符合比例原則。', likes: 760, replies: 52 },
-          { stance: 'neutral', name: '法案追蹤器', handle: '@bill_tracker', text: '問題不只在修不修，而是條文適用範圍、修法理由和時間點都要說清楚，不然一定會被政治化。', likes: 980, replies: 48 },
-          { stance: 'oppose', name: '新竹觀察', handle: '@hsinchu_watch', text: '如果不是為特定人，為什麼剛好現在修？公共政策最怕看起來像個案服務。', likes: 1540, replies: 130 }
-        ],
-        timeline: [
-          { date: '2026.06.12', tag: '重大事件', title: '立法院三讀修正選罷法', desc: '修法放寬部分遭宣告緩刑或得易服社會勞動者的候選人資格限制。' },
-          { date: '2026.06.12', tag: '當事人回應', title: '高虹安回應外界質疑', desc: '高虹安受訪時呼籲外界勿過度政治解讀。' }
-        ],
-        sources: [
-          { name: '中央社', mono: '央', cred: 'excellent', latest: '立院三讀選罷法修正案', count: 18, time: '2026/06/12' },
-          { name: '立法院', mono: '立', cred: 'official', latest: '三讀通過法案條文對照表', count: 2, time: '2026/06/12' }
-        ]
-      },
-      weather: {
-        id: 'weather', headerVariant: 'C', category: '氣象', themeColor: '#2F8F5B', status: '警戒中',
-        title: '0625 颱風外圍環流與西南風豪雨：高雄多區淹水警戒',
-        shortTitle: '豪雨災情', trackingCount: '4,890', mediaCount: 18, reportCount: 92,
-        updatedAt: '更新於 10 分鐘前', summaryMode: 'disaster', trendLayout: 'default',
-        summaryBlocks: [
-          { label: '最新狀況', tone: 'orange', text: '颱風外圍環流帶來超大豪雨，高雄山區及低窪地區累積雨量突破 1000 毫米，市區多處積淹水。' },
-          { label: '災情統計', tone: 'red', text: '截至今日下午 3 點，已造成 2 死、數百戶停電，多條道路與橋樑預警性封閉。' },
-          { label: '官方應變', tone: 'green', text: '市政府已提升為一級開設，並針對部分低窪地區民眾進行預警性撤離。' },
-          { label: '安全提醒', tone: 'neutral', text: '呼籲市民避免前往山區、河川及海邊，隨時注意沙包與抽水機部署狀況。' }
-        ],
-        hashtags: ['#凱米颱風', '#高雄災情', '#淹水警戒', '#防災應變'],
-        commonGround: null,
-        distribution: [],
-        comments: [
-          { stance: 'neutral', name: '防災中心', handle: '@disaster_center', text: '請民眾注意自身安全，避免外出。', likes: 1024, replies: 12 },
-          { stance: 'neutral', name: '在地小農', handle: '@kaohsiung_farmer', text: '雨量真的很大，這幾天採收的心血可能都要泡湯了，希望排水系統能撐住！', likes: 450, replies: 28 },
-          { stance: 'neutral', name: '通勤族日常', handle: '@commuter_life', text: '請問明天停班停課的機率大嗎？有些低窪路段現在已經無法通行了，非常擔心明天的交通狀況。', likes: 890, replies: 156 }
-        ],
-        timeline: [
-          { date: '06.24 10:00', tag: '重大事件', title: '氣象署發布豪雨特報', desc: '針對南部發布超大豪雨特報。' },
-          { date: '06.25 09:00', tag: '重大事件', title: '降雨集中，多區發布淹水一級警戒', desc: '市區時雨量突破 100 毫米，多處道路水深及膝。' }
-        ],
-        sources: [
-          { name: '中央社', mono: '央', cred: 'excellent', latest: '高雄多區發布一級淹水警戒，山區進行預警性撤離', count: 12, time: '5 分鐘前' },
-          { name: '災害應變中心', mono: '消', cred: 'excellent', latest: '最新全台防汛與道路封閉、橋樑預警管制彙整', count: 6, time: '20 分鐘前' }
-        ]
-      }
-    };
-
-    const topic = TOPICS[s.activeTopicId];
-
-    const compactFollowerCount = {
-      sports: '8.4k',
-      finance: '15.9k',
-      entertainment: '21.3k',
-      policy: '18.6k',
-      weather: '4.9k',
-    }[topic.id] || topic.trackingCount;
-
-    const cleanUpdatedAt = topic.updatedAt
-      .replace('更新於 ', '')
-      .replace('前', '前更新');
-
-    const headerMeta = {
-      variant: topic.headerVariant || 'C',
-      category: topic.category,
-      status: topic.status,
-      updatedAt: cleanUpdatedAt,
-      sourceCount: topic.mediaCount,
-      reportCount: topic.reportCount,
-      followerCount: compactFollowerCount,
-    };
-
-    const postCtaByTopic = {
-      sports: { title: '你怎麼看這場賽事爭議？', desc: '分享你對平權賽事、報名審查或城市治理的看法。' },
-      finance: { title: '你現在怎麼看台股 AI 行情？', desc: '分享你的投資觀察、風險提醒或市場情緒。' },
-      entertainment: { title: '你心中的金曲獎焦點是誰？', desc: '聊聊你看好的入圍者、表演舞台或台灣音樂觀察。' },
-      policy: { title: '你支持這次選罷法修正嗎？', desc: '分享你對參政權、修法時機或個案疑慮的看法。' },
-      weather: { title: '你所在地的狀況如何？', desc: '回報淹水、交通、停班停課或防災資訊，幫助更多人掌握現況。' },
-    };
-    const currentPostCta = postCtaByTopic[topic.id] || postCtaByTopic.policy;
-
-    const summaryLabelMap = {
-      sports: '爭點摘要', finance: '市場摘要', entertainment: '娛樂摘要', policy: '政策摘要', weather: '災情速報'
-    };
-    const currentSummaryLabel = summaryLabelMap[topic.id] || '爭點摘要';
-
-    const commentSectionTitleMap = {
-      sports: '社群怎麼看', finance: '投資人怎麼看', entertainment: '樂迷怎麼看', policy: '不同立場怎麼說', weather: '現場與提問'
-    };
-    const currentCommentSectionTitle = commentSectionTitleMap[topic.id] || '社群怎麼看';
-
-    const radarByTopic = {
-      sports: {
-        tag: '共識雷達',
-        title: '這場賽事爭議中，大家反覆提到的 6 個關鍵詞',
-        items: [
-          { label: '活動安全', score: 91 },
-          { label: '報名審查', score: 86 },
-          { label: '城市形象', score: 78 },
-          { label: '多元平權', score: 74 },
-          { label: '國安疑慮', score: 70 },
-          { label: '主辦透明', score: 63 },
-        ],
-      },
-      finance: {
-        tag: '市場情緒雷達',
-        title: '台股 AI 行情中，投資人最常討論的 6 個關鍵詞',
-        items: [
-          { label: 'AI 題材', score: 94 },
-          { label: '台積電', score: 89 },
-          { label: 'ETF 資金', score: 81 },
-          { label: '外資動向', score: 77 },
-          { label: '高點風險', score: 72 },
-          { label: '利率變化', score: 65 },
-        ],
-      },
-      entertainment: {
-        tag: '討論熱詞雷達',
-        title: '金曲獎討論中，樂迷反覆提到的 6 個關鍵詞',
-        items: [
-          { label: '蔡依林', score: 95 },
-          { label: '入圍名單', score: 88 },
-          { label: '台語音樂', score: 79 },
-          { label: '獨立樂團', score: 73 },
-          { label: '音樂性', score: 69 },
-          { label: '典禮表演', score: 62 },
-        ],
-      },
-      policy: {
-        tag: '共識雷達',
-        title: '選罷法爭議中，跨立場都反覆提到的 6 個關鍵詞',
-        items: [
-          { label: '參政權', score: 92 },
-          { label: '修法時機', score: 88 },
-          { label: '個案解套', score: 83 },
-          { label: '比例原則', score: 74 },
-          { label: '司法判決', score: 69 },
-          { label: '政黨攻防', score: 64 },
-        ],
-      },
-      weather: {
-        tag: '災情關鍵雷達',
-        title: '豪雨災情中，民眾最關心的 6 個資訊關鍵詞',
-        items: [
-          { label: '停班停課', score: 96 },
-          { label: '淹水路段', score: 92 },
-          { label: '雨量警戒', score: 87 },
-          { label: '交通中斷', score: 79 },
-          { label: '山區撤離', score: 72 },
-          { label: '水庫蓄水', score: 61 },
-        ],
-      },
-    };
-    const currentRadar = radarByTopic[s.activeTopicId] || radarByTopic.policy;
-
-    // ---- topic chips ----
-    const topicChips = Object.values(TOPICS).map(t => {
-      const active = t.id === s.activeTopicId;
-      return {
-        id: t.id,
-        label: t.category,
-        onClick: () => this.setState({ activeTopicId: t.id, tab: 'trend' }),
-        style: `flex-shrink:0; border:none; border-radius:20px; padding:6px 14px; cursor:pointer; font-weight:600; font-family:'Noto Sans TC'; font-size:12.5px; transition:all .2s; background: ${active ? t.themeColor : '#F1ECE2'}; color: ${active ? '#FFF' : '#7C7567'}; box-shadow: ${active ? '0 2px 6px rgba(0,0,0,0.1)' : 'none'}`
-      };
-    });
-
-    // ---- tab styles ----
-    const ACTIVE = topic.themeColor;
-    const tabBase = { flex: '1', textAlign: 'center', padding: '14px 4px', fontSize: '13.5px', fontFamily: "'Noto Sans TC'", cursor: 'pointer', transition: 'color .2s', position: 'relative' };
-    const mkTab = (on) => ({
-      ...tabBase,
-      color: on ? '#17150F' : '#A39C8E',
-      fontWeight: on ? 700 : 400,
-      borderBottom: on ? `2px solid ${ACTIVE}` : '2px solid transparent',
-      marginBottom: '-1px',
-    });
-
-    // ui mapping for block tags
-    const toneMap = {
-      'neutral': { bg: '#EFECE6', color: '#5D5950' },
-      'green': { bg: '#E8F4ED', color: '#2F6B48' },
-      'red': { bg: '#FDEEEF', color: '#A13D3D' },
-      'gray': { bg: '#F5F2EA', color: '#6F6859' },
-      'orange': { bg: '#FBF3E2', color: '#B07A2E' },
-      'purple': { bg: '#F4EEFB', color: '#8158B0' },
-    };
-
-    const processedBlocks = (topic.summaryBlocks || []).map(b => {
-      const tone = toneMap[b.tone] || toneMap.neutral;
-      return {
-        ...b,
-        labelStyle: `flex:0 0 auto; font-size:11px; font-weight:600; color:${tone.color}; background:${tone.bg}; border-radius:4px; padding:3px 6px; font-family:'Noto Sans TC';`
-      };
-    });
-
-    // stance colors
-    const stanceMeta = {
-      support: { label: '支持', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
-      neutral: { label: '中立', color: '#6B7A85', bg: '#EEF1F3', bd: '#D9E0E3' },
-      oppose: { label: '反對', color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
-    };
-
-    const credMeta = {
-      excellent: { label: '事實查核優良', color: '#2F8F5B', bg: '#E8F4ED', bd: '#B8E0CA' },
-      stance: { label: '立場顯著', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
-      verify: { label: '有待商榷', color: '#E05A47', bg: '#FCECEB', bd: '#F2C4C1' },
-      official: { label: '官方來源', color: '#3F6F9F', bg: '#EAF2F8', bd: '#BDD5EB' }
-    };
-
-    const processedComments = (topic.comments || []).map(c => {
-      const st = stanceMeta[c.stance] || stanceMeta.neutral;
-      let label = st.label;
-      if (topic.id === 'finance') {
-        if (c.stance === 'support') label = '偏多';
-        else if (c.stance === 'neutral') label = '觀望';
-        else if (c.stance === 'oppose') label = '偏空';
-      } else if (topic.id === 'entertainment') {
-        if (c.stance === 'support') label = '主流焦點';
-        else if (c.stance === 'neutral') label = '評審標準';
-        else if (c.stance === 'oppose') label = '獨立音樂';
-      }
-      return {
-        ...c,
-        hasStance: false,
-        stanceLabel: label,
-        stanceStyle: `color:${st.color}; background:${st.bg}; border:1px solid ${st.bd};`
-      };
-    });
-
-    const isGroupedComments = topic.id === 'sports' || topic.id === 'policy';
-    const isFeedComments = !isGroupedComments;
-
-    const commentGroupConfigByTopic = {
-      sports: [
-        { stance: 'support', label: '重視交流與平權', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
-        { stance: 'neutral', label: '要求補充資訊', color: '#6B7A85', bg: '#EEF3F5', bd: '#D9E0E3' },
-        { stance: 'oppose', label: '主張嚴格審查', color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
-      ],
-      policy: [
-        { stance: 'support', label: '支持修法', color: '#B07A2E', bg: '#FBF3E2', bd: '#EAD9B8' },
-        { stance: 'neutral', label: '要求補充說明', color: '#6B7A85', bg: '#EEF3F5', bd: '#D9E0E3' },
-        { stance: 'oppose', label: '質疑個案修法', color: '#8158B0', bg: '#F4EEFB', bd: '#E2D5F2' },
-      ],
-    };
-
-    const commentGroups = (commentGroupConfigByTopic[topic.id] || []).map(group => ({
-      ...group,
-      comments: processedComments.filter(c => c.stance === group.stance),
-      wrapStyle: `background:${group.bg}; border-color:${group.bd};`,
-      tagStyle: `color:${group.color}; border-color:${group.bd}; background:rgba(255,255,255,.48);`,
-    })).filter(group => group.comments.length > 0);
-
-    const commentFilterLabelMap = {
-      finance: 'AI 基本面續強',
-      entertainment: '典禮前熱議',
-      weather: '即時災情回報',
-    };
-    const currentCommentFilterLabel = commentFilterLabelMap[topic.id] || '熱門討論';
-
-    const processedTimeline = (topic.timeline || []).map(n => {
-      const isMajor = n.tag === '重大事件' || n.tag === '重大進展';
-      const dotSize = isMajor ? 18 : 12;
-      const dotColor = isMajor ? topic.themeColor : '#CFC8BA';
-      return {
-        ...n,
-        dotStyle: `position:absolute; left:${8 - dotSize/2 + 0.5}px; top:16px; width:${dotSize}px; height:${dotSize}px; border-radius:50%; background:${dotColor}; border:3px solid #FBF9F5; box-shadow:${isMajor ? '0 0 0 2px '+topic.themeColor+'33' : 'none'}`,
-        tagStyle: isMajor ? `font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.5px; color:${topic.themeColor}; background:${topic.themeColor}15; border:1px solid ${topic.themeColor}33; border-radius:4px; padding:2px 7px;` : `font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.5px; color:#A39C8E; background:#F2EEE4; border-radius:4px; padding:2px 7px;`
-      };
-    });
-
-    const processedSources = (topic.sources || []).map(x => {
-      const cMeta = credMeta[x.cred] || credMeta.stance;
-      return {
-        ...x,
-        credLabel: cMeta.label,
-        showCredBadge: x.cred === 'excellent',
-        logoStyle: `flex:0 0 auto; width:40px; height:40px; border-radius:10px; background:${cMeta.bg}; border:1px solid ${cMeta.bd}; display:flex; align-items:center; justify-content:center; font-family:'Noto Serif TC',serif; font-weight:700; font-size:16px; color:${cMeta.color};`,
-        credStyle: `font-family:'Noto Sans TC'; font-size:9px; font-weight:600; color:${cMeta.color}; background:${cMeta.bg}; border:1px solid ${cMeta.bd}; border-radius:4px; padding:1px 6px;`
-      };
-    });
-
-    return {
-      headerMeta,
-      isHeaderVariantA: headerMeta.variant === 'A',
-      isHeaderVariantB: headerMeta.variant === 'B',
-      isHeaderVariantC: headerMeta.variant === 'C',
-      topicChips,
-      topic: {
-        ...topic,
-        summaryBlocks: processedBlocks,
-        comments: processedComments,
-        timeline: processedTimeline,
-        sources: processedSources,
-        catBadgeStyle: `color:${topic.themeColor}; border:1px solid ${topic.themeColor}40; background:${topic.themeColor}15;`,
-        statusDotStyle: `background:${topic.themeColor};`,
-        summaryLabel: currentSummaryLabel
-      },
-      postCtaTitle: currentPostCta.title,
-      postCtaDesc: currentPostCta.desc,
-      postCtaButtonStyle: `background:${topic.themeColor};`,
-      commentSectionTitle: currentCommentSectionTitle,
-      isGroupedComments,
-      isFeedComments,
-      commentGroups,
-      commentFilterLabel: currentCommentFilterLabel,
-      commentFilterStyle: `border-color:${topic.themeColor}33; color:${topic.themeColor}; background:${topic.themeColor}10;`,
-      hasCommonGround: !!topic.commonGround,
-      hasTrend: topic.trendLayout !== 'none',
-      isStanceSpectrum: topic.trendLayout === 'stance-spectrum',
-      isMarketSentiment: topic.trendLayout === 'market-sentiment',
-      isCultureClusters: topic.trendLayout === 'culture-clusters',
-      hasDistribution: topic.distribution && topic.distribution.length > 0,
-      radarTag: currentRadar.tag,
-      radarTitle: currentRadar.title,
-      radarItems: currentRadar.items.map((item) => ({
-        ...item,
-        fillStyle: `width: ${item.score}%;`,
-      })),
-      showRadarInTrend: true,
-      showRadarInTimeline: false,
-      isTrend: s.tab === 'trend',
-      isTimeline: s.tab === 'timeline',
-      isSources: s.tab === 'sources',
-      setTrend: () => this.setState({ tab: 'trend' }),
-      setTimeline: () => this.setState({ tab: 'timeline' }),
-      setSources: () => this.setState({ tab: 'sources' }),
-      tabTrendStyle: mkTab(s.tab === 'trend'),
-      tabTimelineStyle: mkTab(s.tab === 'timeline'),
-      tabSourcesStyle: mkTab(s.tab === 'sources'),
-      toggleBookmark: () => this.setState((st) => ({ bookmarked: !st.bookmarked })),
-      bmFill: s.bookmarked ? topic.themeColor : 'none',
-    };
+    return window.OursMockup.createRenderVals(this, this.state);
   }
-}
-</script>
+}</script>
 </body>
+
 </html>
